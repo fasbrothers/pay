@@ -1,0 +1,19 @@
+.loader__img {
+  transform: scale(1);
+  animation: pulse 2s infinite;
+  animation-timing-function: linear;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(0.85);
+  }
+
+  70% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(0.85);
+  }
+}

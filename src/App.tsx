@@ -1,8 +1,13 @@
-import React from 'react'
+import { BrowserRouter } from "react-router-dom";
+import { Routes } from "./routes";
 
 function App() {
   return (
-    <div className="text-blue-400 text-center">App</div>
+    <BrowserRouter>
+        <div >
+            <Routes />
+        </div>
+    </BrowserRouter>
   )
 }
 
