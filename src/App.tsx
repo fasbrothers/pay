@@ -1,5 +1,6 @@
 import { BrowserRouter } from "react-router-dom";
 import { Routes } from "./routes";
+import './utils/generateUniqueId'
 
 function App() {
   return (

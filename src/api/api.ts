@@ -11,6 +11,7 @@ api.interceptors.request.use(
 		// Add auth token to requests
 		config.headers.Authorization = token ? token : undefined;
 		config.headers['Accept-Language'] = 'uz';
+		config.headers['X-Device-Id'] = localStorage.getItem('uid');
 		return config;
 	},
 	function (error) {

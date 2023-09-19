@@ -1,31 +1,29 @@
 import logo from '../../assets/logo.svg';
 import { ChangeEvent, useState } from 'react';
-import { Button, Input, Space } from 'antd';
+import { Button, Form, Input } from 'antd';
 import Checkbox, { CheckboxChangeEvent } from 'antd/es/checkbox';
 import { InputProps } from './sign-up.types';
 import { api } from '../../api';
-import generateUniqueId from '../../utils/generateUniqueId';
+import { Link, useNavigate } from 'react-router-dom';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
+
 
 export default function SignUp() {
-	const [passwordVisible, setPasswordVisible] = useState(false);
+	const navigate = useNavigate();
 	const [input, setInput] = useState<InputProps>({
 		name: '',
 		phone: '',
 		password: '',
-    checkPassword: '',
-		uid: '',
+		prefixPhone: '998',
+		trust: false,
 	});
 
 	const onChange = (e: CheckboxChangeEvent) => {
-		console.log(`checked = ${e.target.checked}`);
-    const uniqueId = generateUniqueId()
-
-    if(e.target.checked){
-      setInput({
-        ...input,
-        uid: uniqueId,
-      } as InputProps);
-    }
+		setInput({
+			...input,
+			trust: e.target.checked,
+		} as InputProps);
 	};
 
 	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
@@ -37,28 +35,24 @@ export default function SignUp() {
 		} as InputProps);
 	};
 
-  const handleSubmit = async() => {
-    console.log(input)
-    const { name, phone, password, uid } = input;
+	const [form] = Form.useForm();
 
-    if(password !== input.checkPassword) {
-      return alert('Password is not match')
-    }
+	const handleSubmit = async () => {
+		const { name, phone, password, trust, prefixPhone } = input;
 
-    const response = await api.post(
-      '/customer/register',
-      {
-        name,
-        phone,
-        password,
-        uid
-      }
-    )
-    console.log(response)
-    response.status === 200 && localStorage.setItem('uid', uid)
-
-    
-  }
+		const response = await api.post('/customer/register', {
+			name,
+			phone: prefixPhone + phone,
+			password,
+			trust,
+		});
+		console.log(response);
+		if (response.status === 200) {
+			navigate('/main');
+			console.log(response.data.token);
+			localStorage.setItem('token', response.data.token);
+		}
+	};
 
 	return (
 		<div className='w-1/2'>
@@ -67,60 +61,106 @@ export default function SignUp() {
 					<img src={logo} alt='' />
 				</div>
 				<h2 className=' text-lg font-medium'>Sign Up</h2>
-				<form>
-					<div>
-						<label>Name</label>
+				<Form
+					form={form}
+					name='register'
+					onFinish={handleSubmit}
+					style={{ maxWidth: 700 }}
+					scrollToFirstError
+				>
+					<Form.Item
+						name='name'
+						label='Name'
+						rules={[
+							{
+								required: true,
+								message: 'Please input your name!',
+								whitespace: true,
+							},
+						]}
+					>
+						<Input onChange={handleInput} name='name' suffix={<AccountCircleIcon/>} />
+					</Form.Item>
+					<Form.Item
+						name='password'
+						label='Password'
+						rules={[
+							{
+								required: true,
+								message: 'Please input your password!',
+							},
+							{ min: 6, message: 'Password must be minimum 6 characters.' },
+							{
+								pattern: new RegExp(
+									'([A-Za-z]+[0-9]|[0-9]+[A-Za-z])[A-Za-z0-9]*'
+								),
+								message: 'Password must be at least one number and letter.',
+							},
+						]}
+						hasFeedback
+					>
+						<Input.Password onChange={handleInput} name='password' />
+					</Form.Item>
+
+					<Form.Item
+						name='confirm'
+						label='Confirm Password'
+						dependencies={['password']}
+						hasFeedback
+						rules={[
+							{
+								required: true,
+								message: 'Please confirm your password!',
+							},
+							({ getFieldValue }) => ({
+								validator(_, value) {
+									if (!value || getFieldValue('password') === value) {
+										return Promise.resolve();
+									}
+									return Promise.reject(
+										new Error('The new password that you entered do not match!')
+									);
+								},
+							}),
+						]}
+					>
+						<Input.Password />
+					</Form.Item>
+
+					<Form.Item
+						name='phone'
+						label='Phone Number'
+						rules={[
+							{ required: true, message: 'Please input your phone number!' },
+							{ max: 9, message: 'Phone must be 9 numbers.' },
+							{
+								pattern: new RegExp(/^[0-9]+$/),
+								message: 'Phone must be only numbers.',
+							},
+							{ min: 9, message: 'Phone must be 9 numbers.' },
+						]}
+					>
 						<Input
-							onChange={handleInput}
-							name='name'
-							placeholder='Enter your name'
-						/>
-					</div>
-					<div>
-						<label>Phone</label>
-						<Input
+							addonBefore={'+' + input.prefixPhone}
+							style={{ width: '100%' }}
 							onChange={handleInput}
 							name='phone'
-							placeholder='Enter your phone'
+							suffix= {<PhoneEnabledIcon/>}
 						/>
-					</div>
-					<div>
-						<Space direction='horizontal'>
-							<label>Password</label>
-							<Input.Password
-								placeholder='Enter your password'
-								name='password'
-								onChange={handleInput}
-								visibilityToggle={{
-									visible: passwordVisible,
-									onVisibleChange: setPasswordVisible,
-								}}
-							/>
-						</Space>
-					</div>
-					<div>
-						<Space direction='horizontal'>
-							<label>Password</label>
-							<Input.Password
-								name='checkPassword'
-								onChange={handleInput}
-								placeholder='Enter your password'
-								visibilityToggle={{
-									visible: passwordVisible,
-									onVisibleChange: setPasswordVisible,
-								}}
-							/>
-						</Space>
-					</div>
-					<div>
-						<Checkbox name='uid' onChange={onChange}>
-							UID
-						</Checkbox>
-					</div>
-				</form>
-				<Button className='bg-white text-blue-600 px-4 py-2 rounded-md mt-4' onClick={handleSubmit}>
-					Create account
-				</Button>
+					</Form.Item>
+					<Form.Item>
+						<Checkbox onChange={onChange}>Trusted device</Checkbox>
+					</Form.Item>
+					<Form.Item>
+						<Button
+							className='bg-white text-blue-600 px-4 py-2 rounded-md mt-4'
+							htmlType='submit'
+						>
+							Create account
+						</Button>
+					</Form.Item>
+				</Form>
+				<Link to='/auth/login'>Sign Up</Link>
 			</div>
 		</div>
 	);

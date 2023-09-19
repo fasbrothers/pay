@@ -7,7 +7,6 @@ const LazySignUp = React.lazy(() => import('../pages/sign-up'));
 const LazyMain = React.lazy(() => import('../pages/main'));
 const LazyNotFound = React.lazy(() => import('../pages/not-found'));
 
-const token = localStorage.getItem('token');
 
 const authRoutes = {
 	path: '/',
@@ -30,11 +29,17 @@ const authRoutes = {
 const dashboardRoutes = {
 	path: '/',
 	children: [
-		{ path: '/', element: <LazyMain /> },
+		{
+			index: true,
+			element: <Navigate to='/main' />,
+		},
+		{ path: 'main', element: <LazyMain /> },
 		{ path: '*', element: <LazyNotFound /> },
 	],
 };
 
 export function Routes() {
+
+	const token = localStorage.getItem('token');
 	return useRoutes([token ? dashboardRoutes : authRoutes]);
 }
