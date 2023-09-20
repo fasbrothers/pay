@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const api = axios.create({
-	baseURL: 'https://atto-pay.vercel.app',
+	baseURL: import.meta.env.VITE_REACT_APP_API_URL,
 });
 
 const token = localStorage.getItem('token');

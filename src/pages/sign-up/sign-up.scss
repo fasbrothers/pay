@@ -1,0 +1,28 @@
+.ant-form-item{
+  &-required{
+    font-family: 'Inter', sans-serif;
+  }
+  &-explain-error{
+    margin: 10px 0;
+    font-family: 'Inter', sans-serif;
+  }
+  input{
+    font-family: 'Inter', sans-serif;
+  }
+}
+.input__phone {
+  .ant-input-group-addon{
+    padding: 10px !important;
+    font-family: 'Inter', sans-serif;
+    background: rgb(243, 236, 236);
+  }
+  .ant-input-affix-wrapper{
+    padding: 10px !important;
+  }
+}
+.ant-checkbox-checked .ant-checkbox-inner {
+  padding: 10px;
+  &::after{
+  margin-left: 2px;
+  }
+}

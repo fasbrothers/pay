@@ -1,13 +1,15 @@
 import logo from '../../assets/logo.svg';
 import { ChangeEvent, useState } from 'react';
-import { Button, Form, Input } from 'antd';
-import Checkbox, { CheckboxChangeEvent } from 'antd/es/checkbox';
+import { Form, Input } from 'antd';
 import { InputProps } from './sign-up.types';
 import { api } from '../../api';
 import { Link, useNavigate } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
-
+import { CheckBox } from '../../components/checkbox';
+import './sign-up.scss'
+import { ButtonPrimary } from '../../components/button';
+import { AuthImageTitle } from '../../components/auth-image-title';
 
 export default function SignUp() {
 	const navigate = useNavigate();
@@ -18,13 +20,6 @@ export default function SignUp() {
 		prefixPhone: '998',
 		trust: false,
 	});
-
-	const onChange = (e: CheckboxChangeEvent) => {
-		setInput({
-			...input,
-			trust: e.target.checked,
-		} as InputProps);
-	};
 
 	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
 		const { value, name } = e.target;
@@ -55,22 +50,20 @@ export default function SignUp() {
 	};
 
 	return (
-		<div className='w-1/2'>
-			<div className='flex flex-col justify-center items-center h-screen'>
-				<div>
-					<img src={logo} alt='' />
-				</div>
-				<h2 className=' text-lg font-medium'>Sign Up</h2>
+		<div className='w-1/2 flex items-center'>
+			<div className='w-4/6 xl:w-7/12 mx-auto'>
+				<AuthImageTitle logo={logo} title='Sign Up' />
 				<Form
 					form={form}
 					name='register'
 					onFinish={handleSubmit}
-					style={{ maxWidth: 700 }}
 					scrollToFirstError
 				>
 					<Form.Item
 						name='name'
 						label='Name'
+						labelCol={{ span: 24 }}
+						wrapperCol={{ span: 24 }}
 						rules={[
 							{
 								required: true,
@@ -79,11 +72,18 @@ export default function SignUp() {
 							},
 						]}
 					>
-						<Input onChange={handleInput} name='name' suffix={<AccountCircleIcon/>} />
+						<Input
+							className='w-full p-3'
+							onChange={handleInput}
+							name='name'
+							suffix={<AccountCircleIcon className='text-gray-500' />}
+						/>
 					</Form.Item>
 					<Form.Item
 						name='password'
 						label='Password'
+						labelCol={{ span: 24 }}
+						wrapperCol={{ span: 24 }}
 						rules={[
 							{
 								required: true,
@@ -99,13 +99,15 @@ export default function SignUp() {
 						]}
 						hasFeedback
 					>
-						<Input.Password onChange={handleInput} name='password' />
+						<Input.Password onChange={handleInput} className='w-full p-3' name='password' />
 					</Form.Item>
 
 					<Form.Item
 						name='confirm'
 						label='Confirm Password'
 						dependencies={['password']}
+						labelCol={{ span: 24 }}
+						wrapperCol={{ span: 24 }}
 						hasFeedback
 						rules={[
 							{
@@ -124,12 +126,14 @@ export default function SignUp() {
 							}),
 						]}
 					>
-						<Input.Password />
+						<Input.Password className='w-full p-3' />
 					</Form.Item>
 
 					<Form.Item
 						name='phone'
 						label='Phone Number'
+						labelCol={{ span: 24 }}
+						wrapperCol={{ span: 24 }}
 						rules={[
 							{ required: true, message: 'Please input your phone number!' },
 							{ max: 9, message: 'Phone must be 9 numbers.' },
@@ -142,25 +146,21 @@ export default function SignUp() {
 					>
 						<Input
 							addonBefore={'+' + input.prefixPhone}
-							style={{ width: '100%' }}
+							className='input__phone'
 							onChange={handleInput}
-							name='phone'
-							suffix= {<PhoneEnabledIcon/>}
+							name='phone' 
+							suffix={<PhoneEnabledIcon className='text-gray-500' />}
 						/>
 					</Form.Item>
+					<CheckBox  input={input} setInput={setInput} />
 					<Form.Item>
-						<Checkbox onChange={onChange}>Trusted device</Checkbox>
-					</Form.Item>
-					<Form.Item>
-						<Button
-							className='bg-white text-blue-600 px-4 py-2 rounded-md mt-4'
-							htmlType='submit'
-						>
-							Create account
-						</Button>
+						<ButtonPrimary title='Create account' />
 					</Form.Item>
 				</Form>
-				<Link to='/auth/login'>Sign Up</Link>
+				<div className='flex'>
+					<p className='mr-2'>Already registered?</p>
+					<Link to='/auth/login' className='text-blue-700 font-medium'>Sign In</Link>
+				</div>
 			</div>
 		</div>
 	);

@@ -1,11 +1,14 @@
 import { useState, ChangeEvent } from 'react';
 import logo from '../../assets/logo.svg';
-import { Button, Checkbox, Form, Input } from 'antd';
+import { Form, Input } from 'antd';
 import { api } from '../../api';
 import { Link, useNavigate } from 'react-router-dom';
-import { CheckboxChangeEvent } from 'antd/es/checkbox';
 import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 import SecurityIcon from '@mui/icons-material/Security';
+import { CheckBox } from '../../components/checkbox';
+import { ButtonPrimary } from '../../components/button';
+import { AuthImageTitle } from '../../components/auth-image-title';
+import '../sign-up/sign-up.scss';
 
 export default function SignIn() {
 	const [input, setInput] = useState({
@@ -29,15 +32,8 @@ export default function SignIn() {
 		});
 	};
 
-	const onChange = (e: CheckboxChangeEvent) => {
-		setInput({
-			...input,
-			trust: e.target.checked,
-		});
-	};
-
 	const handleSubmit = async () => {
-		const { phone,prefixPhone } = input;
+		const { phone, prefixPhone } = input;
 
 		if (!input.showOtp && !input.showPassword) {
 			const response = await api.post('/customer/getlogin', {
@@ -66,12 +62,9 @@ export default function SignIn() {
 	};
 
 	return (
-		<div className='w-1/2'>
-			<div className='flex flex-col justify-center items-center h-screen'>
-				<div>
-					<img src={logo} alt='' />
-				</div>
-				<h2 className=' text-lg font-medium'>Sign Up</h2>
+		<div className='w-1/2 flex items-center'>
+			<div className='w-4/6 xl:w-7/12 mx-auto'>
+				<AuthImageTitle logo={logo} title='Sign In' />
 				<Form
 					form={form}
 					name='login'
@@ -82,6 +75,8 @@ export default function SignIn() {
 					<Form.Item
 						name='phone'
 						label='Phone Number'
+						labelCol={{ span: 24 }}
+						wrapperCol={{ span: 24 }}
 						rules={[
 							{ required: true, message: 'Please input your phone number!' },
 							{ max: 9, message: 'Phone must be 9 numbers.' },
@@ -94,9 +89,9 @@ export default function SignIn() {
 					>
 						<Input
 							addonBefore={'+' + input.prefixPhone}
-							style={{ width: '100%' }}
+							className='input__phone'
 							onChange={handleInput}
-							suffix= {<PhoneEnabledIcon/>}
+							suffix={<PhoneEnabledIcon className='text-gray-500' />}
 							name='phone'
 						/>
 					</Form.Item>
@@ -105,6 +100,8 @@ export default function SignIn() {
 						<Form.Item
 							name='otp'
 							label='Verification Code'
+							labelCol={{ span: 24 }}
+							wrapperCol={{ span: 24 }}
 							rules={[
 								{
 									required: true,
@@ -112,38 +109,47 @@ export default function SignIn() {
 								},
 							]}
 						>
-							<Input onChange={handleInput} name='otp' suffix={<SecurityIcon/>} />
+							<Input
+								onChange={handleInput}
+								name='otp'
+								suffix={<SecurityIcon className='text-gray-500' />}
+								className='w-full p-3'
+							/>
 						</Form.Item>
 					)}
 					{input.showPassword && (
 						<>
-						<Form.Item
-							name='password'
-							label='Password'
-							rules={[
-								{
-									required: true,
-									message: 'Please input your password!',
-								},
-							]}
-						>
-							<Input.Password onChange={handleInput} name='password' />
-						</Form.Item>
-						<Form.Item>
-						<Checkbox onChange={onChange}>Trusted device</Checkbox>
-						</Form.Item>
+							<Form.Item
+								name='password'
+								label='Password'
+								labelCol={{ span: 24 }}
+								wrapperCol={{ span: 24 }}
+								rules={[
+									{
+										required: true,
+										message: 'Please input your password!',
+									},
+								]}
+							>
+								<Input.Password
+									onChange={handleInput}
+									name='password'
+									className='w-full p-3'
+								/>
+							</Form.Item>
+							<CheckBox input={input} setInput={setInput} />
 						</>
 					)}
 					<Form.Item>
-						<Button
-							htmlType='submit'
-							className='bg-white text-blue-600 px-4 py-2 rounded-md mt-4'
-						>
-							Sign In
-						</Button>
+						<ButtonPrimary title='Sign In' />
 					</Form.Item>
 				</Form>
-				<Link to='/auth/register'>Create account</Link>
+				<div className='flex'>
+					<p className='mr-2'>You don't have an account?</p>
+					<Link to='/auth/register' className='text-blue-700 font-medium'>
+						Create an account
+					</Link>
+				</div>
 			</div>
 		</div>
 	);
