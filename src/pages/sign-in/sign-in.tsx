@@ -9,6 +9,10 @@ import { CheckBox } from '../../components/checkbox';
 import { ButtonPrimary } from '../../components/button';
 import { AuthImageTitle } from '../../components/auth-image-title';
 import '../sign-up/sign-up.scss';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import toastMessage from '../../utils/toast-message';
+import { useMutation } from '@tanstack/react-query';
 
 export default function SignIn() {
 	const [input, setInput] = useState({
@@ -16,6 +20,7 @@ export default function SignIn() {
 		password: '',
 		otp: '',
 		trust: false,
+		disabledPhone: false,
 		prefixPhone: '998',
 		showPassword: false,
 		showOtp: false,
@@ -32,34 +37,45 @@ export default function SignIn() {
 		});
 	};
 
-	const handleSubmit = async () => {
-		const { phone, prefixPhone } = input;
+	const { mutate, isLoading } = useMutation({
+		mutationFn: async () => {
+			const { phone, prefixPhone } = input;
 
-		if (!input.showOtp && !input.showPassword) {
-			const response = await api.post('/customer/getlogin', {
-				phone: prefixPhone + phone,
-			});
-			console.log(response);
-			const { password } = response.data;
-			password
-				? setInput({ ...input, showPassword: true })
-				: setInput({ ...input, showOtp: true });
-		} else {
-			const { password, otp, trust } = input;
-			const response = await api.post('/customer/login', {
-				phone: prefixPhone + phone,
-				password,
-				otp,
-				trust,
-			});
-			console.log(response);
-			if (response.status === 200) {
-				navigate('/main');
-				console.log(response.data.token);
-				localStorage.setItem('token', response.data.token);
+			if (!input.showOtp && !input.showPassword) {
+				const response = await api.post('/customer/getlogin', {
+					phone: prefixPhone + phone,
+				});
+				if (typeof response === 'string') {
+					setTimeout(() => {
+						toastMessage(response);
+					}, 0);
+				}
+				if (response.status === 200) {
+					const { password } = response.data;
+					password
+						? setInput({ ...input, showPassword: true, disabledPhone: true })
+						: setInput({ ...input, showOtp: true, disabledPhone: true });
+				}
+			} else {
+				const { password, otp, trust } = input;
+				const response = await api.post('/customer/login', {
+					phone: prefixPhone + phone,
+					password,
+					otp,
+					trust,
+				});
+				if (typeof response === 'string') {
+					setTimeout(() => {
+						toastMessage(response);
+					}, 0);
+				}
+				if (response.status === 200) {
+					navigate('/');
+					localStorage.setItem('token', response.data.token);
+				}
 			}
-		}
-	};
+		},
+	});
 
 	return (
 		<div className='w-1/2 flex items-center'>
@@ -68,7 +84,7 @@ export default function SignIn() {
 				<Form
 					form={form}
 					name='login'
-					onFinish={handleSubmit}
+					onFinish={mutate}
 					style={{ maxWidth: 700 }}
 					scrollToFirstError
 				>
@@ -93,6 +109,7 @@ export default function SignIn() {
 							onChange={handleInput}
 							suffix={<PhoneEnabledIcon className='text-gray-500' />}
 							name='phone'
+							disabled={input.disabledPhone ? true : false}
 						/>
 					</Form.Item>
 
@@ -141,7 +158,7 @@ export default function SignIn() {
 						</>
 					)}
 					<Form.Item>
-						<ButtonPrimary title='Sign In' />
+						<ButtonPrimary isLoading={isLoading} title='Sign In' />
 					</Form.Item>
 				</Form>
 				<div className='flex'>
@@ -151,6 +168,7 @@ export default function SignIn() {
 					</Link>
 				</div>
 			</div>
+			<ToastContainer style={{ width: '400px' }} />
 		</div>
 	);
 }

@@ -7,9 +7,13 @@ import { Link, useNavigate } from 'react-router-dom';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 import { CheckBox } from '../../components/checkbox';
-import './sign-up.scss'
+import './sign-up.scss';
 import { ButtonPrimary } from '../../components/button';
 import { AuthImageTitle } from '../../components/auth-image-title';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import toastMessage from '../../utils/toast-message';
+import { useMutation } from '@tanstack/react-query';
 
 export default function SignUp() {
 	const navigate = useNavigate();
@@ -32,33 +36,34 @@ export default function SignUp() {
 
 	const [form] = Form.useForm();
 
-	const handleSubmit = async () => {
-		const { name, phone, password, trust, prefixPhone } = input;
-
-		const response = await api.post('/customer/register', {
-			name,
-			phone: prefixPhone + phone,
-			password,
-			trust,
-		});
-		console.log(response);
-		if (response.status === 200) {
-			navigate('/main');
-			console.log(response.data.token);
-			localStorage.setItem('token', response.data.token);
-		}
-	};
+	const { mutate, isLoading } = useMutation({
+		mutationFn: async () => {
+			const { name, phone, password, trust, prefixPhone } = input;
+			const response = await api.post('/customer/register', {
+				name,
+				phone: prefixPhone + phone,
+				password,
+				trust,
+			});
+			console.log(response);
+			if (typeof response === 'string') {
+				setTimeout(() => {
+					toastMessage(response);
+				}, 0);
+			}
+			if (response.status === 200) {
+				navigate('/');
+				console.log(response.data.token);
+				localStorage.setItem('token', response.data.token);
+			}
+		},
+	});
 
 	return (
 		<div className='w-1/2 flex items-center'>
 			<div className='w-4/6 xl:w-7/12 mx-auto'>
 				<AuthImageTitle logo={logo} title='Sign Up' />
-				<Form
-					form={form}
-					name='register'
-					onFinish={handleSubmit}
-					scrollToFirstError
-				>
+				<Form form={form} name='register' onFinish={mutate} scrollToFirstError>
 					<Form.Item
 						name='name'
 						label='Name'
@@ -99,7 +104,11 @@ export default function SignUp() {
 						]}
 						hasFeedback
 					>
-						<Input.Password onChange={handleInput} className='w-full p-3' name='password' />
+						<Input.Password
+							onChange={handleInput}
+							className='w-full p-3'
+							name='password'
+						/>
 					</Form.Item>
 
 					<Form.Item
@@ -148,20 +157,23 @@ export default function SignUp() {
 							addonBefore={'+' + input.prefixPhone}
 							className='input__phone'
 							onChange={handleInput}
-							name='phone' 
+							name='phone'
 							suffix={<PhoneEnabledIcon className='text-gray-500' />}
 						/>
 					</Form.Item>
-					<CheckBox  input={input} setInput={setInput} />
+					<CheckBox input={input} setInput={setInput} />
 					<Form.Item>
-						<ButtonPrimary title='Create account' />
+						<ButtonPrimary isLoading={isLoading} title='Create account' />
 					</Form.Item>
 				</Form>
 				<div className='flex'>
 					<p className='mr-2'>Already registered?</p>
-					<Link to='/auth/login' className='text-blue-700 font-medium'>Sign In</Link>
+					<Link to='/auth/login' className='text-blue-700 font-medium'>
+						Sign In
+					</Link>
 				</div>
 			</div>
+			<ToastContainer style={{ width: '400px' }} />
 		</div>
 	);
 }
