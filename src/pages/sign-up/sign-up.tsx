@@ -60,8 +60,8 @@ export default function SignUp() {
 	});
 
 	return (
-		<div className='w-1/2 flex items-center'>
-			<div className='w-4/6 xl:w-7/12 mx-auto'>
+		<div className='w-full md:w-1/2 flex items-center'>
+			<div className='w-11/12 xl:w-7/12 mx-auto'>
 				<AuthImageTitle logo={logo} title='Sign Up' />
 				<Form form={form} name='register' onFinish={mutate} scrollToFirstError>
 					<Form.Item
@@ -168,7 +168,7 @@ export default function SignUp() {
 				</Form>
 				<div className='flex'>
 					<p className='mr-2'>Already registered?</p>
-					<Link to='/auth/login' className='text-blue-700 font-medium'>
+					<Link to='/auth/login' className='text-blue-700 font-medium mb-5 md:mb-0'>
 						Sign In
 					</Link>
 				</div>

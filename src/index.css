@@ -6,3 +6,20 @@
 body {
 	font-family: 'Inter', sans-serif;
 }
+.bg__color {
+	background-image: linear-gradient(
+		to right bottom,
+		#003daf,
+		#0064c8,
+		#0085d4,
+		#00a3d5,
+		#00bfd4,
+		#00bfd4,
+		#00bfd4,
+		#00bfd4,
+		#00a3d5,
+		#0085d4,
+		#0064c8,
+		#003daf
+	);
+}

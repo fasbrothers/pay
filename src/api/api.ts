@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { getToken, getUID } from '../utils/cookies';
 
 export const api = axios.create({
@@ -21,12 +21,12 @@ api.interceptors.request.use(
 );
 
 api.interceptors.response.use(
-	function (response) {
+	function (response: AxiosResponse) {
 		// Handle success
 		return response;
 	},
 	function (error) {
 		// Handle error
-		return error?.response?.data?.message || error.message;
+		return error?.response?.data || error.message;
 	}
 );

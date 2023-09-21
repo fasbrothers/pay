@@ -1,19 +1,20 @@
 import { useState, ChangeEvent } from 'react';
-import logo from '../../assets/logo.svg';
 import { Form, Input } from 'antd';
 import { api } from '../../api';
 import { Link, useNavigate } from 'react-router-dom';
-import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
-import SecurityIcon from '@mui/icons-material/Security';
 import { CheckBox } from '../../components/checkbox';
 import { ButtonPrimary } from '../../components/button';
 import { AuthImageTitle } from '../../components/auth-image-title';
-import '../sign-up/sign-up.scss';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import toastMessage from '../../utils/toast-message';
 import { useMutation } from '@tanstack/react-query';
 import { setToken } from '../../utils/cookies';
+import toastMessage from '../../utils/toast-message';
+import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
+import SecurityIcon from '@mui/icons-material/Security';
+import logo from '../../assets/logo.svg';
+import 'react-toastify/dist/ReactToastify.css';
+import '../sign-up/sign-up.scss';
+
 
 export default function SignIn() {
 	const [input, setInput] = useState({
@@ -45,10 +46,10 @@ export default function SignIn() {
 			if (!input.showOtp && !input.showPassword) {
 				const response = await api.post('/customer/getlogin', {
 					phone: prefixPhone + phone,
-				});
-				if (typeof response === 'string') {
+				}) as any;
+					if (typeof response?.message === 'string') {
 					setTimeout(() => {
-						toastMessage(response);
+						toastMessage(response?.message);
 					}, 0);
 				}
 				if (response.status === 200) {
@@ -64,10 +65,11 @@ export default function SignIn() {
 					password,
 					otp,
 					trust,
-				});
-				if (typeof response === 'string') {
+				}) as any;
+				console.log(response)
+				if (typeof response?.message === 'string') {
 					setTimeout(() => {
-						toastMessage(response);
+						toastMessage(response?.message);
 					}, 0);
 				}
 				if (response.status === 200) {
@@ -79,8 +81,8 @@ export default function SignIn() {
 	});
 
 	return (
-		<div className='w-1/2 flex items-center'>
-			<div className='w-4/6 xl:w-7/12 mx-auto'>
+		<div className='w-full md:w-1/2 flex items-center md:h-screen'>
+			<div className='w-11/12 xl:w-7/12 mx-auto mt-5 md:mt-0'>
 				<AuthImageTitle logo={logo} title='Sign In' />
 				<Form
 					form={form}
@@ -162,9 +164,9 @@ export default function SignIn() {
 						<ButtonPrimary isLoading={isLoading} title='Sign In' />
 					</Form.Item>
 				</Form>
-				<div className='flex'>
+				<div className='flex flex-col lg:flex-row'>
 					<p className='mr-2'>You don't have an account?</p>
-					<Link to='/auth/register' className='text-blue-700 font-medium'>
+					<Link to='/auth/register' className='text-blue-700 font-medium mb-5 md:mb-0'>
 						Create an account
 					</Link>
 				</div>

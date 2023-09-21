@@ -7,10 +7,10 @@ type AuthImageTitleProps = {
 export const AuthImageTitle = ({logo, title}: AuthImageTitleProps) => {
   return (
     <>
-      <div>
+      <div className="hidden md:block">
 					<img src={logo} alt='logo' className='w-1/4 h-1/4' />
 			</div>
-				<h2 className='mt-10 mb-8 font-bold text-4xl'>{title}</h2>
+				<h2 className='my-3 text-2xl font-medium md:mt-10 md:mb-8 md:font-bold md:text-4xl text-center md:text-left'>{title}</h2>
     </>
   )
 }
