@@ -1,15 +1,16 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom"
-import { getToken } from "../utils/cookies"
+import { useAppSelector } from "../hooks/redux-hooks"
+import { token } from "../store/slices/authSlice"
 
 export default function RootLayout(){
 
-  const token = getToken()
+  const tokenNum = useAppSelector(token)
   const { pathname} = useLocation()
 
-  if(!token && !pathname.includes("auth")){
+  if(!tokenNum && !pathname.includes("auth")){
     return <Navigate to = "/auth" />
   }
-  if(token && pathname.includes("auth")){
+  if(tokenNum && pathname.includes("auth")){
     return <Navigate to ="/" />
   }
 

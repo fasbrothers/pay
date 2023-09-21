@@ -1,11 +1,13 @@
 import { useNavigate } from "react-router-dom"
-import { removeToken } from "../../utils/cookies"
+import { useAppDispatch } from "../../hooks/redux-hooks"
+import { deleteToken } from "../../store/slices/authSlice"
 
 function Main() {
   const navigate = useNavigate()
+  const dispatch = useAppDispatch()
 
   const handleLogout = () =>{
-    removeToken()
+    dispatch(deleteToken())
     navigate("/auth")
   }
   return (

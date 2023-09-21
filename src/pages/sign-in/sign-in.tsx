@@ -7,13 +7,14 @@ import { ButtonPrimary } from '../../components/button';
 import { AuthImageTitle } from '../../components/auth-image-title';
 import { ToastContainer } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
-import { setToken } from '../../utils/cookies';
 import toastMessage from '../../utils/toast-message';
 import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 import SecurityIcon from '@mui/icons-material/Security';
 import logo from '../../assets/logo.svg';
 import 'react-toastify/dist/ReactToastify.css';
 import '../sign-up/sign-up.scss';
+import { useAppDispatch } from '../../hooks/redux-hooks';
+import { accessToken, getUserData } from '../../store/slices/authSlice';
 
 
 export default function SignIn() {
@@ -29,6 +30,8 @@ export default function SignIn() {
 	});
 	const navigate = useNavigate();
 	const [form] = Form.useForm();
+	const dispatch = useAppDispatch();
+
 
 	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
 		const { value, name } = e.target;
@@ -74,7 +77,8 @@ export default function SignIn() {
 				}
 				if (response.status === 200) {
 					navigate('/');
-					setToken(response.data.token);
+					dispatch(accessToken(response.data?.token))
+					dispatch(getUserData(response.data?.user))
 				}
 			}
 		},

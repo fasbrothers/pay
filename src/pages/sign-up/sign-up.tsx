@@ -14,10 +14,12 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import toastMessage from '../../utils/toast-message';
 import { useMutation } from '@tanstack/react-query';
-import { setToken } from '../../utils/cookies';
+import { useAppDispatch } from '../../hooks/redux-hooks';
+import { accessToken, getUserData } from '../../store/slices/authSlice';
 
 export default function SignUp() {
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 	const [input, setInput] = useState<InputProps>({
 		name: '',
 		phone: '',
@@ -54,7 +56,8 @@ export default function SignUp() {
 			}
 			if (response.status === 200) {
 				navigate('/');
-				setToken(response.data.token);
+				dispatch(accessToken(response.data.token))
+				dispatch(getUserData(response.data?.user))
 			}
 		},
 	});
