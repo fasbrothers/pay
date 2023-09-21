@@ -1,12 +1,14 @@
+import { getUID, setUID } from './cookies';
+
 function generateId() {
 	return Math.random().toString(36).substr(2, 72);
 }
 
 export default function saveToStorage() {
-	const uid = localStorage.getItem('uid');
+	const uid = getUID();
 
 	if (!uid) {
-		localStorage.setItem('uid', generateId());
+		setUID(generateId());
 	}
 }
 

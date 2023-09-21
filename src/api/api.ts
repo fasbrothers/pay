@@ -1,17 +1,18 @@
 import axios from 'axios';
+import { getToken, getUID } from '../utils/cookies';
 
 export const api = axios.create({
 	baseURL: import.meta.env.VITE_REACT_APP_API_URL,
 });
 
-const token = localStorage.getItem('token');
+const token = getToken();
 
 api.interceptors.request.use(
 	function (config) {
 		// Add auth token to requests
 		config.headers.Authorization = token ? token : undefined;
 		config.headers['Accept-Language'] = 'uz';
-		config.headers['X-Device-Id'] = localStorage.getItem('uid');
+		config.headers['X-Device-Id'] = getUID();
 		return config;
 	},
 	function (error) {

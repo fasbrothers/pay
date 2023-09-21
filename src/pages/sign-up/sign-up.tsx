@@ -14,6 +14,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import toastMessage from '../../utils/toast-message';
 import { useMutation } from '@tanstack/react-query';
+import { setToken } from '../../utils/cookies';
 
 export default function SignUp() {
 	const navigate = useNavigate();
@@ -53,8 +54,7 @@ export default function SignUp() {
 			}
 			if (response.status === 200) {
 				navigate('/');
-				console.log(response.data.token);
-				localStorage.setItem('token', response.data.token);
+				setToken(response.data.token);
 			}
 		},
 	});
