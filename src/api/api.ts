@@ -1,18 +1,18 @@
 import axios, { AxiosResponse } from 'axios';
-import { getToken, getUID } from '../utils/cookies';
+import { getFromCookie } from '../utils/cookies';
 
 export const api = axios.create({
 	baseURL: import.meta.env.VITE_REACT_APP_API_URL,
 });
 
-const token = getToken();
+const token = getFromCookie('token');
 
 api.interceptors.request.use(
 	function (config) {
 		// Add auth token to requests
 		config.headers.Authorization = token ? token : undefined;
 		config.headers['Accept-Language'] = 'uz';
-		config.headers['X-Device-Id'] = getUID();
+		config.headers['X-Device-Id'] = getFromCookie('uid');
 		return config;
 	},
 	function (error) {

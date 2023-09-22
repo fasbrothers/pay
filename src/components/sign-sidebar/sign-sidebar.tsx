@@ -4,7 +4,6 @@ import logo from '../../assets/logo.svg';
 
 export const SignSidebar = () => {
 	const login = useLocation().pathname.includes('login');
-	console.log(login);
 
 	return (
 		<div className={`w-full md:w-1/2 ${login ? "h-auto" : "h-40"} md:h-screen bg__color`}>
