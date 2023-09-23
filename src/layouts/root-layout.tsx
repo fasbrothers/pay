@@ -8,7 +8,7 @@ export default function RootLayout(){
   const { pathname} = useLocation()
 
   if(!tokenNum && !pathname.includes("auth")){
-    return <Navigate to = "/auth" />
+    return <Navigate to = "/auth/login" />
   }
   if(tokenNum && pathname.includes("auth")){
     return <Navigate to ="/" />

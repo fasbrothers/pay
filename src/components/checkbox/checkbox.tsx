@@ -1,10 +1,11 @@
 import { Form } from 'antd';
 import Checkbox, { CheckboxChangeEvent } from 'antd/es/checkbox';
 import '../../pages/sign-up/sign-up.scss'
+import { InputProps } from '../../@types/inputs-type';
 
 interface CheckBoxProps {
-  input: any;
-  setInput: React.Dispatch<React.SetStateAction<any>>;
+  input: InputProps;
+  setInput: React.Dispatch<React.SetStateAction<InputProps>>;
 }
 
 

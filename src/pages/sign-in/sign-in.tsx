@@ -1,181 +1,171 @@
-import { useState, ChangeEvent } from 'react';
-import { Form, Input } from 'antd';
+import { useState, useEffect } from 'react';
 import { api } from '../../api';
 import { Link, useNavigate } from 'react-router-dom';
-import { CheckBox } from '../../components/checkbox';
-import { ButtonPrimary } from '../../components/button';
 import { AuthImageTitle } from '../../components/auth-image-title';
-import { ToastContainer } from 'react-toastify';
 import { useMutation } from '@tanstack/react-query';
 import toastMessage from '../../utils/toast-message';
-import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
-import SecurityIcon from '@mui/icons-material/Security';
 import logo from '../../assets/logo.svg';
-import 'react-toastify/dist/ReactToastify.css';
 import '../sign-up/sign-up.scss';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { accessToken, getUserData } from '../../store/slices/authSlice';
+import { InputProps } from '../../@types/inputs-type';
+import { SignInProps } from './sign-in-type';
+import SignInForm from './components/sign-in-form';
+import axios, { AxiosError, AxiosResponse } from 'axios';
 
+export interface ServerError {
+	errorMessage: string;
+}
+export interface IResponse {
+	password: string;
+	otp: string;
+}
+export interface IResponsePassOrOtp {
+	token: string;
+	user: User;
+}
+
+export interface User {
+	id: string;
+	name: string;
+	phone: string;
+	photo_url: string | null;
+	reg_date: string;
+}
 
 export default function SignIn() {
-	const [input, setInput] = useState({
+	const [inputs, setInputs] = useState<InputProps>({
 		phone: '',
 		password: '',
 		otp: '',
 		trust: false,
-		disabledPhone: false,
 		prefixPhone: '998',
-		showPassword: false,
-		showOtp: false,
 	});
+	const [additionalProperties, setAdditionalProperties] = useState<SignInProps>(
+		{
+			disabledPhone: false,
+			showPassword: false,
+			showOtp: false,
+		}
+	);
+
 	const navigate = useNavigate();
-	const [form] = Form.useForm();
 	const dispatch = useAppDispatch();
-
-
-	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-		const { value, name } = e.target;
-
-		setInput({
-			...input,
-			[name]: value,
-		});
-	};
-
-	const { mutate, isLoading } = useMutation({
+	
+	const {
+		mutate: mutateNumber,
+		isLoading: isLoadingNumber,
+		data: response,
+	} = useMutation({
 		mutationFn: async () => {
-			const { phone, prefixPhone } = input;
-
-			if (!input.showOtp && !input.showPassword) {
-				const response = await api.post('/customer/getlogin', {
-					phone: prefixPhone + phone,
-				}) as any;
-					if (typeof response?.message === 'string') {
-					setTimeout(() => {
-						toastMessage(response?.message);
-					}, 0);
+			try {
+				const response = await api.post<InputProps, AxiosResponse<IResponse>>(
+					'/customer/getlogin',
+					{
+						phone: inputs.prefixPhone + inputs.phone,
+					}
+				);
+				return response;
+			} catch (error) {
+				if (axios.isAxiosError(error)) {
+					const serverError = error as AxiosError<ServerError>;
+					if (serverError.response) {
+						toastMessage(error.response?.data.message);
+					} else {
+						toastMessage(error.message);
+					}
 				}
-				if (response.status === 200) {
-					const { password } = response.data;
-					password
-						? setInput({ ...input, showPassword: true, disabledPhone: true })
-						: setInput({ ...input, showOtp: true, disabledPhone: true });
-				}
-			} else {
-				const { password, otp, trust } = input;
-				const response = await api.post('/customer/login', {
+			}
+		},
+	});
+	const { mutate, isLoading, data } = useMutation({
+		mutationFn: async () => {
+			const { phone, prefixPhone, password, otp, trust } = inputs;
+			try {
+				const response = await api.post<
+					InputProps,
+					AxiosResponse<IResponsePassOrOtp> | undefined
+				>('/customer/login', {
 					phone: prefixPhone + phone,
 					password,
 					otp,
 					trust,
-				}) as any;
-				console.log(response)
-				if (typeof response?.message === 'string') {
-					setTimeout(() => {
-						toastMessage(response?.message);
-					}, 0);
-				}
-				if (response.status === 200) {
-					navigate('/');
-					dispatch(accessToken(response.data?.token))
-					dispatch(getUserData(response.data?.user))
+				});
+				return response;
+			} catch (error) {
+				if (axios.isAxiosError(error)) {
+					const serverError = error as AxiosError<ServerError>;
+					if (serverError && serverError.response) {
+						toastMessage(error.response?.data.message);
+					} else {
+						toastMessage(error.message);
+					}
 				}
 			}
 		},
 	});
 
+	async function submitNumber(response: AxiosResponse<IResponse> | undefined) {
+		if (response?.status === 200) {
+			const { password } = response.data;
+			password
+				? setAdditionalProperties({
+						...additionalProperties,
+						showPassword: true,
+						disabledPhone: true,
+				})
+				: setAdditionalProperties({
+						...additionalProperties,
+						showOtp: true,
+						disabledPhone: true,
+				});
+		}
+	}
+
+	async function submitPassOrOtp(
+		response: AxiosResponse<IResponsePassOrOtp> | undefined
+	) {
+		if (response?.status === 200) {
+			navigate('/');
+			dispatch(accessToken(response.data?.token));
+			dispatch(getUserData(response.data?.user));
+		}
+	}
+
+	useEffect(() => {
+		submitNumber(response);
+	}, [response]);
+
+	useEffect(() => {
+		submitPassOrOtp(data);
+	}, [data]);
+
 	return (
 		<div className='w-full md:w-1/2 flex items-center md:h-screen'>
 			<div className='w-11/12 xl:w-7/12 mx-auto mt-5 md:mt-0'>
 				<AuthImageTitle logo={logo} title='Sign In' />
-				<Form
-					form={form}
-					name='login'
-					onFinish={mutate}
-					style={{ maxWidth: 700 }}
-					scrollToFirstError
-				>
-					<Form.Item
-						name='phone'
-						label='Phone Number'
-						labelCol={{ span: 24 }}
-						wrapperCol={{ span: 24 }}
-						rules={[
-							{ required: true, message: 'Please input your phone number!' },
-							{ max: 9, message: 'Phone must be 9 numbers.' },
-							{
-								pattern: new RegExp(/^[0-9]+$/),
-								message: 'Phone must be only numbers.',
-							},
-							{ min: 9, message: 'Phone must be 9 numbers.' },
-						]}
-					>
-						<Input
-							addonBefore={'+' + input.prefixPhone}
-							className='input__phone'
-							onChange={handleInput}
-							suffix={<PhoneEnabledIcon className='text-gray-500' />}
-							name='phone'
-							disabled={input.disabledPhone ? true : false}
-						/>
-					</Form.Item>
-
-					{input.showOtp && (
-						<Form.Item
-							name='otp'
-							label='Verification Code'
-							labelCol={{ span: 24 }}
-							wrapperCol={{ span: 24 }}
-							rules={[
-								{
-									required: true,
-									message: 'Please input your verification code!',
-								},
-							]}
-						>
-							<Input
-								onChange={handleInput}
-								name='otp'
-								suffix={<SecurityIcon className='text-gray-500' />}
-								className='w-full p-3'
-							/>
-						</Form.Item>
-					)}
-					{input.showPassword && (
-						<>
-							<Form.Item
-								name='password'
-								label='Password'
-								labelCol={{ span: 24 }}
-								wrapperCol={{ span: 24 }}
-								rules={[
-									{
-										required: true,
-										message: 'Please input your password!',
-									},
-								]}
-							>
-								<Input.Password
-									onChange={handleInput}
-									name='password'
-									className='w-full p-3'
-								/>
-							</Form.Item>
-							<CheckBox input={input} setInput={setInput} />
-						</>
-					)}
-					<Form.Item>
-						<ButtonPrimary isLoading={isLoading} title='Sign In' />
-					</Form.Item>
-				</Form>
+				<SignInForm
+					inputs={inputs}
+					setInputs={setInputs}
+					additionalProperties={additionalProperties}
+					mutate={
+						!additionalProperties.showOtp && !additionalProperties.showPassword
+							? mutateNumber
+							: mutate
+					}
+					isLoadingNumber={isLoadingNumber}
+					isLoading={isLoading}
+				/>
 				<div className='flex flex-col lg:flex-row'>
 					<p className='mr-2'>You don't have an account?</p>
-					<Link to='/auth/register' className='text-blue-700 font-medium mb-5 md:mb-0'>
+					<Link
+						to='/auth/register'
+						className='text-blue-700 font-medium mb-5 md:mb-0'
+					>
 						Create an account
 					</Link>
 				</div>
 			</div>
-			<ToastContainer style={{ width: '400px' }} />
 		</div>
 	);
 }

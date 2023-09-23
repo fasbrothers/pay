@@ -1,26 +1,28 @@
 import logo from '../../assets/logo.svg';
-import { ChangeEvent, useState } from 'react';
-import { Form, Input } from 'antd';
-import { InputProps } from './sign-up.types';
+import { useState, useEffect } from 'react';
 import { api } from '../../api';
 import { Link, useNavigate } from 'react-router-dom';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
-import { CheckBox } from '../../components/checkbox';
 import './sign-up.scss';
-import { ButtonPrimary } from '../../components/button';
 import { AuthImageTitle } from '../../components/auth-image-title';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import toastMessage from '../../utils/toast-message';
 import { useMutation } from '@tanstack/react-query';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { accessToken, getUserData } from '../../store/slices/authSlice';
+import { InputProps } from '../../@types/inputs-type';
+import SignUpForm from './components/sign-up-form';
+import axios, { AxiosError, AxiosResponse } from 'axios';
+import { ServerError, User } from '../sign-in/sign-in';
+
+export interface IResponse {
+	success: boolean;
+	token: string;
+	user: User;
+}
 
 export default function SignUp() {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const [input, setInput] = useState<InputProps>({
+	const [inputs, setInputs] = useState<InputProps>({
 		name: '',
 		phone: '',
 		password: '',
@@ -28,155 +30,67 @@ export default function SignUp() {
 		trust: false,
 	});
 
-	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-		const { value, name } = e.target;
-
-		setInput({
-			...input,
-			[name]: value,
-		} as InputProps);
-	};
-
-	const [form] = Form.useForm();
-
-	const { mutate, isLoading } = useMutation({
+	const { mutate, isLoading, data } = useMutation({
 		mutationFn: async () => {
-			const { name, phone, password, trust, prefixPhone } = input;
-			const response = await api.post('/customer/register', {
-				name,
-				phone: prefixPhone + phone,
-				password,
-				trust,
-			});
-			console.log(response);
-			if (typeof response === 'string') {
-				setTimeout(() => {
-					toastMessage(response);
-				}, 0);
-			}
-			if (response.status === 200) {
-				navigate('/');
-				dispatch(accessToken(response.data.token))
-				dispatch(getUserData(response.data?.user))
+			const { name, phone, password, trust, prefixPhone } = inputs;
+			try {
+				const response = await api.post<
+					InputProps,
+					AxiosResponse<IResponse> | undefined
+				>('/customer/register', {
+					name,
+					phone: prefixPhone + phone,
+					password,
+					trust,
+				});
+				return response;
+			} catch (error) {
+				if (axios.isAxiosError(error)) {
+					const serverError = error as AxiosError<ServerError>;
+					if (serverError.response) {
+						toastMessage(error.response?.data.message);
+					} else {
+						toastMessage(error.message);
+					}
+				}
 			}
 		},
 	});
+
+	async function handlerRegister(
+		response: AxiosResponse<IResponse> | undefined
+	) {
+		if (response?.status === 200) {
+			navigate('/');
+			dispatch(accessToken(response.data?.token));
+			dispatch(getUserData(response.data?.user));
+		}
+	}
+
+	useEffect(() => {
+		handlerRegister(data);
+	}, [data]);
 
 	return (
 		<div className='w-full md:w-1/2 flex items-center'>
 			<div className='w-11/12 xl:w-7/12 mx-auto'>
 				<AuthImageTitle logo={logo} title='Sign Up' />
-				<Form form={form} name='register' onFinish={mutate} scrollToFirstError>
-					<Form.Item
-						name='name'
-						label='Name'
-						labelCol={{ span: 24 }}
-						wrapperCol={{ span: 24 }}
-						rules={[
-							{
-								required: true,
-								message: 'Please input your name!',
-								whitespace: true,
-							},
-						]}
-					>
-						<Input
-							className='w-full p-3'
-							onChange={handleInput}
-							name='name'
-							suffix={<AccountCircleIcon className='text-gray-500' />}
-						/>
-					</Form.Item>
-					<Form.Item
-						name='password'
-						label='Password'
-						labelCol={{ span: 24 }}
-						wrapperCol={{ span: 24 }}
-						rules={[
-							{
-								required: true,
-								message: 'Please input your password!',
-							},
-							{ min: 6, message: 'Password must be minimum 6 characters.' },
-							{
-								pattern: new RegExp(
-									'([A-Za-z]+[0-9]|[0-9]+[A-Za-z])[A-Za-z0-9]*'
-								),
-								message: 'Password must be at least one number and letter.',
-							},
-						]}
-						hasFeedback
-					>
-						<Input.Password
-							onChange={handleInput}
-							className='w-full p-3'
-							name='password'
-						/>
-					</Form.Item>
-
-					<Form.Item
-						name='confirm'
-						label='Confirm Password'
-						dependencies={['password']}
-						labelCol={{ span: 24 }}
-						wrapperCol={{ span: 24 }}
-						hasFeedback
-						rules={[
-							{
-								required: true,
-								message: 'Please confirm your password!',
-							},
-							({ getFieldValue }) => ({
-								validator(_, value) {
-									if (!value || getFieldValue('password') === value) {
-										return Promise.resolve();
-									}
-									return Promise.reject(
-										new Error('The new password that you entered do not match!')
-									);
-								},
-							}),
-						]}
-					>
-						<Input.Password className='w-full p-3' />
-					</Form.Item>
-
-					<Form.Item
-						name='phone'
-						label='Phone Number'
-						labelCol={{ span: 24 }}
-						wrapperCol={{ span: 24 }}
-						rules={[
-							{ required: true, message: 'Please input your phone number!' },
-							{ max: 9, message: 'Phone must be 9 numbers.' },
-							{
-								pattern: new RegExp(/^[0-9]+$/),
-								message: 'Phone must be only numbers.',
-							},
-							{ min: 9, message: 'Phone must be 9 numbers.' },
-						]}
-					>
-						<Input
-							addonBefore={'+' + input.prefixPhone}
-							className='input__phone'
-							onChange={handleInput}
-							name='phone'
-							suffix={<PhoneEnabledIcon className='text-gray-500' />}
-						/>
-					</Form.Item>
-					<CheckBox input={input} setInput={setInput} />
-					<Form.Item>
-						<ButtonPrimary isLoading={isLoading} title='Create account' />
-					</Form.Item>
-				</Form>
+				<SignUpForm
+					inputs={inputs}
+					setInputs={setInputs}
+					mutate={mutate}
+					isLoading={isLoading}
+				/>
 				<div className='flex'>
 					<p className='mr-2'>Already registered?</p>
-					<Link to='/auth/login' className='text-blue-700 font-medium mb-5 md:mb-0'>
+					<Link
+						to='/auth/login'
+						className='text-blue-700 font-medium mb-5 md:mb-0'
+					>
 						Sign In
 					</Link>
 				</div>
 			</div>
-			<ToastContainer style={{ width: '400px' }} />
 		</div>
 	);
 }
