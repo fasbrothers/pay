@@ -3,34 +3,16 @@ import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 import { Form, Input } from 'antd';
 import { CheckBox } from '../../../components/checkbox';
 import { ButtonPrimary } from '../../../components/button';
-import { ChangeEvent } from 'react';
-import { InputProps } from '../../../@types/inputs-type';
+import { AuthProps, InputValues } from '../../../@types/inputs-type';
 
-interface SignUpFormProps {
-	inputs: InputProps;
-	setInputs: React.Dispatch<React.SetStateAction<InputProps>>;
-	mutate: () => void;
-	isLoading: boolean;
-}
-
-const SignUpForm = ({
-	inputs,
-	setInputs,
-	mutate,
-	isLoading,
-}: SignUpFormProps) => {
-	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-		const { value, name } = e.target;
-
-		setInputs({
-			...inputs,
-			[name]: value,
-		} as InputProps);
-	};
-
+const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 	const [form] = Form.useForm();
+
+	const handleSubmit = (values: InputValues) =>{
+		mutate(values)
+	}
 	return (
-		<Form form={form} name='register' onFinish={mutate} scrollToFirstError>
+		<Form form={form} name='register' onFinish={handleSubmit} scrollToFirstError>
 			<Form.Item
 				name='name'
 				label='Name'
@@ -46,7 +28,6 @@ const SignUpForm = ({
 			>
 				<Input
 					className='w-full p-3'
-					onChange={handleInput}
 					name='name'
 					suffix={<AccountCircleIcon className='text-gray-500' />}
 				/>
@@ -69,11 +50,7 @@ const SignUpForm = ({
 				]}
 				hasFeedback
 			>
-				<Input.Password
-					onChange={handleInput}
-					className='w-full p-3'
-					name='password'
-				/>
+				<Input.Password className='w-full p-3' name='password' />
 			</Form.Item>
 
 			<Form.Item
@@ -119,14 +96,13 @@ const SignUpForm = ({
 				]}
 			>
 				<Input
-					addonBefore={'+' + inputs.prefixPhone}
+					addonBefore={'+998'}
 					className='input__phone'
-					onChange={handleInput}
 					name='phone'
 					suffix={<PhoneEnabledIcon className='text-gray-500' />}
 				/>
 			</Form.Item>
-			<CheckBox input={inputs} setInput={setInputs} />
+			<CheckBox />
 			<Form.Item>
 				<ButtonPrimary isLoading={isLoading} title='Create account' />
 			</Form.Item>

@@ -17,7 +17,7 @@ const items: MenuProps['items'] = [
 
 export const FooterMain = () => {
 	return (
-		<div className='h-[8vh] border-t border-gray-200 flex justify-between items-center'>
+		<div className='lg:h-[8vh] border-t border-gray-200 flex flex-col md:flex-row justify-between items-center mt-2 lg:mt-0 py-4 lg:py-0'>
 			<div>
 				{footerList.map((item, index) => (
 					<p key={index} className='inline-block mr-6 font-bold text-sm'>
@@ -25,7 +25,7 @@ export const FooterMain = () => {
 					</p>
 				))}
 			</div>
-			<div className='flex gap-3 text-gray-600'>
+			<div className='flex gap-3 text-gray-600 mt-4 md:mt-0'>
 				<div className='flex items-center'>
 					<Dropdown menu={{ items }} placement='top'>
 						<Button className='flex items-center border-none shadow-none text-gray-600 hover:text-gray-600'>

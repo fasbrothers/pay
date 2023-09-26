@@ -3,46 +3,20 @@ import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 import SecurityIcon from '@mui/icons-material/Security';
 import { CheckBox } from '../../../components/checkbox';
 import { ButtonPrimary } from '../../../components/button';
-import { ChangeEvent } from 'react';
-import { InputProps } from '../../../@types/inputs-type';
-import { SignInProps } from '../sign-in-type';
-import { UseMutateFunction } from '@tanstack/react-query';
-import { AxiosResponse } from 'axios';
-import { IResponse, IResponsePassOrOtp } from '../sign-in';
+import { InputValues, AuthProps } from '../../../@types/inputs-type';
 
-interface SignInFormProps {
-	inputs: InputProps;
-  setInputs: React.Dispatch<React.SetStateAction<InputProps>>;
-	additionalProperties: SignInProps;
-	mutate: UseMutateFunction<AxiosResponse<IResponsePassOrOtp | IResponse, any> | undefined, unknown, void, unknown>
-	isLoading: boolean;
-	isLoadingNumber: boolean;
-}
-
-function SignInForm({
-	inputs,
-	setInputs,
-	additionalProperties,
-	mutate,
-	isLoading,
-	isLoadingNumber
-}: SignInFormProps) {
+function SignInForm({ additionalProperties, mutate, isLoading }: AuthProps) {
 	const [form] = Form.useForm();
 
-	const handleInput = (e: ChangeEvent<HTMLInputElement>) => {
-		const { value, name } = e.target;
-
-		setInputs({
-			...inputs,
-			[name]: value,
-		});
-	};
+	function handleSubmit(values: InputValues) {
+		mutate(values);
+	}
 	return (
 		<>
 			<Form
 				form={form}
 				name='login'
-				onFinish={mutate}
+				onFinish={handleSubmit}
 				style={{ maxWidth: 700 }}
 				scrollToFirstError
 			>
@@ -62,15 +36,14 @@ function SignInForm({
 					]}
 				>
 					<Input
-						addonBefore={'+' + inputs.prefixPhone}
+						addonBefore={'+998'}
 						className='input__phone'
-						onChange={handleInput}
 						suffix={<PhoneEnabledIcon className='text-gray-500' />}
 						name='phone'
 					/>
 				</Form.Item>
 
-				{additionalProperties.showOtp && (
+				{additionalProperties?.showOtp && (
 					<Form.Item
 						name='otp'
 						label='Verification Code'
@@ -84,14 +57,13 @@ function SignInForm({
 						]}
 					>
 						<Input
-							onChange={handleInput}
 							name='otp'
 							suffix={<SecurityIcon className='text-gray-500' />}
 							className='w-full p-3'
 						/>
 					</Form.Item>
 				)}
-				{additionalProperties.showPassword && (
+				{additionalProperties?.showPassword && (
 					<>
 						<Form.Item
 							name='password'
@@ -105,17 +77,13 @@ function SignInForm({
 								},
 							]}
 						>
-							<Input.Password
-								onChange={handleInput}
-								name='password'
-								className='w-full p-3'
-							/>
+							<Input.Password name='password' className='w-full p-3' />
 						</Form.Item>
-						<CheckBox input={inputs} setInput={setInputs} />
+						<CheckBox />
 					</>
 				)}
 				<Form.Item>
-					<ButtonPrimary isLoading={isLoading || isLoadingNumber} title='Sign In' />
+					<ButtonPrimary isLoading={isLoading} title='Sign In' />
 				</Form.Item>
 			</Form>
 		</>

@@ -1,13 +1,14 @@
 import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 import React from 'react';
+import ProfileSettings from '../pages/profile-settings';
+import SignIn from '../pages/sign-in';
+import SignUp from '../pages/sign-up';
 
-const LazySignIn = React.lazy(() => import('../pages/sign-in'));
-const LazySignUp = React.lazy(() => import('../pages/sign-up'));
-const LazyMain = React.lazy(() => import('../pages/main'));
-const LazyNotFound = React.lazy(() => import('../pages/not-found'));
-const LazyMainLayout = React.lazy(() => import('../layouts/main-layout'));
-const LazyRootLayout = React.lazy(() => import('../layouts/root-layout'));
-const LazySignInUpLayout = React.lazy(
+const Main = React.lazy(() => import('../pages/main'));
+const NotFound = React.lazy(() => import('../pages/not-found'));
+const MainLayout = React.lazy(() => import('../layouts/main-layout'));
+const RootLayout = React.lazy(() => import('../layouts/root-layout'));
+const SignInUpLayout = React.lazy(
 	() => import('../layouts/sign-in-up-layout')
 );
 
@@ -15,11 +16,11 @@ const LazySignInUpLayout = React.lazy(
 const routes: RouteObject[] = [
 	{
 		path: '/',
-		element: <LazyRootLayout />,
+		element: <RootLayout />,
 		children: [
 			{
 				path: '/auth',
-				element: <LazySignInUpLayout />,
+				element: <SignInUpLayout />,
 				children: [
 					{
 						index: true,
@@ -27,20 +28,21 @@ const routes: RouteObject[] = [
 					},
 					{
 						children: [
-							{ path: 'login', element: <LazySignIn /> },
-							{ path: 'register', element: <LazySignUp /> },
+							{ path: 'login', element: <SignIn /> },
+							{ path: 'register', element: <SignUp /> },
 						],
 					},
 				],
 			},
 			{
 				path: '/',
-				element: <LazyMainLayout />,
+				element: <MainLayout />,
 				children: [
-					{ path: '', element: <LazyMain /> },
+					{ path: '', element: <Main /> },
+					{ path: 'profile-settings', element: <ProfileSettings /> },
 				],
 			},
-			{ path: '*', element: <LazyNotFound /> },
+			{ path: '*', element: <NotFound /> },
 		],
 	},
 ];

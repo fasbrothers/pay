@@ -1,5 +1,4 @@
 import logo from '../../assets/logo.svg';
-import { useState, useEffect } from 'react';
 import { api } from '../../api';
 import { Link, useNavigate } from 'react-router-dom';
 import './sign-up.scss';
@@ -8,76 +7,43 @@ import toastMessage from '../../utils/toast-message';
 import { useMutation } from '@tanstack/react-query';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { accessToken, getUserData } from '../../store/slices/authSlice';
-import { InputProps } from '../../@types/inputs-type';
 import SignUpForm from './components/sign-up-form';
-import axios, { AxiosError, AxiosResponse } from 'axios';
-import { ServerError, User } from '../sign-in/sign-in';
+import { ErrorResponse, IResponse, InputValues } from '../../@types/inputs-type';
+import { AxiosError } from 'axios';
 
-export interface IResponse {
-	success: boolean;
-	token: string;
-	user: User;
-}
 
 export default function SignUp() {
+	
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const [inputs, setInputs] = useState<InputProps>({
-		name: '',
-		phone: '',
-		password: '',
-		prefixPhone: '998',
-		trust: false,
-	});
 
-	const { mutate, isLoading, data } = useMutation({
-		mutationFn: async () => {
-			const { name, phone, password, trust, prefixPhone } = inputs;
-			try {
-				const response = await api.post<
-					InputProps,
-					AxiosResponse<IResponse> | undefined
-				>('/customer/register', {
-					name,
-					phone: prefixPhone + phone,
-					password,
-					trust,
-				});
-				return response;
-			} catch (error) {
-				if (axios.isAxiosError(error)) {
-					const serverError = error as AxiosError<ServerError>;
-					if (serverError.response) {
-						toastMessage(error.response?.data.message);
-					} else {
-						toastMessage(error.message);
-					}
-				}
-			}
+
+	const handleSubmit = async(values: InputValues) =>{
+			const { name, phone, password, trust } = values;
+			const { data } = await api.post<IResponse>('/customer/register', {
+				name,
+				phone: "998" + phone,
+				password,
+				trust,
+			});
+
+			navigate('/');
+			dispatch(accessToken(data.token));
+			dispatch(getUserData(data.customer));
+		}
+
+	const { mutate, isLoading } = useMutation({
+		mutationFn: (values: InputValues) => handleSubmit(values), 
+		onError: (error: AxiosError<ErrorResponse>) => {
+			toastMessage(error?.response?.data.message || error?.message || 'Error');
 		},
 	});
-
-	async function handlerRegister(
-		response: AxiosResponse<IResponse> | undefined
-	) {
-		if (response?.status === 200) {
-			navigate('/');
-			dispatch(accessToken(response.data?.token));
-			dispatch(getUserData(response.data?.user));
-		}
-	}
-
-	useEffect(() => {
-		handlerRegister(data);
-	}, [data]);
 
 	return (
 		<div className='w-full md:w-1/2 flex items-center'>
 			<div className='w-11/12 xl:w-7/12 mx-auto'>
 				<AuthImageTitle logo={logo} title='Sign Up' />
 				<SignUpForm
-					inputs={inputs}
-					setInputs={setInputs}
 					mutate={mutate}
 					isLoading={isLoading}
 				/>

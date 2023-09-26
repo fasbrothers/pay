@@ -19,8 +19,7 @@ export const SignSidebar = () => {
 					Fintech is the technology and innovation that aims to complete with
 					traditional financial methods
 				</h4>
-				<h5 className='mt-5 font-extrabold text-lg'>Azizbek Naimov</h5>
-				<p className='text-sm opacity-70'>Financial Officer</p>
+				<h5 className='mt-5 font-extrabold text-lg'>Azizbek Naimov <span className='text-sm opacity-70'>(Financial Officer)</span></h5>
         </div>
 			</div>
 		</div>
