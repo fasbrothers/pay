@@ -3,7 +3,7 @@ import type { MenuProps } from 'antd';
 import { Button, Dropdown } from 'antd';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch } from '../../hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { deleteToken } from '../../store/slices/authSlice';
 import logo from '../../assets/logo.svg';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -15,7 +15,7 @@ interface Props {
 
 export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
 	// const title = useLocation().pathname.split('/')[1]?.split('-')?.map(el => el[0].toUpperCase() + el.slice(1)).join(' ');
-	const title = ""
+	const title = '';
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
@@ -23,6 +23,7 @@ export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
 		dispatch(deleteToken());
 		navigate('/auth');
 	};
+	const profile = useAppSelector(state => state.auth.user);
 
 	const items: MenuProps['items'] = [
 		{
@@ -42,11 +43,21 @@ export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
 					<img src={logo} alt='logo' className='w-4/5 h-4/5' />
 				</Link>
 			</div>
-			<h4 className='text-xl font-extrabold'>{!title ? "Dashboard" : title}</h4>
+			<h4 className='text-xl font-extrabold'>{!title ? 'Dashboard' : title}</h4>
 			<div className='flex items-center'>
 				<Dropdown menu={{ items }} placement='bottom'>
 					<Button className='flex items-center border-none shadow-none'>
-						<AccountCircleIcon className='text-gray-600' fontSize='large' />
+						{profile.image_url ? (
+							<div>
+								<img
+									src={profile.image_url}
+									className='rounded-[50%] w-[50px] h-[50px] object-contain'
+									alt={profile.name}
+								/>
+							</div>
+						) : (
+							<AccountCircleIcon className='text-gray-600' fontSize='large' />
+						)}
 					</Button>
 				</Dropdown>
 				<Button

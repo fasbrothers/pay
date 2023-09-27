@@ -2,17 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 import { getFromCookie, removeFromCookie, setToken } from '../../utils/cookies';
+import { Customer } from '../../@types/inputs-type';
 
 // Define a type for the slice state
 interface AuthState {
 	token: string | undefined;
-	user: {
-		id: string;
-		name: string;
-		phone: string;
-		photo_url: string | null;
-		reg_date: string;
-	};
+	user: Customer;
 }
 
 // Define the initial state using that type
@@ -22,7 +17,7 @@ const initialState: AuthState = {
 		id: '',
 		name: '',
 		phone: '',
-		photo_url: '',
+		image_url: '',
 		reg_date: '',
 	},
 };
@@ -42,13 +37,13 @@ export const authSlice = createSlice({
 				id: '',
 				name: '',
 				phone: '',
-				photo_url: '',
+				image_url: '',
 				reg_date: '',
 			};
 			removeFromCookie('token');
 		},
 		getUserData: (state, action: PayloadAction<AuthState['user']>) => {
-			state.user = action.payload;
+			state.user = {...state.user, ...action.payload};
 		},
 	},
 });

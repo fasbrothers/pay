@@ -79,7 +79,7 @@ function SignInForm({ additionalProperties, mutate, isLoading }: AuthProps) {
 						>
 							<Input.Password name='password' className='w-full p-3' />
 						</Form.Item>
-						<CheckBox />
+						<CheckBox title = "Trusted Device" name="trust" />
 					</>
 				)}
 				<Form.Item>

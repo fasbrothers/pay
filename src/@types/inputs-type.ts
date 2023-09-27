@@ -12,7 +12,7 @@ export interface Customer {
 	id: string;
 	name: string;
 	phone: string;
-	photo_url: string | null;
+	image_url: string | null | undefined;
 	reg_date: string;
 }
 
@@ -28,6 +28,7 @@ export interface InputValues {
 	password?: string;
 	trust?: boolean;
 	name?: string;
+	image_url?: string;
 }
 
 export interface AuthProps {

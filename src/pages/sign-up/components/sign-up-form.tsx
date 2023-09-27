@@ -102,7 +102,7 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 					suffix={<PhoneEnabledIcon className='text-gray-500' />}
 				/>
 			</Form.Item>
-			<CheckBox />
+			<CheckBox title = "Trusted Device" name="trust" />
 			<Form.Item>
 				<ButtonPrimary isLoading={isLoading} title='Create account' />
 			</Form.Item>

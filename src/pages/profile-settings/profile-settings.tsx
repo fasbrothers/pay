@@ -2,16 +2,17 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { ButtonPrimary } from '../../components/button';
 import { useQuery } from '@tanstack/react-query';
 import { api } from '../../api';
-import { Modal, Skeleton } from 'antd';
+import { Skeleton } from 'antd';
 import { useState } from 'react';
-import { useAppSelector } from '../../hooks/redux-hooks';
-import { token } from '../../store/slices/authSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { getUserData } from '../../store/slices/authSlice';
+import ModelForm from './components/model-form';
 
 export interface IProfileResponse {
 	id: string;
 	name: string;
 	phone: string;
-	photo_url: string | null;
+	image_url: string | null;
 	reg_date: string;
 	is_blocked: boolean;
 	safe_login_after: number;
@@ -19,33 +20,24 @@ export interface IProfileResponse {
 }
 
 function ProfileSettings() {
-	const tokenUser = useAppSelector(token)
+	const [image, setImage] = useState<Blob | undefined>();
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const dispatch = useAppDispatch();
+	const profile = useAppSelector(state => state.auth.user);
 
-	const { isLoading, data: profile } = useQuery({
-		queryKey: ['profile', tokenUser],
-		queryFn: fetchProfile,
-		staleTime: Infinity
+	const { isLoading } = useQuery({
+		queryKey: ['profile'],
+		queryFn: async function () {
+			const { data } = await api.get<IProfileResponse>('/customer/profile');
+			dispatch(getUserData(data));
+			return data;
+		},
+		staleTime: 60 * 30,
 	});
 
-	async function fetchProfile() {
-    const {data} = await api.get<IProfileResponse>('/customer/profile');
-			return data;
-		
-	}
-
-	const [isModalOpen, setIsModalOpen] = useState(false);
-
 	const showModal = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+		e.preventDefault();
 		setIsModalOpen(true);
-	};
-
-	const handleOk = () => {
-		setIsModalOpen(false);
-	};
-
-	const handleCancel = () => {
-		setIsModalOpen(false);
 	};
 
 	return (
@@ -59,7 +51,7 @@ function ProfileSettings() {
 						<div className='bg-gray-100 w-2/3 p-6 rounded-xl'>
 							<div className='border-b-2 pb-3 border-gray-200'>
 								<p className='text-sm'>Full name</p>
-								<h3 className='mt-1 font-bold'>{profile?.name}</h3>
+								<h3 className='mt-1 font-bold'>{profile.name}</h3>
 							</div>
 							<div className='border-b-2 py-3 border-gray-200'>
 								<p className='text-sm'>Gender</p>
@@ -71,36 +63,40 @@ function ProfileSettings() {
 							</div>
 							<div className='py-3'>
 								<p className='text-sm'>Phone number</p>
-								<h3 className='mt-1 font-bold'>+{profile?.phone}</h3>
+								<h3 className='mt-1 font-bold'>+{profile.phone}</h3>
 							</div>
 						</div>
-						<div className='w-1/3 flex justify-center items-center'>
+						<div className='w-1/3 flex justify-center items-center pl-5'>
 							<div>
-                {profile?.photo_url ? (profile?.photo_url): (
-                  <AccountCircleIcon
-                    fontSize='large'
-                    style={{ fontSize: '250px' }}
-                    className='text-gray-600'
-                  />
-                )}
+								{profile.image_url ? (
+									<div className='m-auto '>
+										<img
+											src={profile.image_url}
+											className='rounded-[50%] w-[200px] h-[200px] object-contain'
+											alt={profile.name}
+										/>
+									</div>
+								) : (
+									<AccountCircleIcon
+										fontSize='large'
+										style={{ fontSize: '250px' }}
+										className='text-gray-600'
+									/>
+								)}
 							</div>
 						</div>
 					</div>
 					<form className='w-48 mt-10' onSubmit={showModal}>
 						<ButtonPrimary title='Update Settings' />
 					</form>
+					<ModelForm
+						image={image}
+						setImage={setImage}
+						isModalOpen={isModalOpen}
+						setIsModalOpen={setIsModalOpen}
+					/>
 				</>
 			)}
-			<Modal
-				title='Update User Profile'
-				open={isModalOpen}
-				onOk={handleOk}
-				onCancel={handleCancel}
-			>
-				<p>Some contents...</p>
-				<p>Some contents...</p>
-				<p>Some contents...</p>
-			</Modal>
 		</div>
 	);
 }

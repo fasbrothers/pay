@@ -23,3 +23,6 @@ body {
 		#003daf
 	);
 }
+.profile__modal .ant-modal-footer {
+	display: none;
+}
