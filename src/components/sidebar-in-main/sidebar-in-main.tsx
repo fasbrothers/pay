@@ -34,7 +34,7 @@ export const SidebarInMain = ({showNavbar}: {showNavbar: boolean}) => {
 			</div>
 			<div className='h-[8vh] flex items-center text-gray-500 cursor-pointer hover:text-black duration-300'>
 				<SettingsOutlinedIcon />
-				<Link to='/profile-settings' className={`ml-4 font-medium`}>
+				<Link to='/cabinet/profile-settings' className={`ml-4 font-medium`}>
 					Profile Settings
 				</Link>
 			</div>

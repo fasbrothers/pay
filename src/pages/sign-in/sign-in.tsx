@@ -1,7 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ErrorResponse, IResponse, InputValues } from '../../@types/inputs-type';
+import {
+	ErrorResponse,
+	IResponse,
+	InputValues,
+} from '../../@types/inputs-type';
 import { api } from '../../api';
 import logo from '../../assets/logo.svg';
 import { AuthImageTitle } from '../../components/auth-image-title';
@@ -46,7 +50,7 @@ export default function SignIn() {
 				trust,
 			});
 
-			navigate('/');
+			navigate('/cabinet');
 			dispatch(accessToken(data.token));
 			dispatch(getUserData(data.customer));
 		}

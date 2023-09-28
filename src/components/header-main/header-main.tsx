@@ -1,7 +1,7 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { deleteToken } from '../../store/slices/authSlice';
@@ -14,8 +14,11 @@ interface Props {
 }
 
 export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
-	// const title = useLocation().pathname.split('/')[1]?.split('-')?.map(el => el[0].toUpperCase() + el.slice(1)).join(' ');
-	const title = '';
+	const title = useLocation()
+		.pathname.split('/')[2]
+		?.split('-')
+		?.map(el => el[0].toUpperCase() + el.slice(1))
+		.join(' ');
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
@@ -28,7 +31,7 @@ export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
 	const items: MenuProps['items'] = [
 		{
 			key: '1',
-			label: <Link to='/profile-settings'>Profile</Link>,
+			label: <Link to='/cabinet/profile-settings'>Profile</Link>,
 		},
 		{
 			key: '2',
@@ -39,7 +42,7 @@ export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
 	return (
 		<div className='h-[8vh] flex justify-between items-center'>
 			<div className='hidden sm:block md:hidden'>
-				<Link to='/' className='flex items-center h-full'>
+				<Link to='/cabinet' className='flex items-center h-full'>
 					<img src={logo} alt='logo' className='w-4/5 h-4/5' />
 				</Link>
 			</div>
@@ -51,7 +54,7 @@ export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
 							<div>
 								<img
 									src={profile.image_url}
-									className='rounded-[50%] w-[50px] h-[50px] object-contain'
+									className='rounded-[50%] w-[40px] object-contain'
 									alt={profile.name}
 								/>
 							</div>

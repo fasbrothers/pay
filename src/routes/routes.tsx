@@ -11,7 +11,8 @@ const RootLayout = React.lazy(() => import('../layouts/root-layout'));
 const SignInUpLayout = React.lazy(
 	() => import('../layouts/sign-in-up-layout')
 );
-
+const Cards = React.lazy(() => import('../pages/cards'))
+const AddCard = React.lazy(() => import('../pages/add-card'))
 
 const routes: RouteObject[] = [
 	{
@@ -30,19 +31,30 @@ const routes: RouteObject[] = [
 						children: [
 							{ path: 'login', element: <SignIn /> },
 							{ path: 'register', element: <SignUp /> },
+							{ path: '*', element: <SignIn /> },
 						],
 					},
 				],
 			},
 			{
-				path: '/',
+				path: '/cabinet',
 				element: <MainLayout />,
 				children: [
-					{ path: '', element: <Main /> },
-					{ path: 'profile-settings', element: <ProfileSettings /> },
+						{
+						index: true,
+						element: <Navigate to='dashboard' />,
+					},
+					{
+						children: [
+							{ path: 'dashboard', element: <Main /> },
+							{ path: 'profile-settings', element: <ProfileSettings /> },
+							{ path: 'cards', element: <Cards /> },
+							{ path: 'cards/add-card', element: <AddCard /> },
+							{ path: '*', element: <NotFound /> },
+						]
+					}
 				],
 			},
-			{ path: '*', element: <NotFound /> },
 		],
 	},
 ];

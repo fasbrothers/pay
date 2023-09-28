@@ -27,7 +27,7 @@ export default function SignUp() {
 				trust,
 			});
 
-			navigate('/');
+			navigate('/cabinet');
 			dispatch(accessToken(data.token));
 			dispatch(getUserData(data.customer));
 		}

@@ -36,3 +36,25 @@ export interface AuthProps {
 	mutate: (values: InputValues) => void;
 	isLoading: boolean;
 }
+
+export interface ICardResponse {
+	success: boolean;
+	card: Card;
+}
+
+export interface Card {
+	id: string;
+	customer_id: string;
+	name: string;
+	pan: string;
+	expiry_month: string;
+	expiry_year: string;
+	balance: string;
+}
+
+export interface IAddCard {
+	cvc: string;
+	expiry: string;
+	name: string;
+	pan: string;
+}

@@ -7,6 +7,9 @@ import { useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { getUserData } from '../../store/slices/authSlice';
 import ModelForm from './components/model-form';
+import { AxiosError } from 'axios';
+import { ErrorResponse } from '../../@types/inputs-type';
+import toastMessage from '../../utils/toast-message';
 
 export interface IProfileResponse {
 	id: string;
@@ -32,6 +35,9 @@ function ProfileSettings() {
 			dispatch(getUserData(data));
 			return data;
 		},
+		onError: (error: AxiosError<ErrorResponse>) => {
+			toastMessage(error?.response?.data.message || error?.message || 'Error');
+		},
 		staleTime: 60 * 30,
 	});
 
@@ -47,8 +53,8 @@ function ProfileSettings() {
 				<Skeleton active paragraph={{ rows: 4 }} />
 			) : (
 				<>
-					<div className='flex'>
-						<div className='bg-gray-100 w-2/3 p-6 rounded-xl'>
+					<div className='flex flex-col-reverse md:flex-row'>
+						<div className='bg-gray-100 w-full md:w-2/3 p-6 rounded-xl'>
 							<div className='border-b-2 pb-3 border-gray-200'>
 								<p className='text-sm'>Full name</p>
 								<h3 className='mt-1 font-bold'>{profile.name}</h3>
@@ -66,13 +72,13 @@ function ProfileSettings() {
 								<h3 className='mt-1 font-bold'>+{profile.phone}</h3>
 							</div>
 						</div>
-						<div className='w-1/3 flex justify-center items-center pl-5'>
+						<div className='w-full md:w-1/3 flex justify-center items-center pl-5'>
 							<div>
 								{profile.image_url ? (
-									<div className='m-auto '>
+									<div className='m-auto mb-5'>
 										<img
 											src={profile.image_url}
-											className='rounded-[50%] w-[200px] h-[200px] object-contain'
+											className='rounded-[50%] w-[200px] md:w-[250px] object-contain'
 											alt={profile.name}
 										/>
 									</div>

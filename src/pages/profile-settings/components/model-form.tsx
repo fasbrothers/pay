@@ -72,9 +72,9 @@ function ModelForm({
 					['name']: profile?.name,
 				}}
 			>
-				<div className='w-[200px] h-[200px] mx-auto'>
-				{!image && <img src={profile?.image_url ?? ''} />}
-				{image && <img src={URL.createObjectURL(image)} />}
+				<div className='w-[200px] mx-auto'>
+				{!image && <img className='rounded-[50%] w-[200px] object-contain' src={profile?.image_url ?? ''} />}
+				{image && <img className='rounded-[50%] w-[200px] object-contain' src={URL.createObjectURL(image)} />}
 				</div>
 				<Form.Item
 					labelCol={{ span: 24 }}
