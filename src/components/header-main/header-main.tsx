@@ -1,13 +1,18 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import type { MenuProps } from 'antd';
-import { Button, Dropdown } from 'antd';
+import { Button, Dropdown, Skeleton } from 'antd';
 import { Link, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 import { deleteToken } from '../../store/slices/authSlice';
 import logo from '../../assets/logo.svg';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { IProfileResponse } from '../../pages/profile-settings/profile-settings';
+import { AxiosError } from 'axios';
+import { ErrorResponse } from '../../@types/inputs-type';
+import toastMessage from '../../utils/toast-message';
+import { httpClient } from '../../api';
 
 interface Props {
 	setShowNavbar: (showNavbar: boolean) => void;
@@ -29,7 +34,19 @@ export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
 		queryClient.removeQueries();
 		navigate('/auth');
 	};
-	const profile = useAppSelector(state => state.auth.user);
+
+	const { isLoading, data: profile } = useQuery({
+		queryKey: ['profile'],
+		queryFn: async function () {
+			const { data } = await httpClient.get<IProfileResponse>(
+				'/customer/profile'
+			);
+			return data;
+		},
+		onError: (error: AxiosError<ErrorResponse>) => {
+			toastMessage(error?.response?.data.message || error?.message || 'Error');
+		},
+	});
 
 	const items: MenuProps['items'] = [
 		{
@@ -53,7 +70,9 @@ export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
 			<div className='flex items-center'>
 				<Dropdown menu={{ items }} placement='bottom'>
 					<Button className='flex items-center border-none shadow-none'>
-						{profile.image_url ? (
+						{isLoading ? (
+							<Skeleton.Avatar active size={'default'} shape='circle' />
+						) : profile?.image_url ? (
 							<div>
 								<img
 									src={profile.image_url}

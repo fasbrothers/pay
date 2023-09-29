@@ -1,17 +1,18 @@
 import axios, { AxiosResponse } from 'axios';
 import { getFromCookie } from '../utils/cookies';
-export const api = axios.create({
+import { store } from '../store/store.ts';
+import { deleteToken, getToken } from '../store/slices/authSlice.ts';
+
+export const httpClient = axios.create({
 	baseURL: import.meta.env.VITE_REACT_APP_API_URL,
 });
 
-let token = getFromCookie('token');
-
-const language = getFromCookie('language');
-
-api.interceptors.request.use(
+httpClient.interceptors.request.use(
 	function (config) {
+		const token = getToken(store.getState());
+
 		config.headers.Authorization = token ? token : undefined;
-		config.headers['Accept-Language'] = language ? language : 'uz';
+		config.headers['Accept-Language'] = getFromCookie('language') || 'uz';
 		config.headers['X-Device-Id'] = getFromCookie('uid');
 		return config;
 	},
@@ -20,10 +21,9 @@ api.interceptors.request.use(
 	}
 );
 
-api.interceptors.response.use(function (response: AxiosResponse) {
-	const newToken = response.data?.token;
-	if (newToken) {
-		token = newToken;
+httpClient.interceptors.response.use(function (response: AxiosResponse) {
+	if (response.data.type === 'EXPIRED_TOKEN') {
+		store.dispatch(deleteToken());
 	}
 	return response;
 });

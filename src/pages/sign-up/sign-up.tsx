@@ -1,5 +1,4 @@
 import logo from '../../assets/logo.svg';
-import { api } from '../../api';
 import { Link, useNavigate } from 'react-router-dom';
 import './sign-up.scss';
 import { AuthImageTitle } from '../../components/auth-image-title';
@@ -10,6 +9,7 @@ import { accessToken, getUserData } from '../../store/slices/authSlice';
 import SignUpForm from './components/sign-up-form';
 import { ErrorResponse, IResponse, InputValues } from '../../@types/inputs-type';
 import { AxiosError } from 'axios';
+import { httpClient } from '../../api';
 
 
 export default function SignUp() {
@@ -20,7 +20,7 @@ export default function SignUp() {
 
 	const handleSubmit = async(values: InputValues) =>{
 			const { name, phone, password, trust } = values;
-			const { data } = await api.post<IResponse>('/customer/register', {
+			const { data } = await httpClient.post<IResponse>('/customer/register', {
 				name,
 				phone: "998" + phone,
 				password,

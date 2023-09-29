@@ -6,7 +6,6 @@ import {
 	IResponse,
 	InputValues,
 } from '../../@types/inputs-type';
-import { api } from '../../api';
 import logo from '../../assets/logo.svg';
 import { AuthImageTitle } from '../../components/auth-image-title';
 import { useAppDispatch } from '../../hooks/redux-hooks';
@@ -16,6 +15,7 @@ import SignInForm from './components/sign-in-form';
 import { SignInProps } from './sign-in-type';
 import { AxiosError } from 'axios';
 import toastMessage from '../../utils/toast-message';
+import { httpClient } from '../../api';
 
 export default function SignIn() {
 	const [additionalProperties, setAdditionalProperties] = useState<SignInProps>(
@@ -32,7 +32,7 @@ export default function SignIn() {
 		const { password, otp, phone, trust } = values;
 
 		if (!additionalProperties.showOtp && !additionalProperties.showPassword) {
-			const { data } = await api.post<IResponse>('/customer/getlogin', {
+			const { data } = await httpClient.post<IResponse>('/customer/getlogin', {
 				phone: '998' + phone,
 			});
 
@@ -43,7 +43,7 @@ export default function SignIn() {
 
 			return data;
 		} else {
-			const { data } = await api.post<IResponse>('/customer/login', {
+			const { data } = await httpClient.post<IResponse>('/customer/login', {
 				phone: '998' + phone,
 				password,
 				otp,

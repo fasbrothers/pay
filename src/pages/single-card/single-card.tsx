@@ -2,11 +2,11 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { ButtonPrimary } from '../../components/button';
 import { Button, Modal } from 'antd';
 import { useState } from 'react';
-import { api } from '../../api';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from '../../@types/inputs-type';
 import toastMessage from '../../utils/toast-message';
+import { httpClient } from '../../api';
 
 function SingleCard() {
 	const id = useLocation().pathname.split('/')[3].toString();
@@ -24,7 +24,7 @@ function SingleCard() {
 
 	const { mutate, isLoading } = useMutation({
 		mutationFn: async () => {
-			const { data } = await api.delete(`/customer/card`, { data: { id } });
+			const { data } = await httpClient.delete(`/customer/card`, { data: { id } });
 			navigate('/cabinet/cards');
 			setIsModalOpen(false);
 			return data;
@@ -36,7 +36,7 @@ function SingleCard() {
 
 	return (
 		<div>
-			<form className='w-1/3' onSubmit={showModal}>
+			<form className='w-1/6' onSubmit={showModal}>
 				<ButtonPrimary title={'Delete card'} />
 			</form>
 			<Link to='edit'>Edit Card</Link>

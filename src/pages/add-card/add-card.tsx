@@ -2,12 +2,12 @@ import Cards from 'react-credit-cards-2';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { api } from '../../api';
 import { CardForm } from '../../components/card-form';
 import { ErrorResponse, ICardResponse } from '../../@types/inputs-type';
 import { AxiosError } from 'axios';
 import toastMessage from '../../utils/toast-message';
 import { useNavigate } from 'react-router-dom';
+import { httpClient } from '../../api';
 
 function AddCard() {
 	const [inputs, setInputs] = useState<{ [key: string]: string }>({
@@ -22,7 +22,7 @@ function AddCard() {
 	const { isLoading, mutate } = useMutation({
 		mutationFn: async () => {
 			const { expiry, name, pan } = inputs;
-			const { data } = await api.post<ICardResponse>('/customer/card', {
+			const { data } = await httpClient.post<ICardResponse>('/customer/card', {
 				pan,
 				name,
 				expiry_month: expiry.slice(0, 2),

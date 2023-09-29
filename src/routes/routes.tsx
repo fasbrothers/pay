@@ -22,6 +22,10 @@ const routes: RouteObject[] = [
 		element: <RootLayout />,
 		children: [
 			{
+				index: true,
+				element: <Navigate to='cabinet' />,
+			},
+			{
 				path: '/auth',
 				element: <SignInUpLayout />,
 				children: [
@@ -55,11 +59,13 @@ const routes: RouteObject[] = [
 							{ path: 'payments', element: <Payments /> },
 							{
 								path: 'cards',
-								element: <Cards />,
+								children: [
+									{ index: true, element: <Cards /> },
+									{ path: ':id', element: <SingleCard /> },
+									{ path: ':id/edit', element: <AddCard /> },
+									{ path: 'add-card', element: <AddCard /> },
+								],
 							},
-							{ path: 'cards/:id', element: <SingleCard /> },
-							{ path: 'cards/:id/edit', element: <AddCard /> },
-							{ path: 'cards/add-card', element: <AddCard /> },
 							{ path: '*', element: <NotFound /> },
 						],
 					},

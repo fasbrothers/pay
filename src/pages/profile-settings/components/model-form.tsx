@@ -1,18 +1,20 @@
 import { Form, Input, Modal } from 'antd';
 import { ErrorResponse, InputValues } from '../../../@types/inputs-type';
-import { api } from '../../../api';
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
+import { useAppDispatch } from '../../../hooks/redux-hooks';
 import { ButtonPrimary } from '../../../components/button';
 import { getUserData } from '../../../store/slices/authSlice';
 import { useMutation } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import toastMessage from '../../../utils/toast-message';
+import { IProfileResponse } from '../profile-settings';
+import { httpClient } from '../../../api';
 
 interface IModelForm {
 	image: Blob | undefined;
 	setImage: (image: Blob | undefined) => void;
 	setIsModalOpen: (isModalOpen: boolean) => void;
 	isModalOpen: boolean;
+	profile: IProfileResponse | undefined;
 }
 
 function ModelForm({
@@ -20,9 +22,9 @@ function ModelForm({
 	setImage,
 	setIsModalOpen,
 	isModalOpen,
+	profile,
 }: IModelForm) {
 	const [form] = Form.useForm();
-	const profile = useAppSelector(state => state.auth.user);
 	const dispatch = useAppDispatch();
 
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -39,7 +41,7 @@ function ModelForm({
 		values?.name && formData.append('name', values.name);
 		image && formData.append('avatar', image, image.name);
 
-		const response = await api.put('/customer/profile', formData);
+		const response = await httpClient.put('/customer/profile', formData);
 		dispatch(getUserData(response.data.customer));
 		setIsModalOpen(false);
 		setImage(undefined);
@@ -73,8 +75,18 @@ function ModelForm({
 				}}
 			>
 				<div className='w-[200px] mx-auto'>
-				{!image && <img className='rounded-[50%] w-[200px] object-contain' src={profile?.image_url ?? ''} />}
-				{image && <img className='rounded-[50%] w-[200px] object-contain' src={URL.createObjectURL(image)} />}
+					{!image && (
+						<img
+							className='rounded-[50%] w-[200px] object-contain'
+							src={profile?.image_url ?? ''}
+						/>
+					)}
+					{image && (
+						<img
+							className='rounded-[50%] w-[200px] object-contain'
+							src={URL.createObjectURL(image)}
+						/>
+					)}
 				</div>
 				<Form.Item
 					labelCol={{ span: 24 }}

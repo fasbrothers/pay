@@ -53,4 +53,6 @@ export const { accessToken, deleteToken, getUserData } = authSlice.actions;
 // Other code such as selectors can use the imported `RootState` type
 export const token = (state: RootState) => state.auth.token;
 
+export const getToken = (state: RootState) => state.auth.token;
+
 export default authSlice.reducer;
