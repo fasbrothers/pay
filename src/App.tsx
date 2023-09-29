@@ -8,7 +8,15 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-	const queryClient = new QueryClient();
+	const queryClient = new QueryClient({
+		defaultOptions: {
+			queries: {
+				staleTime: 60 * 5,
+				refetchOnWindowFocus: false,
+				keepPreviousData: true,
+			},
+		},
+	});
 	return (
 		<BrowserRouter>
 			<QueryClientProvider client={queryClient}>

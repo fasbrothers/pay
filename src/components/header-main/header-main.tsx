@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { deleteToken } from '../../store/slices/authSlice';
 import logo from '../../assets/logo.svg';
 import MenuIcon from '@mui/icons-material/Menu';
+import { useQueryClient } from '@tanstack/react-query';
 
 interface Props {
 	setShowNavbar: (showNavbar: boolean) => void;
@@ -21,9 +22,13 @@ export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
 		.join(' ');
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const queryClient = useQueryClient();
 
-	const handleLogout = () => {
+	const handleLogout = async () => {
 		dispatch(deleteToken());
+		await queryClient.removeQueries({
+			queryKey: ['cards'],
+		});
 		navigate('/auth');
 	};
 	const profile = useAppSelector(state => state.auth.user);

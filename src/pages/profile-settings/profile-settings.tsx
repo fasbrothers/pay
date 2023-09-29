@@ -38,7 +38,6 @@ function ProfileSettings() {
 		onError: (error: AxiosError<ErrorResponse>) => {
 			toastMessage(error?.response?.data.message || error?.message || 'Error');
 		},
-		staleTime: 60 * 30,
 	});
 
 	const showModal = (e: React.FormEvent<HTMLFormElement>) => {

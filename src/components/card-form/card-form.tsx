@@ -41,26 +41,6 @@ export const CardForm = ({ setInputs, mutate, isLoading }: ICardFormProps) => {
 				<Input name='pan' onChange={handleInputChange} className='w-full p-3' />
 			</Form.Item>
 			<Form.Item
-				name='name'
-				label='Name'
-				labelCol={{ span: 24 }}
-				wrapperCol={{ span: 24 }}
-				rules={[
-					{
-						required: true,
-						message: 'Please input your name!',
-						whitespace: true,
-					},
-					{ min: 2, message: 'Name must be minumum 2 letters' },
-				]}
-			>
-				<Input
-					className='w-full p-3'
-					onChange={handleInputChange}
-					name='name'
-				/>
-			</Form.Item>
-			<Form.Item
 				name='expiry'
 				label='Expiry'
 				labelCol={{ span: 24 }}
@@ -82,6 +62,26 @@ export const CardForm = ({ setInputs, mutate, isLoading }: ICardFormProps) => {
 					name='expiry'
 					onChange={handleInputChange}
 					className='w-full p-3'
+				/>
+			</Form.Item>
+			<Form.Item
+				name='name'
+				label='Name'
+				labelCol={{ span: 24 }}
+				wrapperCol={{ span: 24 }}
+				rules={[
+					{
+						required: true,
+						message: 'Please input your name!',
+						whitespace: true,
+					},
+					{ min: 2, message: 'Name must be minumum 2 letters' },
+				]}
+			>
+				<Input
+					className='w-full p-3'
+					onChange={handleInputChange}
+					name='name'
 				/>
 			</Form.Item>
 			<Form.Item>

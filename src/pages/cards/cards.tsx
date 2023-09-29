@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { Link } from 'react-router-dom';
 import { api } from '../../api';
 import { Skeleton } from 'antd';
-import Cards from 'react-credit-cards';
-import 'react-credit-cards/es/styles-compiled.css';
+import Cards from 'react-credit-cards-2';
+import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from '../../@types/inputs-type';
 import toastMessage from '../../utils/toast-message';
@@ -24,6 +24,12 @@ export interface Card {
 }
 
 function AllCards() {
+	function handleExpiry(card: Card) {
+		return card.expiry_month.length === 1
+			? '0' + card.expiry_month + card.expiry_year
+			: card.expiry_month + card.expiry_year;
+	}
+
 	const { isLoading, data: cards } = useQuery({
 		queryKey: ['cards'],
 		queryFn: async () => {
@@ -42,17 +48,15 @@ function AllCards() {
 					<Skeleton active paragraph={{ rows: 5 }} />
 				) : (
 					cards?.cards.map(card => (
-						<Cards
-							key={card.id}
-							cvc={''}
-							expiry={
-								card.expiry_month.length === 1
-									? '0' + card.expiry_month + card.expiry_year
-									: card.expiry_month + card.expiry_year
-							}
-							name={card.name}
-							number={card.pan}
-						/>
+						<Link to={card.id}>
+							<Cards
+								key={card.id}
+								cvc={''}
+								expiry={handleExpiry(card)}
+								name={card.name}
+								number={card.pan}
+							/>
+						</Link>
 					))
 				)}
 			</div>
