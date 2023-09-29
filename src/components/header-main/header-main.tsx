@@ -24,11 +24,9 @@ export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
 	const dispatch = useAppDispatch();
 	const queryClient = useQueryClient();
 
-	const handleLogout = async () => {
+	const handleLogout = () => {
 		dispatch(deleteToken());
-		await queryClient.removeQueries({
-			queryKey: ['cards'],
-		});
+		queryClient.removeQueries();
 		navigate('/auth');
 	};
 	const profile = useAppSelector(state => state.auth.user);

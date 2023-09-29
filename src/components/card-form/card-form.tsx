@@ -2,13 +2,14 @@ import { ButtonPrimary } from '../button';
 import { Form, Input } from 'antd';
 
 interface ICardFormProps {
-	setInputs: any;
+	setInputs: React.Dispatch<React.SetStateAction<{ [key: string]: string }>>;
 	mutate: () => void;
 	isLoading: boolean;
 }
 
 export const CardForm = ({ setInputs, mutate, isLoading }: ICardFormProps) => {
 	const [form] = Form.useForm();
+
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
 

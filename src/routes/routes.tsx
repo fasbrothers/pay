@@ -12,6 +12,9 @@ const Cards = React.lazy(() => import('../pages/cards'));
 const AddCard = React.lazy(() => import('../pages/add-card'));
 const ProfileSettings = React.lazy(() => import('../pages/profile-settings'));
 const SingleCard = React.lazy(() => import('../pages/single-card'));
+const Reports = React.lazy(() => import('../pages/reports'));
+const Transactions = React.lazy(() => import('../pages/transactions'));
+const Payments = React.lazy(() => import('../pages/payments'));
 
 const routes: RouteObject[] = [
 	{
@@ -47,6 +50,9 @@ const routes: RouteObject[] = [
 						children: [
 							{ path: 'dashboard', element: <Main /> },
 							{ path: 'profile-settings', element: <ProfileSettings /> },
+							{ path: 'transactions', element: <Transactions /> },
+							{ path: 'reports', element: <Reports /> },
+							{ path: 'payments', element: <Payments /> },
 							{
 								path: 'cards',
 								element: <Cards />,

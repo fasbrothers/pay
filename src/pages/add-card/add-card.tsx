@@ -4,17 +4,13 @@ import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { api } from '../../api';
 import { CardForm } from '../../components/card-form';
-import {
-	ErrorResponse,
-	IAddCard,
-	ICardResponse,
-} from '../../@types/inputs-type';
+import { ErrorResponse, ICardResponse } from '../../@types/inputs-type';
 import { AxiosError } from 'axios';
 import toastMessage from '../../utils/toast-message';
 import { useNavigate } from 'react-router-dom';
 
 function AddCard() {
-	const [inputs, setInputs] = useState<IAddCard>({
+	const [inputs, setInputs] = useState<{ [key: string]: string }>({
 		cvc: '',
 		expiry: '',
 		name: '',

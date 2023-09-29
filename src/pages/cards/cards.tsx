@@ -48,9 +48,8 @@ function AllCards() {
 					<Skeleton active paragraph={{ rows: 5 }} />
 				) : (
 					cards?.cards.map(card => (
-						<Link to={card.id}>
+						<Link to={card.id} key={card.id}>
 							<Cards
-								key={card.id}
 								cvc={''}
 								expiry={handleExpiry(card)}
 								name={card.name}
