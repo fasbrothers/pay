@@ -5,7 +5,7 @@ import { useMutation } from '@tanstack/react-query';
 import { CardForm } from '../../components/card-form';
 import { ErrorResponse, ICardResponse } from '../../@types/inputs-type';
 import { AxiosError } from 'axios';
-import toastMessage from '../../utils/toast-message';
+import toastMessage, { toastSuccessMessage } from '../../utils/toast-message';
 import { useNavigate } from 'react-router-dom';
 import { httpClient } from '../../api';
 
@@ -33,6 +33,9 @@ function AddCard() {
 		},
 		onError: (error: AxiosError<ErrorResponse>) => {
 			toastMessage(error?.response?.data.message || error?.message || 'Error');
+		},
+		onSuccess: () => {
+			toastSuccessMessage('Card added successfully');
 		},
 	});
 

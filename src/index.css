@@ -26,3 +26,24 @@ body {
 .profile__modal .ant-modal-footer {
 	display: none;
 }
+.avatar-uploader .ant-upload.ant-upload-select {
+	width: 30px !important;
+	height: 30px !important;
+	margin-top: 60px;
+}
+.avatar-uploader .ant-upload-list-item-error {
+	border-color: gray !important;
+}
+.avatar-uploader .ant-tooltip {
+	display: none !important;
+}
+.ant-upload-list.ant-upload-list-picture-circle
+	.ant-upload-list-item-container {
+	width: 150px !important;
+	height: 150px !important;
+}
+.rccs__card--unknown > div {
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+	background-image: url('./assets/card.jpg') !important;
+}

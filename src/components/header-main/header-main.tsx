@@ -1,30 +1,23 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Skeleton } from 'antd';
-import { Link, useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { deleteToken } from '../../store/slices/authSlice';
 import logo from '../../assets/logo.svg';
 import MenuIcon from '@mui/icons-material/Menu';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { IProfileResponse } from '../../pages/profile-settings/profile-settings';
-import { AxiosError } from 'axios';
-import { ErrorResponse } from '../../@types/inputs-type';
-import toastMessage from '../../utils/toast-message';
-import { httpClient } from '../../api';
+import { useDataFetching } from '../../hooks/useDataFetching';
 
 interface Props {
 	setShowNavbar: (showNavbar: boolean) => void;
 	showNavbar: boolean;
+	title?: string;
 }
 
-export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
-	const title = useLocation()
-		.pathname.split('/')[2]
-		?.split('-')
-		?.map(el => el[0].toUpperCase() + el.slice(1))
-		.join(' ');
+export const HeaderMain = ({ setShowNavbar, showNavbar, title }: Props) => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const queryClient = useQueryClient();
@@ -35,18 +28,10 @@ export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
 		navigate('/auth');
 	};
 
-	const { isLoading, data: profile } = useQuery({
-		queryKey: ['profile'],
-		queryFn: async function () {
-			const { data } = await httpClient.get<IProfileResponse>(
-				'/customer/profile'
-			);
-			return data;
-		},
-		onError: (error: AxiosError<ErrorResponse>) => {
-			toastMessage(error?.response?.data.message || error?.message || 'Error');
-		},
-	});
+	const { isLoading, data: profile } = useDataFetching<IProfileResponse>(
+		'profile',
+		'customer/profile'
+	);
 
 	const items: MenuProps['items'] = [
 		{
@@ -66,7 +51,7 @@ export const HeaderMain = ({ setShowNavbar, showNavbar }: Props) => {
 					<img src={logo} alt='logo' className='w-4/5 h-4/5' />
 				</Link>
 			</div>
-			<h4 className='text-xl font-extrabold'>{!title ? 'Dashboard' : title}</h4>
+			<h4 className='text-xl font-extrabold'>{title}</h4>
 			<div className='flex items-center'>
 				<Dropdown menu={{ items }} placement='bottom'>
 					<Button className='flex items-center border-none shadow-none'>

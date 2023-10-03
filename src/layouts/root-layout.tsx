@@ -12,6 +12,7 @@ export default function RootLayout() {
 	if (!tokenNum && !pathname.includes('auth')) {
 		return <Navigate to='/auth/login' />;
 	}
+	
 
 	return <Outlet />;
 }

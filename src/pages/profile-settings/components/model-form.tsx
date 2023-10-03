@@ -3,9 +3,11 @@ import { ErrorResponse, InputValues } from '../../../@types/inputs-type';
 import { useAppDispatch } from '../../../hooks/redux-hooks';
 import { ButtonPrimary } from '../../../components/button';
 import { getUserData } from '../../../store/slices/authSlice';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import toastMessage from '../../../utils/toast-message';
+import toastMessage, {
+	toastSuccessMessage,
+} from '../../../utils/toast-message';
 import { IProfileResponse } from '../profile-settings';
 import { httpClient } from '../../../api';
 
@@ -26,6 +28,7 @@ function ModelForm({
 }: IModelForm) {
 	const [form] = Form.useForm();
 	const dispatch = useAppDispatch();
+	const queryClient = useQueryClient();
 
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const file = e.target.files![0];
@@ -55,6 +58,10 @@ function ModelForm({
 		mutationFn: (values: InputValues) => handleSubmit(values),
 		onError: (error: AxiosError<ErrorResponse>) => {
 			toastMessage(error?.response?.data.message || error?.message || 'Error');
+		},
+		onSuccess: () => {
+			queryClient.invalidateQueries(['profile']);
+			toastSuccessMessage('Profile updated successfully');
 		},
 	});
 

@@ -22,7 +22,7 @@ export const CardForm = ({ setInputs, mutate, isLoading }: ICardFormProps) => {
 			name='add card'
 			onFinish={mutate}
 			scrollToFirstError
-			className='w-1/3 mx-auto mt-5'
+			className='w-full sm:w-4/5 xl:w-2/4 2xl:w-1/3 mx-auto mt-5'
 		>
 			<Form.Item
 				name='pan'

@@ -1,13 +1,9 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { ButtonPrimary } from '../../components/button';
-import { useQuery } from '@tanstack/react-query';
 import { Skeleton } from 'antd';
 import { useState } from 'react';
 import ModelForm from './components/model-form';
-import { AxiosError } from 'axios';
-import { ErrorResponse } from '../../@types/inputs-type';
-import toastMessage from '../../utils/toast-message';
-import { httpClient } from '../../api';
+import { useDataFetching } from '../../hooks/useDataFetching';
 
 export interface IProfileResponse {
 	id: string;
@@ -24,19 +20,10 @@ function ProfileSettings() {
 	const [image, setImage] = useState<Blob | undefined>();
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-	const { isLoading, data: profile } = useQuery({
-		queryKey: ['profile'],
-		queryFn: async function () {
-			const { data } = await httpClient.get<IProfileResponse>(
-				'/customer/profile'
-			);
-			return data;
-		},
-		onError: (error: AxiosError<ErrorResponse>) => {
-			toastMessage(error?.response?.data.message || error?.message || 'Error');
-		},
-		onSuccess: () => {},
-	});
+	const { isLoading, data: profile } = useDataFetching<IProfileResponse>(
+		'profile',
+		'customer/profile'
+	);
 
 	const showModal = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -50,7 +37,11 @@ function ProfileSettings() {
 				<Skeleton active paragraph={{ rows: 4 }} />
 			) : (
 				<>
-					<div className='flex flex-col-reverse md:flex-row'>
+					<div
+						className={`flex flex-col-reverse md:flex-row ${
+							isModalOpen && 'blur-sm'
+						}`}
+					>
 						<div className='bg-gray-100 w-full md:w-2/3 p-6 rounded-xl'>
 							<div className='border-b-2 pb-3 border-gray-200'>
 								<p className='text-sm'>Full name</p>

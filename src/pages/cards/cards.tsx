@@ -1,44 +1,30 @@
-import { useQuery } from '@tanstack/react-query';
 import { Link, Outlet } from 'react-router-dom';
 import { Skeleton } from '../../components';
-import Cards from 'react-credit-cards-2';
-import 'react-credit-cards-2/dist/es/styles-compiled.css';
-import { AxiosError } from 'axios';
-import { ErrorResponse } from '../../@types/inputs-type';
-import toastMessage from '../../utils/toast-message';
-import { httpClient } from '../../api';
+import { useDataFetching } from '../../hooks/useDataFetching';
+import { CardStructure } from '../../components/card-structure';
 
 function AllCards() {
-	function handleExpiry(card: Card) {
-		return card.expiry_month.length === 1
-			? '0' + card.expiry_month + card.expiry_year
-			: card.expiry_month + card.expiry_year;
-	}
-
-	const { isLoading, data: cards } = useQuery({
-		queryKey: ['cards'],
-		queryFn: async () => {
-			const { data } = await httpClient.get<ICardAllResponse>('customer/card');
-			return data;
-		},
-		onError: (error: AxiosError<ErrorResponse>) => {
-			toastMessage(error?.response?.data.message || error?.message || 'Error');
-		},
-	});
+	const { isLoading, data: cards } = useDataFetching<ICardAllResponse>(
+		'cards',
+		'customer/card'
+	);
 	return (
 		<div>
 			<Link to='add-card'>Add Card</Link>
-			<div className='mt-5 flex flex-wrap gap-4'>
+			<div className='mt-5 flex flex-wrap gap-2 md:gap-3 xl:gap-5'>
 				{isLoading ? (
 					<Skeleton active paragraph={{ rows: 5 }} />
 				) : (
 					cards?.cards.map(card => (
 						<Link to={card.id} key={card.id}>
-							<Cards
-								cvc={''}
-								expiry={handleExpiry(card)}
+							<CardStructure
 								name={card.name}
-								number={card.pan}
+								pan={card.pan}
+								expiry_month={card.expiry_month}
+								expiry_year={card.expiry_year}
+								balance={card.balance}
+								id={card.id}
+								customer_id={card.customer_id}
 							/>
 						</Link>
 					))

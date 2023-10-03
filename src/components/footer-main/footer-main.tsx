@@ -17,7 +17,7 @@ const items: MenuProps['items'] = [
 
 export const FooterMain = () => {
 	return (
-		<div className='lg:h-[8vh] border-t border-gray-200 flex flex-col md:flex-row justify-between items-center mt-2 lg:mt-0 py-4 lg:py-0'>
+		<div className='lg:h-[8vh] border-t border-gray-200 flex flex-col md:flex-row justify-between items-center mt-2 xl:mt-0 py-4 lg:py-0'>
 			<div>
 				{footerList.map((item, index) => (
 					<p key={index} className='inline-block mr-6 font-bold text-sm'>

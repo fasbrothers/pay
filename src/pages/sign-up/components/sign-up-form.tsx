@@ -8,11 +8,16 @@ import { AuthProps, InputValues } from '../../../@types/inputs-type';
 const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 	const [form] = Form.useForm();
 
-	const handleSubmit = (values: InputValues) =>{
-		mutate(values)
-	}
+	const handleSubmit = (values: InputValues) => {
+		mutate(values);
+	};
 	return (
-		<Form form={form} name='register' onFinish={handleSubmit} scrollToFirstError>
+		<Form
+			form={form}
+			name='register'
+			onFinish={handleSubmit}
+			scrollToFirstError
+		>
 			<Form.Item
 				name='name'
 				label='Name'
@@ -87,11 +92,6 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 				wrapperCol={{ span: 24 }}
 				rules={[
 					{ required: true, message: 'Please input your phone number!' },
-					{ max: 9, message: 'Phone must be 9 numbers.' },
-					{
-						pattern: new RegExp(/^[0-9]+$/),
-						message: 'Phone must be only numbers.',
-					},
 					{ min: 9, message: 'Phone must be 9 numbers.' },
 				]}
 			>
@@ -102,7 +102,7 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 					suffix={<PhoneEnabledIcon className='text-gray-500' />}
 				/>
 			</Form.Item>
-			<CheckBox title = "Trusted Device" name="trust" />
+			<CheckBox title='Trusted Device' name='trust' />
 			<Form.Item>
 				<ButtonPrimary isLoading={isLoading} title='Create account' />
 			</Form.Item>

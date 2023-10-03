@@ -23,7 +23,7 @@ httpClient.interceptors.request.use(
 
 httpClient.interceptors.response.use(function (response: AxiosResponse) {
 	if (response.data.type === 'EXPIRED_TOKEN') {
-		store.dispatch(deleteToken());
+		store.dispatch(deleteToken()); // another way, not to use useDispatch
 	}
 	return response;
 });
