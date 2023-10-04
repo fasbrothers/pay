@@ -10,6 +10,7 @@ import toastMessage, {
 } from '../../../utils/toast-message';
 import { IProfileResponse } from '../profile-settings';
 import { httpClient } from '../../../api';
+import { CheckBox } from '../../../components/checkbox';
 
 interface IModelForm {
 	image: Blob | undefined;
@@ -40,9 +41,11 @@ function ModelForm({
 	};
 
 	const handleSubmit = async (values: InputValues) => {
+		console.log(values);
 		const formData = new FormData();
 		values?.name && formData.append('name', values.name);
 		image && formData.append('avatar', image, image.name);
+		values?.deletePhoto && formData.append('deletePhoto', 'true');
 
 		const response = await httpClient.put('/customer/profile', formData);
 		dispatch(getUserData(response.data.customer));
@@ -102,6 +105,7 @@ function ModelForm({
 				>
 					<input type='file' accept='image/*' onChange={handleImageChange} />
 				</Form.Item>
+				<CheckBox title='Delete a photo' name='deletePhoto' />
 				<Form.Item
 					name='name'
 					label='Name'

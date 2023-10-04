@@ -20,14 +20,15 @@ function SingleCard() {
 		`/customer/card/${id}`,
 		id
 	);
-	const [name, setName] = useState<string>(data?.name || '');
+	const [nameInput, setNameInput] = useState<string | undefined>(data?.name);
+	const [disabled, setDisabled] = useState<boolean>(true);
 	const query = useQueryClient();
 
 	const { isLoading, mutate } = useMutation({
 		mutationFn: async () => {
 			const { data } = await httpClient.put('/customer/card', {
 				id,
-				name: name,
+				name: nameInput,
 			});
 			return data;
 		},
@@ -92,11 +93,18 @@ function SingleCard() {
 							<Input
 								className='w-full p-3'
 								name='name'
-								onChange={e => setName(e.target.value)}
+								onChange={e => {
+									setNameInput(e.target.value);
+									setDisabled(false);
+								}}
 							/>
 						</Form.Item>
 						<Form.Item>
-							<ButtonPrimary isLoading={isLoading} title='Edit' />
+							<ButtonPrimary
+								disabled={disabled}
+								isLoading={isLoading}
+								title='Edit'
+							/>
 						</Form.Item>
 					</Form>
 					<form

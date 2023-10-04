@@ -17,14 +17,22 @@ httpClient.interceptors.request.use(
 		return config;
 	},
 	function (error) {
+		console.log('error');
 		return Promise.reject(error);
 	}
 );
 
-httpClient.interceptors.response.use(function (response: AxiosResponse) {
-	if (response.data.type === 'EXPIRED_TOKEN') {
-		store.dispatch(deleteToken()); // another way, not to use useDispatch
-		console.log('expired token');
+httpClient.interceptors.response.use(
+	function (response: AxiosResponse) {
+		return response;
+	},
+	function (error) {
+		if (
+			error.response.data.type === 'EXPIRED_TOKEN' ||
+			error.response.data.type === 'INVALID_TOKEN'
+		) {
+			store.dispatch(deleteToken()); // another way, not to use useDispatch
+		}
+		return Promise.reject(error);
 	}
-	return response;
-});
+);

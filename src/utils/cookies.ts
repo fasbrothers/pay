@@ -13,5 +13,5 @@ export function setUID(uid: string) {
 }
 
 export function setToken(token: string) {
-	Cookies.set('token', token, { expires: 2 / 24 });
+	Cookies.set('token', token, { expires: 1 / 24 });
 }
