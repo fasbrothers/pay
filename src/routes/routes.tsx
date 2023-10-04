@@ -62,7 +62,6 @@ const routes: RouteObject[] = [
 								children: [
 									{ index: true, element: <Cards /> },
 									{ path: ':id', element: <SingleCard /> },
-									{ path: ':id/edit', element: <AddCard /> },
 									{ path: 'add-card', element: <AddCard /> },
 								],
 							},

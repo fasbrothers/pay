@@ -14,7 +14,7 @@ export const SidebarInMain = ({
 	title: string;
 	setShowNavbar: (showNavbar: boolean) => void;
 }) => {
-	const highlightedStyle = 'border-blue-600 text-black border-r-2';
+	const highlightedStyle = 'border-blue-600 text-blue-900 border-r-2';
 	return (
 		<div
 			className={`${
@@ -40,7 +40,7 @@ export const SidebarInMain = ({
 							<Link
 								to={item.url}
 								key={item.id}
-								className={`flex items-center text-gray-500 py-5 cursor-pointer hover:text-black duration-300 hover:border-r-2 ${
+								className={`flex items-center text-gray-500 py-5 cursor-pointer hover:text-blue-900 duration-300 hover:border-r-2 ${
 									title === item.title && highlightedStyle
 								} hover:border-blue-600`}
 							>
@@ -52,7 +52,7 @@ export const SidebarInMain = ({
 				</div>
 			</div>
 			<div
-				className={`h-[8vh] flex items-center text-gray-500 cursor-pointer hover:text-black duration-300  ${
+				className={`h-[8vh] flex items-center text-gray-500 cursor-pointer hover:text-blue-900 duration-300  ${
 					title === 'Profile Settings' && highlightedStyle
 				}`}
 			>

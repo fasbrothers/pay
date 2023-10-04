@@ -31,17 +31,13 @@ function ProfileSettings() {
 	};
 
 	return (
-		<div>
+		<div className={`${isModalOpen && 'blur'}`}>
 			<h4 className='font-bold text-xl mb-3'>Account Information</h4>
 			{isLoading ? (
 				<Skeleton active paragraph={{ rows: 4 }} />
 			) : (
 				<>
-					<div
-						className={`flex flex-col-reverse md:flex-row ${
-							isModalOpen && 'blur-sm'
-						}`}
-					>
+					<div className={`flex flex-col-reverse md:flex-row `}>
 						<div className='bg-gray-100 w-full md:w-2/3 p-6 rounded-xl'>
 							<div className='border-b-2 pb-3 border-gray-200'>
 								<p className='text-sm'>Full name</p>

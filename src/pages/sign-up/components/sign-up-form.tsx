@@ -4,11 +4,13 @@ import { Form, Input } from 'antd';
 import { CheckBox } from '../../../components/checkbox';
 import { ButtonPrimary } from '../../../components/button';
 import { AuthProps, InputValues } from '../../../@types/inputs-type';
+import { MaskedInput } from 'antd-mask-input';
 
 const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 	const [form] = Form.useForm();
 
 	const handleSubmit = (values: InputValues) => {
+		values.phone = values.phone && values.phone.replace(/\s/g, '');
 		mutate(values);
 	};
 	return (
@@ -92,11 +94,18 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 				wrapperCol={{ span: 24 }}
 				rules={[
 					{ required: true, message: 'Please input your phone number!' },
-					{ min: 9, message: 'Phone must be 9 numbers.' },
+					{
+						pattern: /^\d{2} \d{3} \d{2} \d{2}$/,
+						message: 'Must be a valid phone number',
+					},
 				]}
 			>
-				<Input
+				<MaskedInput
+					mask={'00 000 00 00'}
 					addonBefore={'+998'}
+					maskOptions={{
+						lazy: true,
+					}}
 					className='input__phone'
 					name='phone'
 					suffix={<PhoneEnabledIcon className='text-gray-500' />}

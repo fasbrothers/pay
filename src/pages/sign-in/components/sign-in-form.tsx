@@ -3,12 +3,14 @@ import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 import SecurityIcon from '@mui/icons-material/Security';
 import { CheckBox } from '../../../components/checkbox';
 import { ButtonPrimary } from '../../../components/button';
+import { MaskedInput } from 'antd-mask-input';
 import { InputValues, AuthProps } from '../../../@types/inputs-type';
 
 function SignInForm({ additionalProperties, mutate, isLoading }: AuthProps) {
 	const [form] = Form.useForm();
 
 	function handleSubmit(values: InputValues) {
+		values.phone = values.phone && values.phone.replace(/\s/g, '');
 		mutate(values);
 	}
 	return (
@@ -27,16 +29,18 @@ function SignInForm({ additionalProperties, mutate, isLoading }: AuthProps) {
 					wrapperCol={{ span: 24 }}
 					rules={[
 						{ required: true, message: 'Please input your phone number!' },
-						{ max: 9, message: 'Phone must be 9 numbers.' },
 						{
-							pattern: new RegExp(/^[0-9]+$/),
-							message: 'Phone must be only numbers.',
+							pattern: /^\d{2} \d{3} \d{2} \d{2}$/,
+							message: 'Must be a valid phone number',
 						},
-						{ min: 9, message: 'Phone must be 9 numbers.' },
 					]}
 				>
-					<Input
+					<MaskedInput
+						mask={'00 000 00 00'}
 						addonBefore={'+998'}
+						maskOptions={{
+							lazy: true,
+						}}
 						className='input__phone'
 						suffix={<PhoneEnabledIcon className='text-gray-500' />}
 						name='phone'
@@ -79,7 +83,7 @@ function SignInForm({ additionalProperties, mutate, isLoading }: AuthProps) {
 						>
 							<Input.Password name='password' className='w-full p-3' />
 						</Form.Item>
-						<CheckBox title = "Trusted Device" name="trust" />
+						<CheckBox title='Trusted Device' name='trust' />
 					</>
 				)}
 				<Form.Item>

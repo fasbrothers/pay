@@ -1,5 +1,3 @@
-import Cards from 'react-credit-cards-2';
-import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { CardForm } from '../../components/card-form';
@@ -21,12 +19,13 @@ function AddCard() {
 
 	const { isLoading, mutate } = useMutation({
 		mutationFn: async () => {
-			const { expiry, name, pan } = inputs;
+			const pan = inputs.pan && inputs.pan.replace(/\s/g, '');
+			const expiry = inputs.expiry && inputs.expiry.replace(/\s/g, '');
 			const { data } = await httpClient.post<ICardResponse>('/customer/card', {
 				pan,
-				name,
+				name: inputs.name,
 				expiry_month: expiry.slice(0, 2),
-				expiry_year: expiry.slice(2),
+				expiry_year: expiry.slice(3),
 			});
 			navigate('/cabinet/cards');
 			return data;
@@ -40,15 +39,12 @@ function AddCard() {
 	});
 
 	return (
-		<div id='PaymentForm'>
-			<Cards
-				cvc={inputs.cvc}
-				expiry={inputs.expiry}
-				name={inputs.name}
-				number={inputs.pan}
-			/>
-			<CardForm isLoading={isLoading} setInputs={setInputs} mutate={mutate} />
-		</div>
+		<CardForm
+			isLoading={isLoading}
+			setInputs={setInputs}
+			mutate={mutate}
+			inputs={inputs}
+		/>
 	);
 }
 
