@@ -10,6 +10,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpClient } from '../../api';
 import { AxiosError } from 'axios';
 import toastMessage, { toastSuccessMessage } from '../../utils/toast-message';
+import BackToPreviousPage from '../../components/back-to-previous-page/back-to-previous-page';
 
 function SingleCard() {
 	const id = useLocation().pathname.split('/')[3].toString();
@@ -58,6 +59,7 @@ function SingleCard() {
 				</div>
 			) : (
 				<>
+					<BackToPreviousPage title='All Cards' />
 					<CardStructure
 						name={data?.name || ''}
 						pan={data?.pan || ''}
@@ -91,7 +93,7 @@ function SingleCard() {
 							]}
 						>
 							<Input
-								className='w-full p-3'
+								className='input__style'
 								name='name'
 								onChange={e => {
 									setNameInput(e.target.value);

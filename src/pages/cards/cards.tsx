@@ -2,16 +2,28 @@ import { Link, Outlet } from 'react-router-dom';
 import { Skeleton } from '../../components';
 import { useDataFetching } from '../../hooks/useDataFetching';
 import { CardStructure } from '../../components/card-structure';
+import { AddTitle } from '../../components/add-title';
 
 function AllCards() {
 	const { isLoading, data: cards } = useDataFetching<ICardAllResponse>(
 		'cards',
 		'customer/card'
 	);
+
 	return (
 		<div>
-			<Link to='add-card'>Add Card</Link>
-			<div className='mt-5 flex flex-wrap gap-2 md:gap-3 xl:gap-5'>
+			<div className='flex flex-col sm:flex-row justify-between items-center py-5'>
+				<div className='mb-2 sm:mb-0'>
+					<h4 className='text-2xl text-center sm:text-left lg:text-4xl font-bold'>
+						$ 114.99,654
+					</h4>
+					<p className='text-sm text-gray-600'>
+						Total balance from all accounts
+					</p>
+				</div>
+				<AddTitle title='Add new card' />
+			</div>
+			<div className='mt-5 flex flex-wrap gap-x-2 gap-y-5 md:gap-3 xl:gap-5 justify-center xl:justify-start mb-10 xl:mb-0'>
 				{isLoading ? (
 					<Skeleton active paragraph={{ rows: 5 }} />
 				) : (

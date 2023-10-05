@@ -7,33 +7,34 @@ import { useMutation } from '@tanstack/react-query';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { accessToken, getUserData } from '../../store/slices/authSlice';
 import SignUpForm from './components/sign-up-form';
-import { ErrorResponse, IResponse, InputValues } from '../../@types/inputs-type';
+import {
+	ErrorResponse,
+	IResponse,
+	InputValues,
+} from '../../@types/inputs-type';
 import { AxiosError } from 'axios';
 import { httpClient } from '../../api';
 
-
 export default function SignUp() {
-	
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
+	const handleSubmit = async (values: InputValues) => {
+		const { name, phone, password, trust } = values;
+		const { data } = await httpClient.post<IResponse>('/customer/register', {
+			name,
+			phone: '998' + phone,
+			password,
+			trust,
+		});
 
-	const handleSubmit = async(values: InputValues) =>{
-			const { name, phone, password, trust } = values;
-			const { data } = await httpClient.post<IResponse>('/customer/register', {
-				name,
-				phone: "998" + phone,
-				password,
-				trust,
-			});
-
-			navigate('/cabinet');
-			dispatch(accessToken(data.token));
-			dispatch(getUserData(data.customer));
-		}
+		navigate('/cabinet');
+		dispatch(accessToken(data.token));
+		dispatch(getUserData(data.customer));
+	};
 
 	const { mutate, isLoading } = useMutation({
-		mutationFn: (values: InputValues) => handleSubmit(values), 
+		mutationFn: (values: InputValues) => handleSubmit(values),
 		onError: (error: AxiosError<ErrorResponse>) => {
 			toastMessage(error?.response?.data.message || error?.message || 'Error');
 		},
@@ -43,10 +44,7 @@ export default function SignUp() {
 		<div className='w-full md:w-1/2 flex items-center'>
 			<div className='w-11/12 xl:w-7/12 mx-auto'>
 				<AuthImageTitle logo={logo} title='Sign Up' />
-				<SignUpForm
-					mutate={mutate}
-					isLoading={isLoading}
-				/>
+				<SignUpForm mutate={mutate} isLoading={isLoading} />
 				<div className='flex'>
 					<p className='mr-2'>Already registered?</p>
 					<Link

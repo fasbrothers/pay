@@ -6,6 +6,9 @@ import { AxiosError } from 'axios';
 import toastMessage, { toastSuccessMessage } from '../../utils/toast-message';
 import { useNavigate } from 'react-router-dom';
 import { httpClient } from '../../api';
+import Cards from 'react-credit-cards-2';
+import 'react-credit-cards-2/dist/es/styles-compiled.css';
+import BackToPreviousPage from '../../components/back-to-previous-page/back-to-previous-page';
 
 function AddCard() {
 	const [inputs, setInputs] = useState<{ [key: string]: string }>({
@@ -27,24 +30,28 @@ function AddCard() {
 				expiry_month: expiry.slice(0, 2),
 				expiry_year: expiry.slice(3),
 			});
-			navigate('/cabinet/cards');
 			return data;
 		},
 		onError: (error: AxiosError<ErrorResponse>) => {
 			toastMessage(error?.response?.data.message || error?.message || 'Error');
 		},
 		onSuccess: () => {
+			navigate('/cabinet/cards');
 			toastSuccessMessage('Card added successfully');
 		},
 	});
 
 	return (
-		<CardForm
-			isLoading={isLoading}
-			setInputs={setInputs}
-			mutate={mutate}
-			inputs={inputs}
-		/>
+		<div id='PaymentForm'>
+			<BackToPreviousPage title='All Cards' />
+			<Cards
+				cvc={inputs.cvc}
+				expiry={inputs.expiry}
+				name={inputs.name}
+				number={inputs.pan}
+			/>
+			<CardForm isLoading={isLoading} setInputs={setInputs} mutate={mutate} />
+		</div>
 	);
 }
 

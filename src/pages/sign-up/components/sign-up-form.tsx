@@ -34,8 +34,8 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 				]}
 			>
 				<Input
-					className='w-full p-3'
 					name='name'
+					className='input__style'
 					suffix={<AccountCircleIcon className='text-gray-500' />}
 				/>
 			</Form.Item>
@@ -57,7 +57,7 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 				]}
 				hasFeedback
 			>
-				<Input.Password className='w-full p-3' name='password' />
+				<Input.Password className='input__style' name='password' />
 			</Form.Item>
 
 			<Form.Item
@@ -84,7 +84,7 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 					}),
 				]}
 			>
-				<Input.Password className='w-full p-3' />
+				<Input.Password className='input__style' />
 			</Form.Item>
 
 			<Form.Item

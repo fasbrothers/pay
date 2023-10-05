@@ -26,7 +26,7 @@ export const SidebarInMain = ({
 			</div>
 			{showNavbar && (
 				<Button
-					className='border-none shadow-none absolute top-10 right-0'
+					className='border-none shadow-none absolute top-6 right-0'
 					onClick={() => setShowNavbar(!showNavbar)}
 				>
 					<ClearIcon />

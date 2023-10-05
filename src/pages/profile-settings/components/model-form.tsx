@@ -41,7 +41,6 @@ function ModelForm({
 	};
 
 	const handleSubmit = async (values: InputValues) => {
-		console.log(values);
 		const formData = new FormData();
 		values?.name && formData.append('name', values.name);
 		image && formData.append('avatar', image, image.name);
@@ -119,7 +118,7 @@ function ModelForm({
 						},
 					]}
 				>
-					<Input className='w-full p-3' value={profile?.name} name='name' />
+					<Input className='input__style' value={profile?.name} name='name' />
 				</Form.Item>
 				<Form.Item>
 					<ButtonPrimary isLoading={isLoading} title='Update' />

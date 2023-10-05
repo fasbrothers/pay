@@ -63,7 +63,7 @@ function SignInForm({ additionalProperties, mutate, isLoading }: AuthProps) {
 						<Input
 							name='otp'
 							suffix={<SecurityIcon className='text-gray-500' />}
-							className='w-full p-3'
+							className='input__style'
 						/>
 					</Form.Item>
 				)}
@@ -81,7 +81,7 @@ function SignInForm({ additionalProperties, mutate, isLoading }: AuthProps) {
 								},
 							]}
 						>
-							<Input.Password name='password' className='w-full p-3' />
+							<Input.Password name='password' className='input__style' />
 						</Form.Item>
 						<CheckBox title='Trusted Device' name='trust' />
 					</>
