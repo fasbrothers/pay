@@ -4,9 +4,13 @@ import { ErrorResponse } from '../@types/inputs-type';
 import toastMessage from '../utils/toast-message';
 import { httpClient } from '../api';
 
-export const useDataFetching = <T,>(key: string, url: string, id?: string) => {
+export const useDataFetching = <T,>(
+	key: string,
+	url: string,
+	dependency?: string
+) => {
 	return useQuery<T, AxiosError<ErrorResponse>>(
-		[key, id],
+		[key, dependency],
 		async () => {
 			const { data } = await httpClient.get<T>(url);
 			return data;

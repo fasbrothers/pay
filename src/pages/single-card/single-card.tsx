@@ -120,6 +120,11 @@ function SingleCard() {
 						isModalOpen={isModalOpen}
 						setIsModalOpen={setIsModalOpen}
 						handleCancel={handleCancel}
+						url='/customer/card'
+						successMessage='Card deleted successfully'
+						navigateUrl='/cabinet/services'
+						modalTitle='Delete card'
+						modalMessage='Do you really want to delete this card?'
 					/>
 				</>
 			)}

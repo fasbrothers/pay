@@ -11,6 +11,11 @@ interface DeleteCardProps {
 	isModalOpen: boolean;
 	setIsModalOpen: (value: boolean) => void;
 	handleCancel: () => void;
+	url: string;
+	successMessage: string;
+	navigateUrl: string;
+	modalTitle: string;
+	modalMessage: string;
 }
 
 export function DeleteCard({
@@ -18,15 +23,19 @@ export function DeleteCard({
 	isModalOpen,
 	setIsModalOpen,
 	handleCancel,
+	url,
+	successMessage,
+	navigateUrl,
+	modalTitle,
+	modalMessage,
 }: DeleteCardProps) {
 	const navigate = useNavigate();
 
 	const { mutate, isLoading } = useMutation({
 		mutationFn: async () => {
-			const { data } = await httpClient.delete(`/customer/card`, {
+			const { data } = await httpClient.delete(url, {
 				data: { id },
 			});
-			navigate('/cabinet/cards');
 			setIsModalOpen(false);
 			return data;
 		},
@@ -34,12 +43,13 @@ export function DeleteCard({
 			toastMessage(error?.response?.data.message || error?.message || 'Error');
 		},
 		onSuccess: () => {
-			toastSuccessMessage('Card deleted successfully');
+			navigate(navigateUrl);
+			toastSuccessMessage(successMessage);
 		},
 	});
 	return (
 		<Modal
-			title='Delete Card'
+			title={modalTitle}
 			open={isModalOpen}
 			onCancel={handleCancel}
 			footer={[
@@ -58,7 +68,7 @@ export function DeleteCard({
 				</Button>,
 			]}
 		>
-			<h4>Do you really want to delete this card?</h4>
+			<h4>{modalMessage}</h4>
 		</Modal>
 	);
 }

@@ -29,7 +29,7 @@ export interface InputValues {
 	trust?: boolean;
 	name?: string;
 	image_url?: string;
-	deletePhoto?: boolean;
+	deleteImage?: boolean;
 }
 
 export interface AuthProps {

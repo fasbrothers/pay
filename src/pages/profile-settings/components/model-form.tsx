@@ -41,7 +41,7 @@ function ModelForm({
 		const formData = new FormData();
 		values?.name && formData.append('name', values.name);
 		image && formData.append('avatar', image, image.name);
-		values?.deletePhoto && formData.append('deletePhoto', 'true');
+		values?.deleteImage && formData.append('deleteImage', 'true');
 
 		await httpClient.put('/customer/profile', formData);
 		setIsModalOpen(false);
@@ -100,7 +100,7 @@ function ModelForm({
 				>
 					<input type='file' accept='image/*' onChange={handleImageChange} />
 				</Form.Item>
-				<CheckBox title='Delete a photo' name='deletePhoto' />
+				<CheckBox title='Delete a image' name='deleteImage' />
 				<Form.Item
 					name='name'
 					label='Name'
