@@ -1,8 +1,6 @@
 import { Form, Input, Modal } from 'antd';
 import { ErrorResponse, InputValues } from '../../../@types/inputs-type';
-import { useAppDispatch } from '../../../hooks/redux-hooks';
 import { ButtonPrimary } from '../../../components/button';
-import { getUserData } from '../../../store/slices/authSlice';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import toastMessage, {
@@ -28,7 +26,6 @@ function ModelForm({
 	profile,
 }: IModelForm) {
 	const [form] = Form.useForm();
-	const dispatch = useAppDispatch();
 	const queryClient = useQueryClient();
 
 	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -46,8 +43,7 @@ function ModelForm({
 		image && formData.append('avatar', image, image.name);
 		values?.deletePhoto && formData.append('deletePhoto', 'true');
 
-		const response = await httpClient.put('/customer/profile', formData);
-		dispatch(getUserData(response.data.customer));
+		await httpClient.put('/customer/profile', formData);
 		setIsModalOpen(false);
 		setImage(undefined);
 	};

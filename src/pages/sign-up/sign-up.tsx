@@ -5,7 +5,7 @@ import { AuthImageTitle } from '../../components/auth-image-title';
 import toastMessage from '../../utils/toast-message';
 import { useMutation } from '@tanstack/react-query';
 import { useAppDispatch } from '../../hooks/redux-hooks';
-import { accessToken, getUserData } from '../../store/slices/authSlice';
+import { accessToken } from '../../store/slices/authSlice';
 import SignUpForm from './components/sign-up-form';
 import {
 	ErrorResponse,
@@ -30,7 +30,6 @@ export default function SignUp() {
 
 		navigate('/cabinet');
 		dispatch(accessToken(data.token));
-		dispatch(getUserData(data.customer));
 	};
 
 	const { mutate, isLoading } = useMutation({

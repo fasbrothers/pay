@@ -9,7 +9,7 @@ import {
 import logo from '../../assets/logo.svg';
 import { AuthImageTitle } from '../../components/auth-image-title';
 import { useAppDispatch } from '../../hooks/redux-hooks';
-import { accessToken, getUserData } from '../../store/slices/authSlice';
+import { accessToken } from '../../store/slices/authSlice';
 import '../sign-up/sign-up.scss';
 import SignInForm from './components/sign-in-form';
 import { SignInProps } from './sign-in-type';
@@ -52,7 +52,6 @@ export default function SignIn() {
 
 			navigate('/cabinet');
 			dispatch(accessToken(data.token));
-			dispatch(getUserData(data.customer));
 		}
 	};
 
