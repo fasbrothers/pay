@@ -9,15 +9,22 @@ import logo from '../../assets/logo.svg';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useQueryClient } from '@tanstack/react-query';
 import { IProfileResponse } from '../../pages/profile-settings/profile-settings';
-import { useDataFetching } from '../../hooks/useDataFetching';
 
 interface Props {
 	setShowNavbar: (showNavbar: boolean) => void;
 	showNavbar: boolean;
 	title?: string;
+	isLoading: boolean;
+	profile: IProfileResponse;
 }
 
-export const HeaderMain = ({ setShowNavbar, showNavbar, title }: Props) => {
+export const HeaderMain = ({
+	setShowNavbar,
+	showNavbar,
+	title,
+	isLoading,
+	profile,
+}: Props) => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const queryClient = useQueryClient();
@@ -28,11 +35,6 @@ export const HeaderMain = ({ setShowNavbar, showNavbar, title }: Props) => {
 		navigate('/auth');
 	};
 
-	const { isLoading, data: profile } = useDataFetching<IProfileResponse>(
-		'profile',
-		'customer/profile'
-	);
-
 	const items: MenuProps['items'] = [
 		{
 			key: '1',
@@ -40,7 +42,7 @@ export const HeaderMain = ({ setShowNavbar, showNavbar, title }: Props) => {
 		},
 		{
 			key: '2',
-			label: <button onClick={handleLogout}>Logout</button>,
+			label: <button onClick={() => handleLogout()}>Logout</button>,
 		},
 	];
 

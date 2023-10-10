@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
-import './index.css';
+import './index.scss';
 import { LoadingLazy } from './components/loading-lazy';
 import ErrorBoundary from './components/error-boundary/error-boundary.tsx';
 

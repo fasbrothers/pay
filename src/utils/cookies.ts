@@ -8,8 +8,8 @@ export function removeFromCookie(item: string) {
 	return Cookies.remove(item);
 }
 
-export function setUID(uid: string) {
-	return Cookies.set('uid', uid, { expires: 365 });
+export function setUIDorLanguage(title: string, value: string) {
+	return Cookies.set(title, value, { expires: 365 });
 }
 
 export function setToken(token: string) {

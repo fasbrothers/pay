@@ -2,7 +2,6 @@ import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-	ErrorResponse,
 	IResponse,
 	InputValues,
 } from '../../@types/inputs-type';
@@ -13,8 +12,6 @@ import { accessToken } from '../../store/slices/authSlice';
 import '../sign-up/sign-up.scss';
 import SignInForm from './components/sign-in-form';
 import { SignInProps } from './sign-in-type';
-import { AxiosError } from 'axios';
-import toastMessage from '../../utils/toast-message';
 import { httpClient } from '../../api';
 
 export default function SignIn() {
@@ -55,15 +52,8 @@ export default function SignIn() {
 		}
 	};
 
-	const { mutate, isLoading } = useMutation<
-		any,
-		AxiosError<ErrorResponse>,
-		any
-	>({
+	const { mutate, isLoading } = useMutation({
 		mutationFn: (values: InputValues) => handleSubmit(values),
-		onError: (error: AxiosError<ErrorResponse>) => {
-			toastMessage(error?.response?.data.message || error?.message || 'Error');
-		},
 	});
 
 	return (

@@ -10,9 +10,10 @@ export const httpClient = axios.create({
 httpClient.interceptors.request.use(
 	function (config) {
 		const token = getToken(store.getState());
+		const language = store.getState().auth.language;
 
 		config.headers.Authorization = token ? token : undefined;
-		config.headers['Accept-Language'] = getFromCookie('language') || 'uz';
+		config.headers['Accept-Language'] = language;
 		config.headers['X-Device-Id'] = getFromCookie('uid');
 		return config;
 	},

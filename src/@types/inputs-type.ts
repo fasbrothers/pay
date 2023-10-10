@@ -30,6 +30,9 @@ export interface InputValues {
 	name?: string;
 	image_url?: string;
 	deleteImage?: boolean;
+	image?: any;
+	gender?: string;
+	datePicker?: any;
 }
 
 export interface AuthProps {

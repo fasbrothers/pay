@@ -2,17 +2,11 @@ import logo from '../../assets/logo.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import './sign-up.scss';
 import { AuthImageTitle } from '../../components/auth-image-title';
-import toastMessage from '../../utils/toast-message';
 import { useMutation } from '@tanstack/react-query';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { accessToken } from '../../store/slices/authSlice';
 import SignUpForm from './components/sign-up-form';
-import {
-	ErrorResponse,
-	IResponse,
-	InputValues,
-} from '../../@types/inputs-type';
-import { AxiosError } from 'axios';
+import { IResponse, InputValues } from '../../@types/inputs-type';
 import { httpClient } from '../../api';
 
 export default function SignUp() {
@@ -34,9 +28,6 @@ export default function SignUp() {
 
 	const { mutate, isLoading } = useMutation({
 		mutationFn: (values: InputValues) => handleSubmit(values),
-		onError: (error: AxiosError<ErrorResponse>) => {
-			toastMessage(error?.response?.data.message || error?.message || 'Error');
-		},
 	});
 
 	return (

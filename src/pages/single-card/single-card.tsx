@@ -4,12 +4,11 @@ import { useState } from 'react';
 import { DeleteCard } from '../../components/delete-card-modal';
 import { CardStructure } from '../../components/card-structure';
 import { useDataFetching } from '../../hooks/useDataFetching';
-import { Card, ErrorResponse } from '../../@types/inputs-type';
+import { Card } from '../../@types/inputs-type';
 import { Form, Input, Skeleton } from 'antd';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpClient } from '../../api';
-import { AxiosError } from 'axios';
-import toastMessage, { toastSuccessMessage } from '../../utils/toast-message';
+import { toastSuccessMessage } from '../../utils/toast-message';
 import BackToPreviousPage from '../../components/back-to-previous-page/back-to-previous-page';
 
 function SingleCard() {
@@ -32,9 +31,6 @@ function SingleCard() {
 				name: nameInput,
 			});
 			return data;
-		},
-		onError: (error: AxiosError<ErrorResponse>) => {
-			toastMessage(error?.response?.data.message || error?.message || 'Error');
 		},
 		onSuccess: () => {
 			query.invalidateQueries(['card']);
@@ -105,7 +101,7 @@ function SingleCard() {
 							<ButtonPrimary
 								disabled={disabled}
 								isLoading={isLoading}
-								title='Edit'
+								title='Save'
 							/>
 						</Form.Item>
 					</Form>

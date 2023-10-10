@@ -1,62 +1,50 @@
-import { Form, Input, Modal } from 'antd';
-import { ErrorResponse, InputValues } from '../../../@types/inputs-type';
+import { DatePicker, Form, Input, Modal, Select, Upload } from 'antd';
+import { InputValues } from '../../../@types/inputs-type';
 import { ButtonPrimary } from '../../../components/button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { AxiosError } from 'axios';
-import toastMessage, {
-	toastSuccessMessage,
-} from '../../../utils/toast-message';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { toastSuccessMessage } from '../../../utils/toast-message';
 import { IProfileResponse } from '../profile-settings';
 import { httpClient } from '../../../api';
 import { CheckBox } from '../../../components/checkbox';
+import { useState } from 'react';
+import dayjs from 'dayjs';
 
 interface IModelForm {
-	image: Blob | undefined;
-	setImage: (image: Blob | undefined) => void;
 	setIsModalOpen: (isModalOpen: boolean) => void;
 	isModalOpen: boolean;
 	profile: IProfileResponse | undefined;
 }
 
-function ModelForm({
-	image,
-	setImage,
-	setIsModalOpen,
-	isModalOpen,
-	profile,
-}: IModelForm) {
+function ModelForm({ setIsModalOpen, isModalOpen, profile }: IModelForm) {
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
-
-	const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-		const file = e.target.files![0];
-		setImage(file);
-	};
+	const [imageStatus, setImageStatus] = useState(false);
 
 	const handleCancel = () => {
 		setIsModalOpen(false);
 	};
+	const dateFormat = 'DD/MM/YYYY';
 
 	const handleSubmit = async (values: InputValues) => {
+		console.log(values);
 		const formData = new FormData();
 		values?.name && formData.append('name', values.name);
-		image && formData.append('avatar', image, image.name);
+		values?.gender && formData.append('gender', values.gender);
+		values.datePicker &&
+			formData.append(
+				'birthDate',
+				dayjs(values.datePicker, dateFormat).format(dateFormat)
+			);
+		values.image && formData.append('avatar', values.image.file.originFileObj);
 		values?.deleteImage && formData.append('deleteImage', 'true');
 
 		await httpClient.put('/customer/profile', formData);
 		setIsModalOpen(false);
-		setImage(undefined);
 	};
 
-	const { mutate, isLoading } = useMutation<
-		any,
-		AxiosError<ErrorResponse>,
-		any
-	>({
+	const { mutate, isLoading } = useMutation({
 		mutationFn: (values: InputValues) => handleSubmit(values),
-		onError: (error: AxiosError<ErrorResponse>) => {
-			toastMessage(error?.response?.data.message || error?.message || 'Error');
-		},
 		onSuccess: () => {
 			queryClient.invalidateQueries(['profile']);
 			toastSuccessMessage('Profile updated successfully');
@@ -75,30 +63,37 @@ function ModelForm({
 				name='update'
 				onFinish={mutate}
 				scrollToFirstError
+				className='profile__form'
 				initialValues={{
-					['name']: profile?.name,
+					name: profile?.name,
+					gender: profile?.gender,
+					datePicker: dayjs(profile?.birth_date),
 				}}
 			>
-				<div className='w-[200px] mx-auto'>
-					{!image && (
+				{!imageStatus && profile?.image_url && (
+					<div className='flex justify-center -mb-10'>
 						<img
-							className='rounded-[50%] w-[200px] object-contain'
-							src={profile?.image_url ?? ''}
+							src={profile?.image_url}
+							className='w-[150px] h-[150px] object-contain rounded-full'
 						/>
-					)}
-					{image && (
-						<img
-							className='rounded-[50%] w-[200px] object-contain'
-							src={URL.createObjectURL(image)}
-						/>
-					)}
-				</div>
+					</div>
+				)}
 				<Form.Item
+					className='avatar-uploader flex justify-center'
+					name='image'
 					labelCol={{ span: 24 }}
-					label='Update Photo'
-					name='image_url'
+					wrapperCol={{ span: 24 }}
 				>
-					<input type='file' accept='image/*' onChange={handleImageChange} />
+					<Upload
+						listType='picture-circle'
+						maxCount={1}
+						accept='image/*'
+						onChange={e => setImageStatus(e.fileList.length > 0)}
+					>
+						<div>
+							<AddCircleOutlineIcon />
+						</div>
+					</Upload>
 				</Form.Item>
 				<CheckBox title='Delete a image' name='deleteImage' />
 				<Form.Item
@@ -115,6 +110,26 @@ function ModelForm({
 					]}
 				>
 					<Input className='input__style' value={profile?.name} name='name' />
+				</Form.Item>
+				<Form.Item
+					label='Date of birth'
+					labelCol={{ span: 24 }}
+					wrapperCol={{ span: 24 }}
+					name='datePicker'
+				>
+					<DatePicker format={dateFormat} className='w-full p-3' />
+				</Form.Item>
+				<Form.Item
+					label='Select a gender'
+					name='gender'
+					className='gender__select mb-10'
+					labelCol={{ span: 24 }}
+					wrapperCol={{ span: 24 }}
+				>
+					<Select placeholder='Select a gender'>
+						<Select.Option value='M'>Male</Select.Option>
+						<Select.Option value='F'>Female</Select.Option>
+					</Select>
 				</Form.Item>
 				<Form.Item>
 					<ButtonPrimary isLoading={isLoading} title='Update' />

@@ -7,12 +7,14 @@ import { httpClient } from '../api';
 export const useDataFetching = <T,>(
 	key: string,
 	url: string,
-	dependency?: string
+	dependency?: string,
+	language?: boolean
 ) => {
 	return useQuery<T, AxiosError<ErrorResponse>>(
 		[key, dependency],
 		async () => {
 			const { data } = await httpClient.get<T>(url);
+			console.log(language);
 			return data;
 		},
 		{

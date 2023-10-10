@@ -1,10 +1,8 @@
 import { useMutation } from '@tanstack/react-query';
 import { httpClient } from '../../api';
-import { AxiosError } from 'axios';
-import { ErrorResponse } from '../../@types/inputs-type';
-import toastMessage, { toastSuccessMessage } from '../../utils/toast-message';
 import { Button, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import { toastSuccessMessage } from '../../utils/toast-message';
 
 interface DeleteCardProps {
 	id: string;
@@ -38,9 +36,6 @@ export function DeleteCard({
 			});
 			setIsModalOpen(false);
 			return data;
-		},
-		onError: (error: AxiosError<ErrorResponse>) => {
-			toastMessage(error?.response?.data.message || error?.message || 'Error');
 		},
 		onSuccess: () => {
 			navigate(navigateUrl);

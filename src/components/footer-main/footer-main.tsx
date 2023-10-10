@@ -1,21 +1,32 @@
 import Brightness2OutlinedIcon from '@mui/icons-material/Brightness2Outlined';
 import { footerList } from './footer-list';
-import type { MenuProps } from 'antd';
-import { Button, Dropdown } from 'antd';
-import { Link } from 'react-router-dom';
-
-const items: MenuProps['items'] = [
-	{
-		key: '1',
-		label: <Link to='/'>Russian</Link>,
-	},
-	{
-		key: '2',
-		label: <Link to='/'>Uzbek</Link>,
-	},
-];
+import { Form, Select } from 'antd';
+import { httpClient } from '../../api';
+import { useMutation } from '@tanstack/react-query';
+import { useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { getLanguage } from '../../store/slices/authSlice';
 
 export const FooterMain = () => {
+	const [valueLang, setValueLang] = useState<string>('');
+
+	const dispatch = useAppDispatch();
+	const language = useAppSelector(state => state.auth.language);
+
+	console.log(language);
+
+	const { mutate } = useMutation(
+		async (value: string) => {
+			setValueLang(value);
+			await httpClient.put('/customer/lang', { lang: value });
+		},
+		{
+			onSuccess: () => {
+				dispatch(getLanguage(valueLang));
+			},
+		}
+	);
+
 	return (
 		<div className='lg:h-[8vh] border-t border-gray-200 flex flex-col md:flex-row justify-between items-center mt-2 xl:mt-0 py-4 lg:py-0'>
 			<div>
@@ -25,14 +36,29 @@ export const FooterMain = () => {
 					</p>
 				))}
 			</div>
-			<div className='flex gap-3 text-gray-600 mt-4 md:mt-0'>
-				<div className='flex items-center'>
-					<Dropdown menu={{ items }} placement='top'>
-						<Button className='flex items-center border-none shadow-none text-gray-600 hover:text-gray-600'>
-							English
-						</Button>
-					</Dropdown>
-				</div>
+			<div className='flex gap-3 items-center text-gray-600 mt-4 md:mt-0'>
+				<Form className='mt-4'>
+					<Form.Item
+						name='setLanguage'
+						initialValue={
+							language === 'uz'
+								? 'Uzbek'
+								: language === 'ru'
+								? 'Russian'
+								: 'English'
+						}
+						className='w-[100px] '
+					>
+						<Select
+							onChange={e => mutate(e)}
+							options={[
+								{ value: 'uz', label: 'Uzbek' },
+								{ value: 'ru', label: 'Russian' },
+								{ value: 'en', label: 'English' },
+							]}
+						/>
+					</Form.Item>
+				</Form>
 				<div className='border-2 border-gray-200 p-2.5 rounded-lg hover:bg-gray-400 hover:border-gray-400 hover:text-white duration-300'>
 					<Brightness2OutlinedIcon fontSize='small' />
 				</div>

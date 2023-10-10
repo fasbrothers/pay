@@ -4,6 +4,7 @@ import { Skeleton } from 'antd';
 import { useState } from 'react';
 import ModelForm from './components/model-form';
 import { useDataFetching } from '../../hooks/useDataFetching';
+import dayjs from 'dayjs';
 
 export interface IProfileResponse {
 	id: string;
@@ -14,10 +15,12 @@ export interface IProfileResponse {
 	is_blocked: boolean;
 	safe_login_after: number;
 	last_login_attempt: string | null;
+	gender: string | null;
+	lang: string;
+	birth_date: string | null;
 }
 
 function ProfileSettings() {
-	const [image, setImage] = useState<Blob | undefined>();
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
 	const { isLoading, data: profile } = useDataFetching<IProfileResponse>(
@@ -45,11 +48,20 @@ function ProfileSettings() {
 							</div>
 							<div className='border-b-2 py-3 border-gray-200'>
 								<p className='text-sm'>Gender</p>
-								<h3 className='mt-1 font-bold'>Male</h3>
+								<h3 className='mt-1 font-bold'>
+									{profile?.gender === 'M'
+										? 'Male'
+										: profile?.gender === 'F'
+										? 'Female'
+										: ''}
+								</h3>
 							</div>
 							<div className='border-b-2 py-3 border-gray-200'>
 								<p className='text-sm'>Date of birth</p>
-								<h3 className='mt-1 font-bold'>January 24, 2001</h3>
+								<h3 className='mt-1 font-bold'>
+									{profile?.birth_date &&
+										dayjs(profile.birth_date).format('DD.MM.YYYY')}
+								</h3>
 							</div>
 							<div className='py-3'>
 								<p className='text-sm'>Phone number</p>
@@ -57,31 +69,27 @@ function ProfileSettings() {
 							</div>
 						</div>
 						<div className='w-full md:w-1/3 flex justify-center items-center pl-5'>
-							<div>
-								{profile?.image_url ? (
-									<div className='m-auto mb-5'>
-										<img
-											src={profile.image_url}
-											className='rounded-[50%] w-[200px] md:w-[250px] object-contain'
-											alt={profile.name}
-										/>
-									</div>
-								) : (
-									<AccountCircleIcon
-										fontSize='large'
-										style={{ fontSize: '250px' }}
-										className='text-gray-600'
+							{profile?.image_url ? (
+								<div className='m-auto mb-5'>
+									<img
+										src={profile.image_url}
+										className='rounded-full w-[200px] md:w-[250px] object-contain'
+										alt={profile.name}
 									/>
-								)}
-							</div>
+								</div>
+							) : (
+								<AccountCircleIcon
+									fontSize='large'
+									style={{ fontSize: '250px' }}
+									className='text-gray-600'
+								/>
+							)}
 						</div>
 					</div>
 					<form className='w-48 mt-10' onSubmit={showModal}>
 						<ButtonPrimary title='Update Settings' />
 					</form>
 					<ModelForm
-						image={image}
-						setImage={setImage}
 						isModalOpen={isModalOpen}
 						setIsModalOpen={setIsModalOpen}
 						profile={profile}

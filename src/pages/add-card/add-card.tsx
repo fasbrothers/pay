@@ -1,9 +1,8 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { CardForm } from '../../components/card-form';
-import { ErrorResponse, ICardResponse } from '../../@types/inputs-type';
-import { AxiosError } from 'axios';
-import toastMessage, { toastSuccessMessage } from '../../utils/toast-message';
+import { ICardResponse } from '../../@types/inputs-type';
+import { toastSuccessMessage } from '../../utils/toast-message';
 import { useNavigate } from 'react-router-dom';
 import { httpClient } from '../../api';
 import Cards from 'react-credit-cards-2';
@@ -31,9 +30,6 @@ function AddCard() {
 				expiry_year: expiry.slice(3),
 			});
 			return data;
-		},
-		onError: (error: AxiosError<ErrorResponse>) => {
-			toastMessage(error?.response?.data.message || error?.message || 'Error');
 		},
 		onSuccess: () => {
 			navigate('/cabinet/cards');
