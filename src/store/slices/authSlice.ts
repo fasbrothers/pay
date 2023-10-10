@@ -1,23 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
-import {
-	getFromCookie,
-	removeFromCookie,
-	setToken,
-	setUIDorLanguage,
-} from '../../utils/cookies';
+import { getFromCookie, removeFromCookie, setToken } from '../../utils/cookies';
 
 // Define a type for the slice state
 interface AuthState {
 	token: string | undefined;
-	language: string;
-} 
+}
 
 // Define the initial state using that type
 const initialState: AuthState = {
 	token: getFromCookie('token'),
-	language: getFromCookie('language') || 'ru',
 };
 
 export const authSlice = createSlice({
@@ -33,14 +26,10 @@ export const authSlice = createSlice({
 			state.token = undefined;
 			removeFromCookie('token');
 		},
-		getLanguage: (state, action: PayloadAction<string>) => {
-			state.language = action.payload;
-			setUIDorLanguage('language', action.payload);
-		},
 	},
 });
 
-export const { accessToken, deleteToken, getLanguage } = authSlice.actions;
+export const { accessToken, deleteToken } = authSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const token = (state: RootState) => state.auth.token;

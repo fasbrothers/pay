@@ -6,13 +6,9 @@ function generateId() {
 
 export default function saveToStorage() {
 	const uid = getFromCookie('uid');
-	const language = getFromCookie('language');
 
 	if (!uid) {
 		setUIDorLanguage('uid', generateId());
-	}
-	if (!language) {
-		setUIDorLanguage('language', 'uz');
 	}
 }
 

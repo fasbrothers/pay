@@ -3,26 +3,29 @@ import { footerList } from './footer-list';
 import { Form, Select } from 'antd';
 import { httpClient } from '../../api';
 import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { getLanguage } from '../../store/slices/authSlice';
+import { useEffect } from 'react';
+import { toastSuccessMessage } from '../../utils/toast-message';
+import { setUIDorLanguage } from '../../utils/cookies';
 
-export const FooterMain = () => {
-	const [valueLang, setValueLang] = useState<string>('');
+export const FooterMain = ({ language }: { language: string }) => {
+	const [form] = Form.useForm();
 
-	const dispatch = useAppDispatch();
-	const language = useAppSelector(state => state.auth.language);
-
-	console.log(language);
+	useEffect(() => {
+		// Update the initialValue of Form.Item based on the new language
+		form.setFieldsValue({
+			setLanguage:
+				language === 'uz' ? 'Uzbek' : language === 'ru' ? 'Russian' : 'English',
+		});
+	}, [language]);
 
 	const { mutate } = useMutation(
 		async (value: string) => {
-			setValueLang(value);
 			await httpClient.put('/customer/lang', { lang: value });
+			setUIDorLanguage('language', value);
 		},
 		{
 			onSuccess: () => {
-				dispatch(getLanguage(valueLang));
+				toastSuccessMessage('Language changed successfully');
 			},
 		}
 	);
@@ -37,17 +40,17 @@ export const FooterMain = () => {
 				))}
 			</div>
 			<div className='flex gap-3 items-center text-gray-600 mt-4 md:mt-0'>
-				<Form className='mt-4'>
+				<Form className='mt-4' form={form}>
 					<Form.Item
 						name='setLanguage'
 						initialValue={
 							language === 'uz'
 								? 'Uzbek'
-								: language === 'ru'
-								? 'Russian'
-								: 'English'
+								: language === 'en'
+								? 'English'
+								: 'Russian'
 						}
-						className='w-[100px] '
+						className='w-[100px]'
 					>
 						<Select
 							onChange={e => mutate(e)}

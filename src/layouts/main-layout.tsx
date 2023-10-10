@@ -6,10 +6,7 @@ import { Suspense, useState } from 'react';
 import { LoadingLazy } from '../components/loading-lazy';
 import { IProfileResponse } from '../pages/profile-settings/profile-settings';
 import { setUIDorLanguage } from '../utils/cookies';
-import { useQuery } from '@tanstack/react-query';
-import { httpClient } from '../api';
-import { useAppDispatch } from '../hooks/redux-hooks';
-import { getLanguage } from '../store/slices/authSlice';
+import { useDataFetching } from '../hooks/useDataFetching';
 
 export default function MainLayout() {
 	const [showNavbar, setShowNavbar] = useState<boolean>(false);
@@ -19,16 +16,10 @@ export default function MainLayout() {
 		?.map(el => el[0].toUpperCase() + el.slice(1))
 		.join(' ');
 
-	const dispatch = useAppDispatch();
-
-	const { data: profile, isLoading } = useQuery({
-		queryKey: ['profile'],
-		queryFn: async () => {
-			const { data } = await httpClient.get<IProfileResponse>('/customer/profile');
-			dispatch(getLanguage(data.lang));
-			return data;
-		},
-	});
+	const { data: profile, isLoading } = useDataFetching<IProfileResponse>(
+		'profile',
+		'/customer/profile'
+	);
 
 	!isLoading && setUIDorLanguage('language', profile?.lang as string);
 
@@ -56,7 +47,7 @@ export default function MainLayout() {
 						<Outlet />
 					</div>
 				</Suspense>
-				<FooterMain />
+				<FooterMain language={profile?.lang as string} />
 			</div>
 		</div>
 	);
