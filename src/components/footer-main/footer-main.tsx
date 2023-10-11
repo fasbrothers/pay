@@ -8,15 +8,19 @@ import { toastSuccessMessage } from '../../utils/toast-message';
 import { setUIDorLanguage } from '../../utils/cookies';
 
 export const FooterMain = ({ language }: { language: string }) => {
-	const [form] = Form.useForm();
+	const form = Form.useForm()[0];
 
+	const languageMap: Record<string, string> = {
+		uz: 'Uzbek',
+		en: 'English',
+		ru: 'Russian',
+	};
 	useEffect(() => {
 		// Update the initialValue of Form.Item based on the new language
 		form.setFieldsValue({
-			setLanguage:
-				language === 'uz' ? 'Uzbek' : language === 'ru' ? 'Russian' : 'English',
+			setLanguage: languageMap[language],
 		});
-	}, [language]);
+	}, [language, form]);
 
 	const { mutate } = useMutation(
 		async (value: string) => {
@@ -40,19 +44,14 @@ export const FooterMain = ({ language }: { language: string }) => {
 				))}
 			</div>
 			<div className='flex gap-3 items-center text-gray-600 mt-4 md:mt-0'>
-				<Form className='mt-4' form={form}>
+				<Form form={form}>
 					<Form.Item
 						name='setLanguage'
-						initialValue={
-							language === 'uz'
-								? 'Uzbek'
-								: language === 'en'
-								? 'English'
-								: 'Russian'
-						}
+						initialValue={languageMap[language]}
 						className='w-[100px]'
 					>
 						<Select
+							className='select__language mt-4'
 							onChange={e => mutate(e)}
 							options={[
 								{ value: 'uz', label: 'Uzbek' },

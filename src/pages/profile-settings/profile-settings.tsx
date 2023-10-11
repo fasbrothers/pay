@@ -33,6 +33,19 @@ function ProfileSettings() {
 		setIsModalOpen(true);
 	};
 
+	const getGenderString = (gender: string | null | undefined): string => {
+		switch (gender) {
+			case 'M':
+				return 'Male';
+			case 'F':
+				return 'Female';
+			default:
+				return '';
+		}
+	};
+
+	const { name, gender, birth_date, phone, image_url } = profile || {};
+
 	return (
 		<div className={`${isModalOpen && 'blur'}`}>
 			<h4 className='font-bold text-xl mb-3'>Account Information</h4>
@@ -44,37 +57,30 @@ function ProfileSettings() {
 						<div className='bg-gray-100 w-full md:w-2/3 p-6 rounded-xl'>
 							<div className='border-b-2 pb-3 border-gray-200'>
 								<p className='text-sm'>Full name</p>
-								<h3 className='mt-1 font-bold'>{profile?.name}</h3>
+								<h3 className='mt-1 font-bold'>{name}</h3>
+							</div>
+							<div className='border-b-2 py-3 border-gray-200'>
+								<p className='text-sm'>Phone number</p>
+								<h3 className='mt-1 font-bold'>+{phone}</h3>
 							</div>
 							<div className='border-b-2 py-3 border-gray-200'>
 								<p className='text-sm'>Gender</p>
-								<h3 className='mt-1 font-bold'>
-									{profile?.gender === 'M'
-										? 'Male'
-										: profile?.gender === 'F'
-										? 'Female'
-										: ''}
-								</h3>
-							</div>
-							<div className='border-b-2 py-3 border-gray-200'>
-								<p className='text-sm'>Date of birth</p>
-								<h3 className='mt-1 font-bold'>
-									{profile?.birth_date &&
-										dayjs(profile.birth_date).format('DD.MM.YYYY')}
-								</h3>
+								<h3 className='mt-1 font-bold'>{getGenderString(gender)}</h3>
 							</div>
 							<div className='py-3'>
-								<p className='text-sm'>Phone number</p>
-								<h3 className='mt-1 font-bold'>+{profile?.phone}</h3>
+								<p className='text-sm'>Date of birth</p>
+								<h3 className='mt-1 font-bold'>
+									{birth_date && dayjs(birth_date).format('DD.MM.YYYY')}
+								</h3>
 							</div>
 						</div>
 						<div className='w-full md:w-1/3 flex justify-center items-center pl-5'>
-							{profile?.image_url ? (
+							{image_url ? (
 								<div className='m-auto mb-5'>
 									<img
-										src={profile.image_url}
+										src={image_url}
 										className='rounded-full w-[200px] md:w-[250px] object-contain'
-										alt={profile.name}
+										alt={name}
 									/>
 								</div>
 							) : (

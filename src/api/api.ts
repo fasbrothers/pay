@@ -29,7 +29,8 @@ httpClient.interceptors.response.use(
 	function (error) {
 		if (
 			error.response.data.type === 'EXPIRED_TOKEN' ||
-			error.response.data.type === 'INVALID_TOKEN'
+			error.response.data.type === 'INVALID_TOKEN' ||
+			error.response.data.type === 'NOT_ALLOWED'
 		) {
 			store.dispatch(deleteToken()); // another way, not to use useDispatch
 		}

@@ -11,6 +11,9 @@
 
 body {
 	font-family: 'Inter', sans-serif;
+	span{
+	font-family: 'Inter', sans-serif;
+	}
 }
 .bg__color {
 	background-image: linear-gradient(
@@ -76,5 +79,17 @@ body {
 		.ant-form-item-explain-error{
 			margin-top: 12px !important;
 		}
+	}
+}
+
+.select__language{
+	.ant-select-selector{
+		border:none !important;
+	}
+	.ant-select-arrow{
+		display: none !important;
+	}
+	.ant-select-selection-item{
+		text-align: center;
 	}
 }

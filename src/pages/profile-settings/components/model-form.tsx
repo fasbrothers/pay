@@ -27,7 +27,6 @@ function ModelForm({ setIsModalOpen, isModalOpen, profile }: IModelForm) {
 	const dateFormat = 'DD/MM/YYYY';
 
 	const handleSubmit = async (values: InputValues) => {
-		console.log(values);
 		const formData = new FormData();
 		values?.name && formData.append('name', values.name);
 		values?.gender && formData.append('gender', values.gender);
@@ -67,7 +66,7 @@ function ModelForm({ setIsModalOpen, isModalOpen, profile }: IModelForm) {
 				initialValues={{
 					name: profile?.name,
 					gender: profile?.gender,
-					datePicker: dayjs(profile?.birth_date),
+					datePicker: profile?.birth_date && dayjs(profile?.birth_date),
 				}}
 			>
 				{!imageStatus && profile?.image_url && (
