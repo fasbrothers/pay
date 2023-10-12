@@ -3,6 +3,7 @@ import { Skeleton } from '../../components';
 import { useDataFetching } from '../../hooks/useDataFetching';
 import { CardStructure } from '../../components/card-structure';
 import { AddTitle } from '../../components/add-title';
+import { currencyFormat } from '../../utils/currencyFormat';
 
 function AllCards() {
 	const { isLoading, data: cards } = useDataFetching<ICardAllResponse>(
@@ -20,9 +21,11 @@ function AllCards() {
 		<div>
 			<div className='flex flex-col sm:flex-row justify-between items-center py-5'>
 				<div className='mb-2 sm:mb-0'>
-					<h4 className='text-2xl text-center sm:text-left lg:text-4xl font-bold'>
+					<h4 className='text-2xl text-center sm:text-left lg:text-3xl font-bold'>
 						{cards?.cards &&
-							sumAllCardsPrice(cards?.cards as ICardAllResponse['cards'])}
+							currencyFormat(
+								sumAllCardsPrice(cards?.cards as ICardAllResponse['cards'])
+							)}
 						sum
 					</h4>
 					<p className='text-sm text-gray-600'>
@@ -70,4 +73,5 @@ export interface Card {
 	expiry_month: string;
 	expiry_year: string;
 	balance: string;
+	single_card?: boolean;
 }

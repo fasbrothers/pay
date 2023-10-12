@@ -5,9 +5,11 @@ import SearchIcon from '@mui/icons-material/Search';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useDataFetching } from '../../hooks/useDataFetching';
 import { Service, Services } from '../../@types/inputs-type';
+import { currencyFormat } from '../../utils/currencyFormat';
 
 function Payments() {
 	const [title, setTitle] = useState<string>('');
+
 	const [search, setSearch] = useState<string>('');
 	const { data, isLoading } = useDataFetching<Services>('services', '/service');
 
@@ -126,7 +128,7 @@ function ServiceItem({ service }: { service: Service }) {
 			</div>
 			<h5 className='font-semibold my-3'>{service.name}</h5>
 			<p className='bg-gray-100 text-gray-600 py-2 px-3 w-3/4 mx-auto'>
-				{service.price} sum
+				{currencyFormat(+service.price)} sum
 			</p>
 		</div>
 	);

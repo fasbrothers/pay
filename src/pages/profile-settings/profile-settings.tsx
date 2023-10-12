@@ -5,6 +5,7 @@ import { useState } from 'react';
 import ModelForm from './components/model-form';
 import { useDataFetching } from '../../hooks/useDataFetching';
 import dayjs from 'dayjs';
+import { formatNumber } from '../../utils/formatNumber';
 
 export interface IProfileResponse {
 	id: string;
@@ -61,7 +62,9 @@ function ProfileSettings() {
 							</div>
 							<div className='border-b-2 py-3 border-gray-200'>
 								<p className='text-sm'>Phone number</p>
-								<h3 className='mt-1 font-bold'>+{phone}</h3>
+								<h3 className='mt-1 font-bold'>
+									+{formatNumber(phone as string)}
+								</h3>
 							</div>
 							<div className='border-b-2 py-3 border-gray-200'>
 								<p className='text-sm'>Gender</p>

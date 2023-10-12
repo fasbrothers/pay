@@ -2,13 +2,14 @@ import Brightness2OutlinedIcon from '@mui/icons-material/Brightness2Outlined';
 import { footerList } from './footer-list';
 import { Form, Select } from 'antd';
 import { httpClient } from '../../api';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { toastSuccessMessage } from '../../utils/toast-message';
 import { setUIDorLanguage } from '../../utils/cookies';
 
 export const FooterMain = ({ language }: { language: string }) => {
 	const form = Form.useForm()[0];
+	const query = useQueryClient();
 
 	const languageMap: Record<string, string> = {
 		uz: 'Uzbek',
@@ -30,6 +31,7 @@ export const FooterMain = ({ language }: { language: string }) => {
 		{
 			onSuccess: () => {
 				toastSuccessMessage('Language changed successfully');
+				query.invalidateQueries(['services']);
 			},
 		}
 	);

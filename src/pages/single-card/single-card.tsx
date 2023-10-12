@@ -54,7 +54,7 @@ function SingleCard() {
 					<Skeleton active paragraph={{ rows: 4 }} />
 				</div>
 			) : (
-				<>
+				<div>
 					<BackToPreviousPage title='All Cards' />
 					<CardStructure
 						name={data?.name || ''}
@@ -64,6 +64,7 @@ function SingleCard() {
 						balance={data?.balance || ''}
 						id={data?.id || ''}
 						customer_id={data?.customer_id || ''}
+						single_card={true}
 					/>
 
 					<Form
@@ -122,7 +123,7 @@ function SingleCard() {
 						modalTitle='Delete card'
 						modalMessage='Do you really want to delete this card?'
 					/>
-				</>
+				</div>
 			)}
 		</div>
 	);
