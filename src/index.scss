@@ -68,7 +68,7 @@ body {
 	background-image: url('./assets/card.jpg') !important;
 }
 
-.profile__form {
+.profile__form, .select__category{
 	.ant-select-selector{
 		padding: 23px 12px !important;
 	}

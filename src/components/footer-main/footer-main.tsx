@@ -43,7 +43,7 @@ export const FooterMain = ({ language }: { language: string }) => {
 					</p>
 				))}
 			</div>
-			<div className='flex gap-3 items-center text-gray-600 mt-4 md:mt-0'>
+			<div className='flex gap-y-3 items-baseline text-gray-600 mt-4 md:mt-0'>
 				<Form form={form}>
 					<Form.Item
 						name='setLanguage'
@@ -61,7 +61,7 @@ export const FooterMain = ({ language }: { language: string }) => {
 						/>
 					</Form.Item>
 				</Form>
-				<div className='border-2 border-gray-200 p-2.5 rounded-lg hover:bg-gray-400 hover:border-gray-400 hover:text-white duration-300'>
+				<div className='cursor-pointer hover:text-blue-600'>
 					<Brightness2OutlinedIcon fontSize='small' />
 				</div>
 			</div>

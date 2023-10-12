@@ -62,3 +62,20 @@ export interface IAddCard {
 	name: string;
 	pan: string;
 }
+
+export interface Services {
+	count: number;
+	services: Service[];
+}
+
+export interface Service {
+	id: string;
+	merchant_id: string;
+	category_id: number;
+	name: string;
+	price: number;
+	image_url: string;
+	is_active: boolean;
+	category_code: string;
+	category_name: string;
+}

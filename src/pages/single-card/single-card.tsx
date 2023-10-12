@@ -118,7 +118,7 @@ function SingleCard() {
 						handleCancel={handleCancel}
 						url='/customer/card'
 						successMessage='Card deleted successfully'
-						navigateUrl='/cabinet/services'
+						navigateUrl='/cabinet/cards'
 						modalTitle='Delete card'
 						modalMessage='Do you really want to delete this card?'
 					/>

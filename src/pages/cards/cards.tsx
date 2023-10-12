@@ -10,12 +10,20 @@ function AllCards() {
 		'customer/card'
 	);
 
+	function sumAllCardsPrice(cards: Card[]) {
+		return cards.reduce((acc, card) => {
+			return acc + parseInt(card.balance);
+		}, 0);
+	}
+
 	return (
 		<div>
 			<div className='flex flex-col sm:flex-row justify-between items-center py-5'>
 				<div className='mb-2 sm:mb-0'>
 					<h4 className='text-2xl text-center sm:text-left lg:text-4xl font-bold'>
-						$ 114.99,654
+						{cards?.cards &&
+							sumAllCardsPrice(cards?.cards as ICardAllResponse['cards'])}
+						sum
 					</h4>
 					<p className='text-sm text-gray-600'>
 						Total balance from all accounts
