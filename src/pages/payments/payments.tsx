@@ -1,17 +1,25 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Input, Select } from 'antd';
+import { Select } from 'antd';
 import Skeleton from 'antd/lib/skeleton';
-import SearchIcon from '@mui/icons-material/Search';
-import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { useDataFetching } from '../../hooks/useDataFetching';
 import { Service, Services } from '../../@types/inputs-type';
-import { currencyFormat } from '../../utils/currencyFormat';
+import { PaymentCategory } from '../../components/payment-category';
+import { ServiceItem } from '../../components/service-item';
+import { SearchInputField } from '../../components/search-input-field';
+import { ServicePaymentModal } from '../../components/service-payment-modal';
 
 function Payments() {
 	const [title, setTitle] = useState<string>('');
-
 	const [search, setSearch] = useState<string>('');
+	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const [service, setService] = useState<object>({});
+
 	const { data, isLoading } = useDataFetching<Services>('services', '/service');
+
+	const showModal = (serviceInfo: Service) => {
+		setIsModalOpen(true);
+		setService(serviceInfo);
+	};
 
 	const categories = useMemo(() => {
 		return data?.services
@@ -32,7 +40,7 @@ function Payments() {
 			) : (
 				<div className='border border-gray-300 rounded-md my-6 flex w-full flex-col md:flex-row'>
 					<div className='hidden md:block md:w-1/2 xl:w-1/3 p-5 border-r border-gray'>
-						<InputField
+						<SearchInputField
 							value={search}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 								setSearch(e.target.value)
@@ -47,7 +55,7 @@ function Payments() {
 						))}
 					</div>
 					<div className='md:hidden p-5 w-full flex flex-col items-center'>
-						<InputField
+						<SearchInputField
 							value={search}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 								setSearch(e.target.value)
@@ -79,76 +87,23 @@ function Payments() {
 										: service.category_name === title
 								)
 								.map(service => (
-									<ServiceItem key={service.id} service={service} />
+									<ServiceItem
+										key={service.id}
+										service={service}
+										showModal={showModal}
+									/>
 								))}
 						</div>
 					</div>
 				</div>
 			)}
+			<ServicePaymentModal
+				setIsModalOpen={setIsModalOpen}
+				isModalOpen={isModalOpen}
+				service={service as Service}
+			/>
 		</>
 	);
 }
 
 export default Payments;
-
-function PaymentCategory({
-	category,
-	onClick,
-}: {
-	category: string;
-	onClick: () => void;
-}) {
-	return (
-		<div
-			className='border-b border-gray py-4 px-3 cursor-pointer'
-			onClick={onClick}
-		>
-			<h4 className='text-lg font-semibold'>{category}</h4>
-		</div>
-	);
-}
-
-function ServiceItem({ service }: { service: Service }) {
-	return (
-		<div className='text-center w-1/2 md:w-3/4 xl:w-1/4 hover:shadow-xl transition duration-300 rounded-xl py-3 cursor-pointer'>
-			<div className='flex justify-center'>
-				{service.image_url ? (
-					<img
-						src={service.image_url}
-						alt={service.name}
-						className='rounded-full w-16 h-16 object-contain'
-					/>
-				) : (
-					<AccountCircleIcon
-						fontSize='large'
-						style={{ fontSize: '64px' }}
-						className='text-gray-600'
-					/>
-				)}
-			</div>
-			<h5 className='font-semibold my-3'>{service.name}</h5>
-			<p className='bg-gray-100 text-gray-600 py-2 px-3 w-3/4 mx-auto'>
-				{currencyFormat(+service.price)} sum
-			</p>
-		</div>
-	);
-}
-
-function InputField({
-	value,
-	onChange,
-}: {
-	value: string;
-	onChange: React.ChangeEventHandler<HTMLInputElement>;
-}) {
-	return (
-		<Input
-			size='large'
-			className='p-3'
-			value={value}
-			onChange={onChange}
-			placeholder='Search for payment providers'
-			prefix={<SearchIcon className='text-gray-400' />}
-		/>
-	);
-}
