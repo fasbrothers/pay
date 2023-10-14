@@ -77,5 +77,6 @@ export interface Service {
 	image_url: string;
 	is_active: boolean;
 	category_code: string;
+	saved: boolean;
 	category_name: string;
 }

@@ -1,4 +1,4 @@
-function Transactions() {
+function Transfer() {
 	return (
 		<div>
 			<p>
@@ -13,4 +13,4 @@ function Transactions() {
 	);
 }
 
-export default Transactions;
+export default Transfer;

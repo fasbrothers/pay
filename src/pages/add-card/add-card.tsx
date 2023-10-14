@@ -39,7 +39,7 @@ function AddCard() {
 
 	return (
 		<div id='PaymentForm'>
-			<BackToPreviousPage title='All Cards' />
+			<BackToPreviousPage title='Add Card' />
 			<Cards
 				cvc={inputs.cvc}
 				expiry={inputs.expiry}

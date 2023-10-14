@@ -4,17 +4,25 @@ import { icons } from './sidebar-icons';
 import SettingsOutlinedIcon from '@mui/icons-material/SettingsOutlined';
 import ClearIcon from '@mui/icons-material/Clear';
 import { Button } from 'antd';
+import { currencyFormat } from '../../utils/currencyFormat';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
+import { useState } from 'react';
 
 export const SidebarInMain = ({
 	showNavbar,
 	title,
 	setShowNavbar,
+	balance,
 }: {
 	showNavbar: boolean;
 	title: string;
 	setShowNavbar: (showNavbar: boolean) => void;
+	balance: string;
 }) => {
+	const [showBalance, setShowBalance] = useState<boolean>(false);
 	const highlightedStyle = 'border-blue-600 text-blue-900 border-r-2';
+
 	return (
 		<div
 			className={`${
@@ -33,15 +41,15 @@ export const SidebarInMain = ({
 				</Button>
 			)}
 			<div className='h-[80vh]'>
-				<h5 className={` text-gray-500 font-light text-sm`}>Navigation</h5>
+				<h5 className={`text-gray-500 font-light text-sm`}>Navigation</h5>
 				<div>
 					<ul>
 						{icons.map(item => (
 							<Link
 								to={item.url}
 								key={item.id}
-								className={`flex items-center text-gray-500 py-5 cursor-pointer hover:text-blue-900 duration-300 hover:border-r-2 ${
-									title === item.title && highlightedStyle
+								className={`flex items-center  py-5 cursor-pointer hover:text-blue-900 duration-300 hover:border-r-2 ${
+									title === item.title ? highlightedStyle : 'text-gray-500'
 								} hover:border-blue-600`}
 							>
 								<item.icon />
@@ -50,10 +58,26 @@ export const SidebarInMain = ({
 						))}
 					</ul>
 				</div>
+				<h5 className={`text-gray-500 font-light text-sm`}>Balance</h5>
+				<div className='mt-3 flex gap-x-3 text-gray-500 items-center'>
+					<div
+						onClick={() => setShowBalance(!showBalance)}
+						className='cursor-pointer'
+					>
+						{showBalance ? <VisibilityIcon /> : <VisibilityOffIcon />}
+					</div>
+					<h4>
+						{showBalance ? (
+							currencyFormat(+balance) + 'sum'
+						) : (
+							<span className='mr-2'>* * * * * *</span>
+						)}
+					</h4>
+				</div>
 			</div>
 			<div
-				className={`h-[8vh] flex items-center text-gray-500 cursor-pointer hover:text-blue-900 duration-300  ${
-					title === 'Profile Settings' && highlightedStyle
+				className={`h-[8vh] flex items-center cursor-pointer hover:text-blue-900 duration-300  ${
+					title === 'Profile Settings' ? highlightedStyle : 'text-gray-500 '
 				}`}
 			>
 				<SettingsOutlinedIcon />

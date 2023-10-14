@@ -29,6 +29,7 @@ export default function MainLayout() {
 				showNavbar={showNavbar}
 				setShowNavbar={setShowNavbar}
 				title={title}
+				balance={profile?.balance || ''}
 			/>
 			<div
 				className={`${

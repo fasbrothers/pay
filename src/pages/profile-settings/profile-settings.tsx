@@ -19,6 +19,7 @@ export interface IProfileResponse {
 	gender: string | null;
 	lang: string;
 	birth_date: string | null;
+	balance: string;
 }
 
 function ProfileSettings() {

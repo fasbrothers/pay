@@ -7,24 +7,39 @@ import { PaymentCategory } from '../../components/payment-category';
 import { ServiceItem } from '../../components/service-item';
 import { SearchInputField } from '../../components/search-input-field';
 import { ServicePaymentModal } from '../../components/service-payment-modal';
+import { getFromCookie } from '../../utils/cookies';
+
+const categorySaved: { [key: string]: string } = {
+	ru: 'Сохраненные услуги',
+	uz: 'Saqlangan xizmatlar',
+	en: 'Saved services',
+};
 
 function Payments() {
 	const [title, setTitle] = useState<string>('');
 	const [search, setSearch] = useState<string>('');
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
 	const [service, setService] = useState<object>({});
 
-	const { data, isLoading } = useDataFetching<Services>('services', '/service');
+	const { data, isLoading } = useDataFetching<Services>(
+		'services',
+		'/service'
+	);
 
 	const showModal = (serviceInfo: Service) => {
 		setIsModalOpen(true);
 		setService(serviceInfo);
 	};
 
+	const userLanguage = getFromCookie('language');
+	const savedCategory = categorySaved[userLanguage || ''];
 	const categories = useMemo(() => {
-		return data?.services
+		const categoryList = data?.services
 			? [...new Set(data.services.map(service => service.category_name))]
 			: [];
+
+		return [savedCategory, ...categoryList];
 	}, [data]);
 
 	useEffect(() => {
@@ -46,13 +61,16 @@ function Payments() {
 								setSearch(e.target.value)
 							}
 						/>
-						{categories.map(category => (
-							<PaymentCategory
-								key={category}
-								category={category}
-								onClick={() => setTitle(category)}
-							/>
-						))}
+						<div className='mt-3'>
+							{categories.map(category => (
+								<PaymentCategory
+									key={category}
+									category={category}
+									activeCategory={title}
+									onClick={() => setTitle(category)}
+								/>
+							))}
+						</div>
 					</div>
 					<div className='md:hidden p-5 w-full flex flex-col items-center'>
 						<SearchInputField
@@ -79,11 +97,13 @@ function Payments() {
 								{title}
 							</h4>
 						</div>
-						<div className='flex p-4 flex-wrap gap-y-5'>
+						<div className='flex p-4 flex-wrap gap-y-5 justify-around gap-x-2'>
 							{data?.services
 								.filter(service =>
 									search.length > 0
 										? service.name.toLowerCase().includes(search.toLowerCase())
+										: title === categorySaved[userLanguage || '']
+										? service.saved
 										: service.category_name === title
 								)
 								.map(service => (

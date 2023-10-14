@@ -33,7 +33,7 @@ export const ServicePaymentModal = ({
 
 	const { isLoading: loading, mutate } = useMutation(
 		async (value: { card: string }) => {
-			await httpClient.post('/payment ', {
+			await httpClient.post('/transaction/pay', {
 				serviceId: service.id,
 				fromCardId: value.card,
 			});

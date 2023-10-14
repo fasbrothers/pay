@@ -19,9 +19,9 @@ export const icons = [
 	},
 	{
 		id: 3,
-		title: 'Transactions',
+		title: 'Transfer',
 		icon: MultipleStopIcon,
-		url: '/cabinet/transactions',
+		url: '/cabinet/transfer',
 	},
 	{
 		id: 4,

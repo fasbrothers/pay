@@ -55,7 +55,7 @@ function SingleCard() {
 				</div>
 			) : (
 				<div>
-					<BackToPreviousPage title='All Cards' />
+					<BackToPreviousPage title='Card Details' />
 					<CardStructure
 						name={data?.name || ''}
 						pan={data?.pan || ''}
