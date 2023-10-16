@@ -5,7 +5,7 @@ import { currencyFormat } from '../../utils/currencyFormat';
 import { ButtonPrimary } from '../button';
 import { useDataFetching } from '../../hooks/useDataFetching';
 import { ICardAllResponse } from '../../pages/cards/cards';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpClient } from '../../api';
 import { toastSuccessMessage } from '../../utils/toast-message';
 
@@ -25,6 +25,7 @@ export const ServicePaymentModal = ({
 	const handleCancel = () => {
 		setIsModalOpen(false);
 	};
+	const query = useQueryClient();
 
 	const { isLoading, data: cards } = useDataFetching<ICardAllResponse>(
 		'cards',
@@ -41,6 +42,7 @@ export const ServicePaymentModal = ({
 		{
 			onSuccess: () => {
 				toastSuccessMessage('Successfully payed');
+				query.invalidateQueries(['profile']);
 				setIsModalOpen(false);
 			},
 		}

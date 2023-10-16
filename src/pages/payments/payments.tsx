@@ -22,10 +22,7 @@ function Payments() {
 
 	const [service, setService] = useState<object>({});
 
-	const { data, isLoading } = useDataFetching<Services>(
-		'services',
-		'/service'
-	);
+	const { data, isLoading } = useDataFetching<Services>('services', '/service');
 
 	const showModal = (serviceInfo: Service) => {
 		setIsModalOpen(true);
