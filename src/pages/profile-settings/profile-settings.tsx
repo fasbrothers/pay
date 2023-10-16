@@ -42,7 +42,7 @@ function ProfileSettings() {
 			case 'F':
 				return 'Female';
 			default:
-				return '';
+				return 'Not specified';
 		}
 	};
 
@@ -74,7 +74,7 @@ function ProfileSettings() {
 							<div className='py-3'>
 								<p className='text-sm'>Date of birth</p>
 								<h3 className='mt-1 font-bold'>
-									{birth_date && dayjs(birth_date).format('DD.MM.YYYY')}
+									{birth_date ? dayjs(birth_date).format('DD.MM.YYYY') : '-'}
 								</h3>
 							</div>
 						</div>

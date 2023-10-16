@@ -11,7 +11,7 @@
 
 body {
 	font-family: 'Inter', sans-serif;
-	span{
+	span, label{
 	font-family: 'Inter', sans-serif;
 	}
 }
@@ -91,5 +91,47 @@ body {
 	}
 	.ant-select-selection-item{
 		text-align: center;
+	}
+}
+
+.mySwiper {
+	height: 250px;
+	width: 100%;
+}
+
+.swiper-button-prev,
+.swiper-button-next {
+	height: 30px !important;
+	width: 30px !important;
+	border-radius: 50%;
+	background: rgb(40, 82, 197) !important;
+	color: #ffffff;
+}
+
+.swiper-button-prev::after,
+.swiper-button-next::after {
+	font-size: 15px !important;
+	font-weight: bold;
+	color: white !important;
+}
+
+.swiper-pagination-bullet-active {
+	background: rgb(40, 82, 197) !important;
+}
+
+.swiper-pagination-bullet {
+	width: 14px !important;
+	height: 14px !important;
+	border-radius: 50% !important;
+	border: 2px solid #ffffff !important;
+	margin: 10px !important;
+}
+
+
+@media (max-width: 500px) {
+
+	.swiper-button-prev,
+	.swiper-button-next {
+		display: none !important;
 	}
 }

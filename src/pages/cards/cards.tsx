@@ -48,6 +48,7 @@ function AllCards() {
 								balance={card.balance}
 								id={card.id}
 								customer_id={card.customer_id}
+								owner_name={card.owner_name}
 							/>
 						</Link>
 					))
@@ -74,4 +75,5 @@ export interface Card {
 	expiry_year: string;
 	balance: string;
 	single_card?: boolean;
+	owner_name: string;
 }

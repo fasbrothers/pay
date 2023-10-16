@@ -5,19 +5,19 @@ import { Card } from '../../pages/cards/cards';
 import { currencyFormat } from '../../utils/currencyFormat';
 
 export const CardStructure = ({
-	name,
 	pan,
 	expiry_month,
 	expiry_year,
 	balance,
 	single_card,
+	owner_name,
 }: Card) => {
 	return (
 		<div className='relative'>
 			<Cards
 				cvc={''}
 				expiry={handleExpiry(expiry_month, expiry_year)}
-				name={name}
+				name={owner_name}
 				number={pan}
 			/>
 			<div

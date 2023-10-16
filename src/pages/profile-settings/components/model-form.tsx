@@ -94,7 +94,9 @@ function ModelForm({ setIsModalOpen, isModalOpen, profile }: IModelForm) {
 						</div>
 					</Upload>
 				</Form.Item>
-				<CheckBox title='Delete a image' name='deleteImage' />
+				{profile?.image_url && (
+					<CheckBox title='Delete a image' name='deleteImage' />
+				)}
 				<Form.Item
 					name='name'
 					label='Name'

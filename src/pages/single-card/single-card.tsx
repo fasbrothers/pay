@@ -64,6 +64,7 @@ function SingleCard() {
 						balance={data?.balance || ''}
 						id={data?.id || ''}
 						customer_id={data?.customer_id || ''}
+						owner_name={data?.owner_name || ''}
 						single_card={true}
 					/>
 

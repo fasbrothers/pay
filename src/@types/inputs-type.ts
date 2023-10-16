@@ -54,6 +54,7 @@ export interface Card {
 	expiry_month: string;
 	expiry_year: string;
 	balance: string;
+	owner_name: string;
 }
 
 export interface IAddCard {
