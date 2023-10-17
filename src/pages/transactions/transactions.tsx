@@ -166,7 +166,8 @@ function Transactions() {
 							<div>
 								<h3 className='font-semibold text-base'>
 									{record.receiver.name}{' '}
-									{record.sender.pan.split('').slice(-6).join('')}
+									{record.receiver.pan &&
+										record.receiver.pan.split('').slice(-6).join('')}
 								</h3>
 								<p>From {record.sender.name}</p>
 							</div>
@@ -221,9 +222,10 @@ function Transactions() {
 			ellipsis: true,
 			width: '15%',
 			render: (_, record) => (
-				<>
-					<p>{currencyFormat(+record.amount)} sum</p>
-				</>
+				<p className='font-semibold'>
+					{record.type === 'income' ? <span>+</span> : <span>-</span>}
+					<span>{currencyFormat(+record.amount)} sum</span>
+				</p>
 			),
 		},
 	];
@@ -240,7 +242,7 @@ function Transactions() {
 				scrollToFirstError
 				name='transactions_form'
 				onFinish={handleFormSubmit}
-				className='w-1/2 flex gap-x-5 items-end'
+				className='w-full md:w-2/3  xl:w-1/2 flex gap-x-5 items-end'
 			>
 				<Form.Item
 					label='Select Date'
@@ -264,7 +266,7 @@ function Transactions() {
 					<ButtonPrimary isLoading={isLoadingFormSubmit} title='Filter' />
 				</Form.Item>
 			</Form>
-			<Space style={{ marginBottom: 16 }}>
+			<Space style={{ marginBottom: 16, display: 'flex', flexWrap: 'wrap' }}>
 				<Button onClick={setAgeSort}>Sort Type</Button>
 				<Button onClick={clearFilters}>Clear filters</Button>
 				<Button onClick={clearAll}>Clear filters and sorters</Button>

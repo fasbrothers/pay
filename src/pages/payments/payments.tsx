@@ -50,8 +50,8 @@ function Payments() {
 			{isLoading ? (
 				<Skeleton active paragraph={{ rows: 6 }} />
 			) : (
-				<div className='border border-gray-300 rounded-md my-6 flex w-full flex-col md:flex-row'>
-					<div className='hidden md:block md:w-1/2 xl:w-1/3 p-5 border-r border-gray'>
+				<div className='border border-gray-300 rounded-md my-6 flex w-full flex-col xl:flex-row'>
+					<div className='hidden xl:block md:w-1/2 xl:w-1/3 p-5 border-r border-gray h-[700px] overflow-y-auto'>
 						<SearchInputField
 							value={search}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -69,12 +69,13 @@ function Payments() {
 							))}
 						</div>
 					</div>
-					<div className='md:hidden p-5 w-full flex flex-col items-center'>
+					<div className='xl:hidden p-5 w-full flex flex-col items-center'>
 						<SearchInputField
 							value={search}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
 								setSearch(e.target.value)
 							}
+							setWidth={'w-full sm:w-2/3'}
 						/>
 						<Select
 							className='w-full sm:w-2/3 select__category mt-3'
@@ -88,13 +89,13 @@ function Payments() {
 							))}
 						</Select>
 					</div>
-					<div className='w-full md:w-1/2 xl:w-2/3'>
+					<div className='w-full xl:h-[70vh] overflow-y-auto'>
 						<div className='p-4 border-b border-gray'>
-							<h4 className='text-lg font-semibold text-center md:text-left'>
+							<h4 className='text-lg font-semibold text-center xl:text-left'>
 								{title}
 							</h4>
 						</div>
-						<div className='flex p-4 flex-wrap gap-y-5 justify-around gap-x-2'>
+						<div className='flex py-4 px-2 flex-wrap gap-y-5 justify-around gap-x-1 xl::gap-x-2'>
 							{data?.services
 								.filter(service =>
 									search.length > 0

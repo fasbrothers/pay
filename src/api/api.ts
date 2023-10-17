@@ -30,7 +30,8 @@ httpClient.interceptors.response.use(
 		if (
 			error.response.data.type === 'EXPIRED_TOKEN' ||
 			error.response.data.type === 'INVALID_TOKEN' ||
-			error.response.data.type === 'NOT_ALLOWED'
+			error.response.data.type === 'NOT_ALLOWED' ||
+			error.response.data.type === 'MISSING_TOKEN'
 		) {
 			store.dispatch(deleteToken()); // another way, not to use useDispatch
 		}

@@ -46,7 +46,7 @@ export const ServiceItem = ({
 	return (
 		<div
 			onClick={handleItemClick}
-			className='text-center w-full md:w-3/4 xl:w-1/4 hover:shadow-lg border border-gray transition duration-300 rounded-xl py-3 cursor-pointer relative'
+			className='text-center w-[49%] sm:w-[32%] md:w-[45%] xl:w-[24%] 2xl:w-[22%] hover:shadow-lg border border-gray transition duration-300 rounded-xl py-3 cursor-pointer relative'
 		>
 			<div className='flex justify-center'>
 				{service.image_url ? (
@@ -64,7 +64,7 @@ export const ServiceItem = ({
 				)}
 			</div>
 			<h5 className='font-semibold my-3'>{service.name}</h5>
-			<p className='bg-gray-100 text-gray-600 py-2 px-3 w-3/4 mx-auto rounded-xl font-semibold'>
+			<p className='bg-gray-100 text-gray-600 py-2 xl:px-3 w-3/4 mx-auto rounded-xl font-semibold'>
 				{currencyFormat(+service.price)} sum
 			</p>
 			<div

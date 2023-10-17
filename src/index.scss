@@ -126,7 +126,9 @@ body {
 	border: 2px solid #ffffff !important;
 	margin: 10px !important;
 }
-
+.rccs__card--front{
+	box-shadow: none !important;
+} 
 
 @media (max-width: 500px) {
 

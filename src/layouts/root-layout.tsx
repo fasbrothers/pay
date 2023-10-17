@@ -7,12 +7,11 @@ export default function RootLayout() {
 	const { pathname } = useLocation();
 
 	if (tokenNum && pathname.includes('auth')) {
-		return <Navigate to='/cabinet/dashboard' />;
+		return <Navigate to='/cabinet/main' />;
 	}
 	if (!tokenNum && !pathname.includes('auth')) {
 		return <Navigate to='/auth/login' />;
 	}
-	
 
 	return <Outlet />;
 }

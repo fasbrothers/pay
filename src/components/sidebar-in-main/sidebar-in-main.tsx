@@ -27,7 +27,7 @@ export const SidebarInMain = ({
 		<div
 			className={`${
 				showNavbar ? 'fixed w-2/3 sm:w-2/5 z-30' : 'hidden'
-			} md:block md:w-2/6 xl:w-1/6 bg-gray-100 pl-4 lg:pl-8 h-screen md:sticky top-0 `}
+			} md:block md:w-2/6 lg:w-1/4 xl:w-1/6 bg-gray-100 pl-4 lg:pl-8 h-screen md:sticky top-0 `}
 		>
 			<div className='h-[12vh]'>
 				<LogoMain />
