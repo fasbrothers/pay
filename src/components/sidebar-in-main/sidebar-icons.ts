@@ -7,9 +7,9 @@ import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 export const icons = [
 	{
 		id: 1,
-		title: 'Dashboard',
+		title: 'Main',
 		icon: PieChartOutlineRoundedIcon,
-		url: '/cabinet/dashboard',
+		url: '/cabinet/main',
 	},
 	{
 		id: 2,

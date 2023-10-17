@@ -118,6 +118,7 @@ function Payments() {
 				setIsModalOpen={setIsModalOpen}
 				isModalOpen={isModalOpen}
 				service={service as Service}
+				onCancel={() => setIsModalOpen(false)}
 			/>
 		</>
 	);

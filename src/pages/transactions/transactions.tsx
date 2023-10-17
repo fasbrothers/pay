@@ -14,6 +14,7 @@ import type {
 } from 'antd/es/table/interface';
 import { currencyFormat } from '../../utils/currencyFormat';
 import { useEffect } from 'react';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 
 function Transactions() {
 	const [form] = Form.useForm();
@@ -134,11 +135,15 @@ function Transactions() {
 				<>
 					{record.type === 'income' ? (
 						<div className='flex items-center gap-x-2'>
-							<img
-								src={record.sender.image_url}
-								className='w-10 h-10 rounded-full'
-								alt=''
-							/>
+							{record.sender.image_url ? (
+								<img
+									src={record.sender.image_url}
+									className='w-10 h-10 rounded-full'
+									alt=''
+								/>
+							) : (
+								<AccountCircleIcon className='text-gray-600' fontSize='large' />
+							)}
 							<div>
 								<h3 className='font-semibold text-base'>
 									{record.sender.name}{' '}
@@ -149,11 +154,15 @@ function Transactions() {
 						</div>
 					) : (
 						<div className='flex items-center gap-x-2'>
-							<img
-								src={record.receiver.image_url}
-								className='w-10 h-10 rounded-full'
-								alt=''
-							/>
+							{record.receiver.image_url ? (
+								<img
+									src={record.receiver.image_url}
+									className='w-10 h-10 rounded-full'
+									alt=''
+								/>
+							) : (
+								<AccountCircleIcon className='text-gray-600' fontSize='large' />
+							)}
 							<div>
 								<h3 className='font-semibold text-base'>
 									{record.receiver.name}{' '}
@@ -252,10 +261,7 @@ function Transactions() {
 					/>
 				</Form.Item>
 				<Form.Item>
-					<ButtonPrimary
-						isLoading={isLoadingFormSubmit || isLoadingInitialData}
-						title='Filter'
-					/>
+					<ButtonPrimary isLoading={isLoadingFormSubmit} title='Filter' />
 				</Form.Item>
 			</Form>
 			<Space style={{ marginBottom: 16 }}>

@@ -76,7 +76,7 @@ export interface Service {
 	name: string;
 	price: number;
 	image_url: string;
-	is_active: boolean;
+	is_active?: boolean;
 	category_code: string;
 	saved: boolean;
 	category_name: string;

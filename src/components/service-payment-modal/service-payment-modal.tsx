@@ -8,24 +8,24 @@ import { ICardAllResponse } from '../../pages/cards/cards';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpClient } from '../../api';
 import { toastSuccessMessage } from '../../utils/toast-message';
+import { useNavigate } from 'react-router-dom';
 
 interface ServicePaymentModal {
 	setIsModalOpen: (isModalOpen: boolean) => void;
 	isModalOpen: boolean;
 	service: Service;
+	onCancel: () => void;
 }
 
 export const ServicePaymentModal = ({
-	setIsModalOpen,
+	onCancel,
 	isModalOpen,
 	service,
 }: ServicePaymentModal) => {
 	const [form] = Form.useForm();
 
-	const handleCancel = () => {
-		setIsModalOpen(false);
-	};
 	const query = useQueryClient();
+	const navigate = useNavigate();
 
 	const { isLoading, data: cards } = useDataFetching<ICardAllResponse>(
 		'cards',
@@ -43,7 +43,7 @@ export const ServicePaymentModal = ({
 			onSuccess: () => {
 				toastSuccessMessage('Successfully payed');
 				query.invalidateQueries(['profile']);
-				setIsModalOpen(false);
+				navigate('/cabinet/transactions');
 			},
 		}
 	);
@@ -54,7 +54,7 @@ export const ServicePaymentModal = ({
 			<Modal
 				title={name}
 				open={isModalOpen}
-				onCancel={handleCancel}
+				onCancel={onCancel}
 				className='profile__modal'
 			>
 				<div className='text-center'>

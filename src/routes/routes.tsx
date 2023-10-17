@@ -2,6 +2,7 @@ import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
 import React from 'react';
 import SignIn from '../pages/sign-in';
 import SignUp from '../pages/sign-up';
+import { SingleService } from '../components/single-service';
 
 const Main = React.lazy(() => import('../pages/main'));
 const NotFound = React.lazy(() => import('../pages/not-found'));
@@ -48,15 +49,28 @@ const routes: RouteObject[] = [
 				children: [
 					{
 						index: true,
-						element: <Navigate to='dashboard' />,
+						element: <Navigate to='main' />,
 					},
 					{
 						children: [
-							{ path: 'dashboard', element: <Main /> },
+							{ path: 'main', element: <Main /> },
 							{ path: 'profile-settings', element: <ProfileSettings /> },
 							{ path: 'transfer', element: <Transfer /> },
 							{ path: 'transactions', element: <Transactions /> },
-							{ path: 'payments', element: <Payments /> },
+							{
+								path: 'payments',
+								children: [
+									{ index: true, element: <Navigate to='list' /> },
+									{
+										path: 'list',
+										element: <Payments />,
+									},
+									{
+										path: 'item/:service_id',
+										element: <SingleService />,
+									},
+								],
+							},
 							{
 								path: 'cards',
 								children: [
