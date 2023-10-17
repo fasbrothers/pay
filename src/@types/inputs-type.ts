@@ -81,3 +81,33 @@ export interface Service {
 	saved: boolean;
 	category_name: string;
 }
+
+export interface ResponseTransaction {
+	length: number;
+	transactions: Transaction[];
+}
+
+export interface Transaction {
+	id: string;
+	owner_id: string;
+	type: string;
+	action: string;
+	amount: number;
+	created_at: string;
+	sender: Sender;
+	receiver: Receiver;
+}
+
+export interface Sender {
+	id?: string;
+	pan: string;
+	name: string;
+	image_url?: string;
+}
+
+export interface Receiver {
+	pan?: string;
+	name: string;
+	image_url?: string;
+	id?: string;
+}

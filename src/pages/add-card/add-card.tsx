@@ -14,6 +14,7 @@ function AddCard() {
 		cvc: '',
 		expiry: '',
 		name: '',
+		owner_name: '',
 		pan: '',
 	});
 
@@ -26,6 +27,7 @@ function AddCard() {
 			const { data } = await httpClient.post<ICardResponse>('/customer/card', {
 				pan,
 				name: inputs.name,
+				owner_name: inputs.owner_name,
 				expiry_month: expiry.slice(0, 2),
 				expiry_year: expiry.slice(3),
 			});
@@ -43,7 +45,7 @@ function AddCard() {
 			<Cards
 				cvc={inputs.cvc}
 				expiry={inputs.expiry}
-				name={inputs.name}
+				name={inputs.owner_name}
 				number={inputs.pan}
 			/>
 			<CardForm isLoading={isLoading} setInputs={setInputs} mutate={mutate} />

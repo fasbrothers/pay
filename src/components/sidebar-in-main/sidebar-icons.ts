@@ -31,8 +31,8 @@ export const icons = [
 	},
 	{
 		id: 5,
-		title: 'Reports',
+		title: 'Transactions',
 		icon: BarChartOutlinedIcon,
-		url: '/cabinet/reports',
+		url: '/cabinet/transactions',
 	},
 ];
