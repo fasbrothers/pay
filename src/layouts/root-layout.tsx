@@ -10,7 +10,7 @@ export default function RootLayout() {
 		return <Navigate to='/cabinet/main' />;
 	}
 	if (!tokenNum && !pathname.includes('auth')) {
-		return <Navigate to='/auth/login' />;
+		return <Navigate to={`/auth/login?redirect=${pathname}`}  />;
 	}
 
 	return <Outlet />;

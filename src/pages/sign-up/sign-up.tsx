@@ -1,5 +1,5 @@
 import logo from '../../assets/logo.svg';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import './sign-up.scss';
 import { AuthImageTitle } from '../../components/auth-image-title';
 import { useMutation } from '@tanstack/react-query';
@@ -12,6 +12,7 @@ import { httpClient } from '../../api';
 export default function SignUp() {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	const handleSubmit = async (values: InputValues) => {
 		const { name, phone, password, trust } = values;
@@ -22,7 +23,7 @@ export default function SignUp() {
 			trust,
 		});
 
-		navigate('/cabinet');
+		navigate(searchParams.get('redirect') || '/cabinet');
 		dispatch(accessToken(data.token));
 	};
 

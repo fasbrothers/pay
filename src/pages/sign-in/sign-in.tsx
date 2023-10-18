@@ -1,10 +1,7 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import {
-	IResponse,
-	InputValues,
-} from '../../@types/inputs-type';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { IResponse, InputValues } from '../../@types/inputs-type';
 import logo from '../../assets/logo.svg';
 import { AuthImageTitle } from '../../components/auth-image-title';
 import { useAppDispatch } from '../../hooks/redux-hooks';
@@ -24,6 +21,7 @@ export default function SignIn() {
 
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
+	const [searchParams, setSearchParams] = useSearchParams();
 
 	const handleSubmit = async (values: InputValues) => {
 		const { password, otp, phone, trust } = values;
@@ -47,7 +45,7 @@ export default function SignIn() {
 				trust,
 			});
 
-			navigate('/cabinet');
+			navigate(searchParams.get('redirect') || '/cabinet');
 			dispatch(accessToken(data.token));
 		}
 	};
@@ -68,7 +66,7 @@ export default function SignIn() {
 				<div className='flex flex-col lg:flex-row'>
 					<p className='mr-2'>You don't have an account?</p>
 					<Link
-						to='/auth/register'
+						to={`/auth/register?redirect=${searchParams.get('redirect')}`}
 						className='text-blue-700 font-medium mb-5 md:mb-0'
 					>
 						Create an account

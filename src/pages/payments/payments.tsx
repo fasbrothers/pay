@@ -51,7 +51,7 @@ function Payments() {
 				<Skeleton active paragraph={{ rows: 6 }} />
 			) : (
 				<div className='border border-gray-300 rounded-md my-6 flex w-full flex-col xl:flex-row'>
-					<div className='hidden xl:block md:w-1/2 xl:w-1/3 p-5 border-r border-gray h-[700px] overflow-y-auto'>
+					<div className='hidden xl:block md:w-1/2 xl:w-1/3 p-5 border-r border-gray xl:h-[78vh] overflow-y-auto'>
 						<SearchInputField
 							value={search}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -89,7 +89,7 @@ function Payments() {
 							))}
 						</Select>
 					</div>
-					<div className='w-full xl:h-[70vh] overflow-y-auto'>
+					<div className='w-full xl:h-[78vh] overflow-y-auto'>
 						<div className='p-4 border-b border-gray'>
 							<h4 className='text-lg font-semibold text-center xl:text-left'>
 								{title}

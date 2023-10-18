@@ -62,7 +62,7 @@ export const ServicePaymentModal = ({
 						{image_url ? (
 							<img
 								src={image_url}
-								className='w-[150px] h-[150px] object-contain rounded-full'
+								className='w-[150px] h-[150px] object-cover rounded-[25%]'
 							/>
 						) : (
 							<AccountCircleIcon

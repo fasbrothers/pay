@@ -53,13 +53,13 @@ export const ServiceItem = ({
 					<img
 						src={service.image_url}
 						alt={service.name}
-						className=' w-16 h-16 object-contain'
+						className=' w-16 h-16 object-cover rounded-[25%] border border-gray-300'
 					/>
 				) : (
 					<AccountCircleIcon
 						fontSize='large'
 						style={{ fontSize: '64px' }}
-						className='text-gray-600'
+						className='text-gray-600 border border-gray-300 rounded-[25%]'
 					/>
 				)}
 			</div>
