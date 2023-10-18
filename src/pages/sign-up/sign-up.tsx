@@ -13,8 +13,7 @@ export default function SignUp() {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
 
 	const handleSubmit = async (values: InputValues) => {
 		const { name, phone, password, trust } = values;

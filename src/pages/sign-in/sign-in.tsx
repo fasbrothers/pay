@@ -22,8 +22,7 @@ export default function SignIn() {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
 
 	const handleSubmit = async (values: InputValues) => {
 		const { password, otp, phone, trust } = values;
