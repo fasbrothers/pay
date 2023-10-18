@@ -12,6 +12,8 @@ import { httpClient } from '../../api';
 export default function SignUp() {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const [searchParams, setSearchParams] = useSearchParams();
 
 	const handleSubmit = async (values: InputValues) => {
