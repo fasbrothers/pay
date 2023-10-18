@@ -50,7 +50,7 @@ function Transfer() {
 		},
 		{
 			onSuccess: () => {
-				navigate('/cabinet');
+				navigate('/cabinet/transactions');
 				query.invalidateQueries(['profile']);
 				toastSuccessMessage('Transfer made successfully');
 			},

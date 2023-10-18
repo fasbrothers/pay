@@ -100,7 +100,8 @@ export const ServicePaymentModal = ({
 									.filter(card => +card.balance > service.price)
 									.map(card => (
 										<Select.Option key={card.id} value={card.id}>
-											{card.pan} - {card.name}
+											{currencyFormat(+card.balance)} sum - {card.name}-{' '}
+											{card.pan.split('').slice(-6).join('')}
 										</Select.Option>
 									))}
 							</Select>
