@@ -1,20 +1,52 @@
+import { Skeleton } from 'antd';
+import { ICardAllResponse } from '../cards/cards';
+import { CardStructure } from '../../components/card-structure';
+import { useDataFetching } from '../../hooks/useDataFetching';
+import { Link } from 'react-router-dom';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+
 function Main() {
+	const { isLoading, data: cards } = useDataFetching<ICardAllResponse>(
+		'cards',
+		'customer/card'
+	);
+
 	return (
 		<div>
-			<p>
-				Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio
-				expedita asperiores accusantium nesciunt amet id tempora at! Dolorem
-				accusantium magni dolorum aperiam iste reprehenderit quisquam vitae nisi
-				aliquam nemo cumque eos dolores perspiciatis veniam vel ea quasi labore
-				laborum, maxime blanditiis necessitatibus quia suscipit? Praesentium
-				molestias assumenda atque, totam suscipit magnam facilis reiciendis fuga
-				sint aperiam quae impedit. Eveniet consequuntur, eaque excepturi odio
-				illo ab sint maiores est rem explicabo nisi libero incidunt laboriosam
-				porro doloremque voluptatem eius magni commodi ipsum ut, omnis et quod,
-				enim quae? Doloribus aliquam sed, impedit hic quos ipsum perferendis
-				ipsa temporibus quis recusandae dolorum enim aliquid laboriosam quaerat,
-				eaque possimus tenetur repellat illo iste asperiores deleniti.
-			</p>
+			<div className='mt-5 flex flex-wrap gap-x-2 gap-y-5 md:gap-3 xl:gap-5 justify-center xl:justify-start mb-10 xl:mb-0'>
+				{isLoading ? (
+					<Skeleton active paragraph={{ rows: 5 }} />
+				) : (
+					<>
+						{cards?.cards.slice(0, 1).map(card => (
+							<CardStructure
+								key={card.id}
+								name={card.name}
+								pan={card.pan}
+								expiry_month={card.expiry_month}
+								expiry_year={card.expiry_year}
+								balance={card.balance}
+								id={card.id}
+								customer_id={card.customer_id}
+								owner_name={card.owner_name}
+							/>
+						))}
+						<div className='w-full max-w-[290px]'>
+							<Link
+								className='group h-[100px] sm:h-[182px] w-full max-w-[290px] bg-blue-300 border-8 text-white font-bold hover:opacity-80 duration-150 rounded-[14.5px] flex justify-center items-center'
+								to={`${
+									cards?.count === 0
+										? '/cabinet/cards/add-card'
+										: '/cabinet/cards'
+								}`}
+							>
+								<span>{cards?.count === 0 ? 'Add Card' : 'My Cards'} </span>
+								<ArrowForwardIcon className='text-white ml-2 group-hover:translate-x-1' />
+							</Link>
+						</div>
+					</>
+				)}
+			</div>
 		</div>
 	);
 }
