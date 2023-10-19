@@ -1,5 +1,5 @@
 import React, { ChangeEvent } from 'react';
-import { Form, Input } from 'antd';
+import { Form } from 'antd';
 import { MaskedInput } from 'antd-mask-input';
 import { ButtonPrimary } from '../button';
 
@@ -62,9 +62,17 @@ const TransferForm: React.FC<TransferFormProps> = ({
 						required: true,
 						message: 'Please input amount!',
 					},
+					{
+						pattern: /^[1-9]\d*$/,
+						message: 'Must be a valid amount',
+					},
 				]}
 			>
-				<Input className='input__style' />
+				<MaskedInput
+					maskOptions={{ lazy: true }}
+					mask={'000000000000'}
+					className='input__style'
+				/>
 			</Form.Item>
 			<Form.Item>
 				<ButtonPrimary

@@ -274,7 +274,16 @@ function Transactions() {
 			<Table
 				columns={columns}
 				scroll={{ x: 'max-content' }}
-				dataSource={formSubmitData?.transactions || initialData?.transactions}
+				dataSource={
+					initialData?.transactions.map(transaction => ({
+						...transaction,
+						key: transaction.id,
+					})) ||
+					formSubmitData?.transactions.map(transaction => ({
+						...transaction,
+						key: transaction.id,
+					}))
+				}
 				onChange={handleChange}
 				loading={isLoadingFormSubmit || isLoadingInitialData}
 				rowClassName={getRowClassName}

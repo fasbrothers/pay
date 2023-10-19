@@ -37,13 +37,13 @@ function Payments() {
 			: [];
 
 		return [savedCategory, ...categoryList];
-	}, [data]);
+	}, [data, savedCategory]);
 
 	useEffect(() => {
-		if (categories.length > 0) {
+		if (title.length === 0 && categories.length > 0) {
 			setTitle(search ? 'Search results: ' + search : categories[0]);
 		}
-	}, [categories, search]);
+	}, [categories, search, title]);
 
 	return (
 		<>

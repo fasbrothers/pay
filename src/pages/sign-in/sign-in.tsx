@@ -1,11 +1,11 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { IResponse, InputValues } from '../../@types/inputs-type';
 import logo from '../../assets/logo.svg';
 import { AuthImageTitle } from '../../components/auth-image-title';
-import { useAppDispatch } from '../../hooks/redux-hooks';
-import { accessToken } from '../../store/slices/authSlice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { accessToken, deleteParams } from '../../store/slices/authSlice';
 import '../sign-up/sign-up.scss';
 import SignInForm from './components/sign-in-form';
 import { SignInProps } from './sign-in-type';
@@ -21,8 +21,7 @@ export default function SignIn() {
 
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-
-	const [searchParams] = useSearchParams();
+	const intendedUrl = useAppSelector(state => state.auth.params);
 
 	const handleSubmit = async (values: InputValues) => {
 		const { password, otp, phone, trust } = values;
@@ -46,7 +45,13 @@ export default function SignIn() {
 				trust,
 			});
 
-			navigate(searchParams.get('redirect') || '/cabinet');
+			if (intendedUrl) {
+				navigate(intendedUrl);
+				dispatch(deleteParams());
+			} else {
+				navigate('/cabinet'); // Redirect to the default route
+			}
+
 			dispatch(accessToken(data.token));
 		}
 	};
@@ -67,7 +72,7 @@ export default function SignIn() {
 				<div className='flex flex-col lg:flex-row'>
 					<p className='mr-2'>You don't have an account?</p>
 					<Link
-						to={`/auth/register?redirect=${searchParams.get('redirect')}`}
+						to={`/auth/register}`}
 						className='text-blue-700 font-medium mb-5 md:mb-0'
 					>
 						Create an account

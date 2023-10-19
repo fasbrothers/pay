@@ -1,5 +1,5 @@
 import logo from '../../assets/logo.svg';
-import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './sign-up.scss';
 import { AuthImageTitle } from '../../components/auth-image-title';
 import { useMutation } from '@tanstack/react-query';
@@ -13,8 +13,6 @@ export default function SignUp() {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
-	const [searchParams] = useSearchParams();
-
 	const handleSubmit = async (values: InputValues) => {
 		const { name, phone, password, trust } = values;
 		const { data } = await httpClient.post<IResponse>('/customer/register', {
@@ -24,7 +22,7 @@ export default function SignUp() {
 			trust,
 		});
 
-		navigate(searchParams.get('redirect') || '/cabinet');
+		navigate('/cabinet');
 		dispatch(accessToken(data.token));
 	};
 

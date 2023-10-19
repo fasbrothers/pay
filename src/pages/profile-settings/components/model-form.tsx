@@ -40,6 +40,8 @@ function ModelForm({ setIsModalOpen, isModalOpen, profile }: IModelForm) {
 
 		await httpClient.put('/customer/profile', formData);
 		setIsModalOpen(false);
+		values.image && setImageStatus(false);
+		form.resetFields();
 	};
 
 	const { mutate, isLoading } = useMutation({
