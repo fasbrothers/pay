@@ -16,6 +16,7 @@ const SingleCard = React.lazy(() => import('../pages/single-card'));
 const Transactions = React.lazy(() => import('../pages/transactions'));
 const Transfer = React.lazy(() => import('../pages/transfer'));
 const Payments = React.lazy(() => import('../pages/payments'));
+const QR = React.lazy(() => import('../pages/qr'));
 
 const routes: RouteObject[] = [
 	{
@@ -57,6 +58,7 @@ const routes: RouteObject[] = [
 							{ path: 'profile-settings', element: <ProfileSettings /> },
 							{ path: 'transfer', element: <Transfer /> },
 							{ path: 'transactions', element: <Transactions /> },
+							{ path: 'qr/:key', element: <QR /> },
 							{
 								path: 'payments',
 								children: [
