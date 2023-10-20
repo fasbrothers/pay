@@ -3,7 +3,7 @@ import { useDataFetching } from '../../hooks/useDataFetching';
 import { useEffect } from 'react';
 import { Spin } from 'antd';
 
-function QR() {
+function Qr() {
 	const key = useLocation().pathname.split('/')[3];
 	const navigate = useNavigate();
 
@@ -26,4 +26,4 @@ function QR() {
 	);
 }
 
-export default QR;
+export default Qr;
