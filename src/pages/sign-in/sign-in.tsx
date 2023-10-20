@@ -72,7 +72,7 @@ export default function SignIn() {
 				<div className='flex flex-col lg:flex-row'>
 					<p className='mr-2'>You don't have an account?</p>
 					<Link
-						to={`/auth/register}`}
+						to={`/auth/register`}
 						className='text-blue-700 font-medium mb-5 md:mb-0'
 					>
 						Create an account

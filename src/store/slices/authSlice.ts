@@ -17,7 +17,6 @@ const initialState: AuthState = {
 
 export const authSlice = createSlice({
 	name: 'auth',
-	// `createSlice` will infer the state type from the `initialState` argument
 	initialState,
 	reducers: {
 		accessToken: (state, action: PayloadAction<string>) => {

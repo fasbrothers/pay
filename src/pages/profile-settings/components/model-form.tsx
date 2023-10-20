@@ -8,7 +8,7 @@ import { IProfileResponse } from '../profile-settings';
 import { httpClient } from '../../../api';
 import { CheckBox } from '../../../components/checkbox';
 import { useState } from 'react';
-import dayjs from 'dayjs';
+import { dateFormat, dayjs } from '../../../utils/date';
 
 interface IModelForm {
 	setIsModalOpen: (isModalOpen: boolean) => void;
@@ -24,7 +24,6 @@ function ModelForm({ setIsModalOpen, isModalOpen, profile }: IModelForm) {
 	const handleCancel = () => {
 		setIsModalOpen(false);
 	};
-	const dateFormat = 'DD/MM/YYYY';
 
 	const handleSubmit = async (values: InputValues) => {
 		const formData = new FormData();

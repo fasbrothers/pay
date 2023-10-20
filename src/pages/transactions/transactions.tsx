@@ -1,7 +1,4 @@
-import { Button, DatePicker, Form, Space, Table } from 'antd';
-import dayjs from 'dayjs';
-import { ButtonPrimary } from '../../components/button';
-import type { TimeRangePickerProps } from 'antd';
+import { Button, Space } from 'antd';
 import { useMutation } from '@tanstack/react-query';
 import { httpClient } from '../../api';
 import { ResponseTransaction, Transaction } from '../../@types/inputs-type';
@@ -15,19 +12,11 @@ import type {
 import { currencyFormat } from '../../utils/currencyFormat';
 import { useEffect } from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+import { dateFormat, dayjs } from '../../utils/date';
+import { DateRangeForm } from '../../components/data-range-form';
+import { Table } from '../../components/table';
 
 function Transactions() {
-	const [form] = Form.useForm();
-	const dateFormat = 'DD/MM/YYYY';
-	const { RangePicker } = DatePicker;
-
-	const rangePresets: TimeRangePickerProps['presets'] = [
-		{ label: 'Last 7 Days', value: [dayjs().add(-7, 'd'), dayjs()] },
-		{ label: 'Last 14 Days', value: [dayjs().add(-14, 'd'), dayjs()] },
-		{ label: 'Last 30 Days', value: [dayjs().add(-30, 'd'), dayjs()] },
-		{ label: 'Last 90 Days', value: [dayjs().add(-90, 'd'), dayjs()] },
-	];
-
 	const [dateRange, setDateRange] = useState([dayjs().add(-7, 'd'), dayjs()]);
 
 	const {
@@ -77,8 +66,6 @@ function Transactions() {
 		setDateRange(values.rangePicker.map(date => dayjs(date))); // Update the date range state
 	};
 
-	// table
-
 	const [filteredInfo, setFilteredInfo] = useState<
 		Record<string, FilterValue | null>
 	>({});
@@ -115,7 +102,7 @@ function Transactions() {
 			title: 'Date',
 			dataIndex: 'created_at',
 			key: 'date',
-			sorter: (a, b) => a.created_at.length - b.created_at.length,
+			sorter: (a, b) => a.created_at.localeCompare(b.created_at),
 			sortOrder: sortedInfo.columnKey === 'date' ? sortedInfo.order : null,
 			ellipsis: true,
 			width: '15%',
@@ -138,7 +125,7 @@ function Transactions() {
 							{record.sender.image_url ? (
 								<img
 									src={record.sender.image_url}
-									className='w-10 h-10 rounded-full'
+									className='w-10 h-10 object-cover rounded-full '
 									alt=''
 								/>
 							) : (
@@ -157,7 +144,7 @@ function Transactions() {
 							{record.receiver.image_url ? (
 								<img
 									src={record.receiver.image_url}
-									className='w-10 h-10 rounded-full'
+									className='w-10 h-10 object-cover rounded-full'
 									alt=''
 								/>
 							) : (
@@ -217,7 +204,12 @@ function Transactions() {
 			title: 'Amount',
 			dataIndex: 'amount',
 			key: 'amount',
-			sorter: (a, b) => a.amount - b.amount,
+			sorter: (a, b) => {
+				const aAmount = a.type === 'income' ? +a.amount : -a.amount;
+				const bAmount = b.type === 'income' ? +b.amount : -b.amount;
+
+				return aAmount - bAmount;
+			},
 			sortOrder: sortedInfo.columnKey === 'amount' ? sortedInfo.order : null,
 			ellipsis: true,
 			width: '15%',
@@ -237,35 +229,10 @@ function Transactions() {
 
 	return (
 		<div>
-			<Form
-				form={form}
-				scrollToFirstError
-				name='transactions_form'
-				onFinish={handleFormSubmit}
-				className='w-full md:w-2/3  xl:w-1/2 flex gap-x-5 items-end'
-			>
-				<Form.Item
-					label='Select Date'
-					labelCol={{ span: 24 }}
-					wrapperCol={{ span: 24 }}
-					name='rangePicker'
-					rules={[
-						{
-							required: true,
-							message: 'Please select date!',
-						},
-					]}
-				>
-					<RangePicker
-						presets={rangePresets}
-						format={dateFormat}
-						className='w-full p-3'
-					/>
-				</Form.Item>
-				<Form.Item>
-					<ButtonPrimary isLoading={isLoadingFormSubmit} title='Filter' />
-				</Form.Item>
-			</Form>
+			<DateRangeForm
+				onSubmit={handleFormSubmit}
+				isLoading={isLoadingFormSubmit}
+			/>
 			<Space style={{ marginBottom: 16, display: 'flex', flexWrap: 'wrap' }}>
 				<Button onClick={setAgeSort}>Sort Type</Button>
 				<Button onClick={clearFilters}>Clear filters</Button>
@@ -273,19 +240,18 @@ function Transactions() {
 			</Space>
 			<Table
 				columns={columns}
-				scroll={{ x: 'max-content' }}
-				dataSource={
-					initialData?.transactions.map(transaction => ({
+				data={
+					(formSubmitData?.transactions.map(transaction => ({
 						...transaction,
 						key: transaction.id,
-					})) ||
-					formSubmitData?.transactions.map(transaction => ({
+					})) as Transaction[]) ||
+					initialData?.transactions.map(transaction => ({
 						...transaction,
 						key: transaction.id,
 					}))
 				}
 				onChange={handleChange}
-				loading={isLoadingFormSubmit || isLoadingInitialData}
+				isLoading={isLoadingFormSubmit || isLoadingInitialData}
 				rowClassName={getRowClassName}
 			/>
 		</div>
