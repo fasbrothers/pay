@@ -1,2 +1,2 @@
-import QR from './Qr';
+import QR from './qr';
 export default QR;
