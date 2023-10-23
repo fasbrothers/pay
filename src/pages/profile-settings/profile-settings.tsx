@@ -6,6 +6,7 @@ import ModelForm from './components/model-form';
 import { useDataFetching } from '../../hooks/useDataFetching';
 import dayjs from 'dayjs';
 import { formatNumber } from '../../utils/formatNumber';
+import { useTranslation } from 'react-i18next';
 
 export interface IProfileResponse {
 	id: string;
@@ -29,6 +30,7 @@ function ProfileSettings() {
 		'profile',
 		'customer/profile'
 	);
+	const { t } = useTranslation();
 
 	const showModal = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -38,11 +40,11 @@ function ProfileSettings() {
 	const getGenderString = (gender: string | null | undefined): string => {
 		switch (gender) {
 			case 'M':
-				return 'Male';
+				return t('profile_settings.gender_one');
 			case 'F':
-				return 'Female';
+				return t('profile_settings.gender_two');
 			default:
-				return 'Not specified';
+				return t('profile_settings.gender_three');
 		}
 	};
 
@@ -50,7 +52,9 @@ function ProfileSettings() {
 
 	return (
 		<div className={`${isModalOpen && 'blur'}`}>
-			<h4 className='font-bold text-xl mb-3'>Account Information</h4>
+			<h4 className='font-bold text-xl mb-3'>
+				{t('profile_settings.information')}
+			</h4>
 			{isLoading ? (
 				<Skeleton active paragraph={{ rows: 4 }} />
 			) : (
@@ -58,21 +62,21 @@ function ProfileSettings() {
 					<div className={`flex flex-col-reverse md:flex-row `}>
 						<div className='bg-gray-100 w-full md:w-2/3 p-6 rounded-xl'>
 							<div className='border-b-2 pb-3 border-gray-200'>
-								<p className='text-sm'>Full name</p>
+								<p className='text-sm'>{t('profile_settings.name')}</p>
 								<h3 className='mt-1 font-bold'>{name}</h3>
 							</div>
 							<div className='border-b-2 py-3 border-gray-200'>
-								<p className='text-sm'>Phone number</p>
+								<p className='text-sm'>{t('profile_settings.phone')}</p>
 								<h3 className='mt-1 font-bold'>
 									+{formatNumber(phone as string)}
 								</h3>
 							</div>
 							<div className='border-b-2 py-3 border-gray-200'>
-								<p className='text-sm'>Gender</p>
+								<p className='text-sm'>{t('profile_settings.gender')}</p>
 								<h3 className='mt-1 font-bold'>{getGenderString(gender)}</h3>
 							</div>
 							<div className='py-3'>
-								<p className='text-sm'>Date of birth</p>
+								<p className='text-sm'>{t('profile_settings.dob')}</p>
 								<h3 className='mt-1 font-bold'>
 									{birth_date ? dayjs(birth_date).format('DD.MM.YYYY') : '-'}
 								</h3>
@@ -96,8 +100,8 @@ function ProfileSettings() {
 							)}
 						</div>
 					</div>
-					<form className='w-48 mt-10' onSubmit={showModal}>
-						<ButtonPrimary title='Update Settings' />
+					<form className='w-60 mt-10' onSubmit={showModal}>
+						<ButtonPrimary title={t('profile_settings.update_button')} />
 					</form>
 					<ModelForm
 						isModalOpen={isModalOpen}

@@ -1,5 +1,4 @@
 import Brightness2OutlinedIcon from '@mui/icons-material/Brightness2Outlined';
-import { footerList } from './footer-list';
 import { Form, Select } from 'antd';
 import { httpClient } from '../../api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -7,10 +6,15 @@ import { useEffect } from 'react';
 import { setUIDorLanguage } from '../../utils/cookies';
 import { useTranslation } from 'react-i18next';
 
+interface FooterLinks {
+	id: number;
+	title: string;
+}
+
 export const FooterMain = ({ language }: { language: string }) => {
 	const form = Form.useForm()[0];
 	const query = useQueryClient();
-	const { i18n } = useTranslation();
+	const { i18n, t } = useTranslation();
 
 	const languageMap: Record<string, string> = {
 		uz: "O'zbekcha",
@@ -21,6 +25,7 @@ export const FooterMain = ({ language }: { language: string }) => {
 		form.setFieldsValue({
 			setLanguage: languageMap[language],
 		});
+		i18n.changeLanguage(language);
 	}, [language, form]);
 
 	const { mutate } = useMutation(
@@ -35,16 +40,19 @@ export const FooterMain = ({ language }: { language: string }) => {
 			},
 		}
 	);
+	const footerList: FooterLinks[] = t('footer_links', {
+		returnObjects: true,
+	}) as FooterLinks[];
 
 	return (
 		<div className='lg:h-[8vh] border-t border-gray-200 flex flex-col md:flex-row justify-between items-center mt-2 xl:mt-0 py-4 lg:py-0'>
 			<div>
-				{footerList.map((item, index) => (
+				{footerList.map(item => (
 					<p
-						key={index}
+						key={item.id}
 						className='inline-block mr-6 font-bold text-sm cursor-pointer'
 					>
-						{item}
+						{item.title}
 					</p>
 				))}
 			</div>

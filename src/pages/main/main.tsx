@@ -4,12 +4,15 @@ import { CardStructure } from '../../components/card-structure';
 import { useDataFetching } from '../../hooks/useDataFetching';
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import { useTranslation } from 'react-i18next';
 
 function Main() {
 	const { isLoading, data: cards } = useDataFetching<ICardAllResponse>(
 		'cards',
 		'customer/card'
 	);
+
+	const { t } = useTranslation();
 
 	return (
 		<div>
@@ -40,7 +43,11 @@ function Main() {
 										: '/cabinet/cards'
 								}`}
 							>
-								<span>{cards?.count === 0 ? 'Add Card' : 'My Cards'} </span>
+								<span>
+									{cards?.count === 0
+										? t('main.add_card')
+										: t('main.all_cards')}
+								</span>
 								<ArrowForwardIcon className='text-white ml-2 group-hover:translate-x-1' />
 							</Link>
 						</div>

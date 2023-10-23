@@ -9,6 +9,7 @@ import { httpClient } from '../../../api';
 import { CheckBox } from '../../../components/checkbox';
 import { useState } from 'react';
 import { dateFormat, dayjs } from '../../../utils/date';
+import { useTranslation } from 'react-i18next';
 
 interface IModelForm {
 	setIsModalOpen: (isModalOpen: boolean) => void;
@@ -20,6 +21,7 @@ function ModelForm({ setIsModalOpen, isModalOpen, profile }: IModelForm) {
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
 	const [imageStatus, setImageStatus] = useState(false);
+	const { t } = useTranslation();
 
 	const handleCancel = () => {
 		setIsModalOpen(false);
@@ -53,7 +55,7 @@ function ModelForm({ setIsModalOpen, isModalOpen, profile }: IModelForm) {
 
 	return (
 		<Modal
-			title='Update User Profile'
+			title={t('modal_profile_update.title')}
 			open={isModalOpen}
 			onCancel={handleCancel}
 			className='profile__modal'
@@ -96,17 +98,20 @@ function ModelForm({ setIsModalOpen, isModalOpen, profile }: IModelForm) {
 					</Upload>
 				</Form.Item>
 				{profile?.image_url && (
-					<CheckBox title='Delete a image' name='deleteImage' />
+					<CheckBox
+						title={t('modal_profile_update.delete_image')}
+						name='deleteImage'
+					/>
 				)}
 				<Form.Item
 					name='name'
-					label='Name'
+					label={t('modal_profile_update.name')}
 					labelCol={{ span: 24 }}
 					wrapperCol={{ span: 24 }}
 					rules={[
 						{
 							required: true,
-							message: 'Please input your name!',
+							message: t('modal_profile_update.name_error'),
 							whitespace: true,
 						},
 					]}
@@ -114,7 +119,7 @@ function ModelForm({ setIsModalOpen, isModalOpen, profile }: IModelForm) {
 					<Input className='input__style' value={profile?.name} name='name' />
 				</Form.Item>
 				<Form.Item
-					label='Date of birth'
+					label={t('profile_settings.dob')}
 					labelCol={{ span: 24 }}
 					wrapperCol={{ span: 24 }}
 					name='datePicker'
@@ -122,19 +127,26 @@ function ModelForm({ setIsModalOpen, isModalOpen, profile }: IModelForm) {
 					<DatePicker format={dateFormat} className='w-full p-3' />
 				</Form.Item>
 				<Form.Item
-					label='Select a gender'
+					label={t('modal_profile_update.gender')}
 					name='gender'
 					className='gender__select mb-10'
 					labelCol={{ span: 24 }}
 					wrapperCol={{ span: 24 }}
 				>
-					<Select placeholder='Select a gender'>
-						<Select.Option value='M'>Male</Select.Option>
-						<Select.Option value='F'>Female</Select.Option>
+					<Select placeholder={t('modal_profile_update.gender')}>
+						<Select.Option value='M'>
+							{t('profile_settings.gender_one')}
+						</Select.Option>
+						<Select.Option value='F'>
+							{t('profile_settings.gender_two')}
+						</Select.Option>
 					</Select>
 				</Form.Item>
 				<Form.Item>
-					<ButtonPrimary isLoading={isLoading} title='Update' />
+					<ButtonPrimary
+						isLoading={isLoading}
+						title={t('modal_profile_update.button')}
+					/>
 				</Form.Item>
 			</Form>
 		</Modal>

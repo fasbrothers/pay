@@ -43,5 +43,48 @@
 			"name": "profile settings"
 		}
 	],
-	"navigation_name": ["Navigatsiya", "Balans"]
+	"navigation_name": ["Navigatsiya", "Balans"],
+	"main": {
+		"all_cards": "Mening kartalarim",
+		"add_card": "Karta qo'shing",
+		"profile": "Profil",
+		"logout": "Chiqish"
+	},
+	"profile_settings": {
+		"information": "Profil haqida ma'lumot",
+		"name": "To'liq ism",
+		"phone": "Telefon raqam",
+		"gender": "Jins",
+		"dob": "Tug'ilgan kuni",
+		"update_button": "Sozlamalarni yangilash",
+		"gender_one": "Erkak",
+		"gender_two": "Ayol",
+		"gender_three": "Ko'rsatilmagan"
+	},
+	"modal_profile_update": {
+		"title": "Foydalanuvchi profilini yangilash",
+		"name": "Ism",
+		"name_error": "Iltimos, ismingizni kiriting!",
+		"gender": "Jinsni tanlang",
+		"button": "Yangilash",
+		"delete_image": "Rasmni o'chirish"
+	},
+	"footer_links": [
+		{
+			"id": 1,
+			"title": "Maxfiylik siyosati"
+		},
+		{
+			"id": 2,
+			"title": "Litsenziya"
+		},
+		{
+			"id": 3,
+			"title": "API"
+		},
+		{
+			"id": 4,
+			"title": "Yordam markazi"
+		}
+	]
 }

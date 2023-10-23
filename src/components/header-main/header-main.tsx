@@ -46,11 +46,11 @@ export const HeaderMain = ({
 	const items: MenuProps['items'] = [
 		{
 			key: '1',
-			label: <Link to='/cabinet/profile-settings'>Profile</Link>,
+			label: <Link to='/cabinet/profile-settings'>{t('main.profile')}</Link>,
 		},
 		{
 			key: '2',
-			label: <button onClick={() => handleLogout()}>Logout</button>,
+			label: <button onClick={() => handleLogout()}>{t('main.logout')}</button>,
 		},
 	];
 

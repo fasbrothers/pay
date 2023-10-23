@@ -43,5 +43,48 @@
 			"name": "profile settings"
 		}
 	],
-	"navigation_name": ["Navigation", "Balance"]
+	"navigation_name": ["Navigation", "Balance"],
+	"main": {
+		"all_cards": "My cards",
+		"add_card": "Add card",
+		"profile": "Profile",
+		"logout": "Logout"
+	},
+	"profile_settings": {
+		"information": "Account Information",
+		"name": "Full name",
+		"phone": "Phone number",
+		"gender": "Gender",
+		"dob": "Date of Birth",
+		"update_button": "Update Settings",
+		"gender_one": "Male",
+		"gender_two": "Female",
+		"gender_three": "Not specified"
+	},
+	"modal_profile_update": {
+		"title": "Update User Profile",
+		"name": "Name",
+		"name_error": "Please input your name!",
+		"gender": "Select a gender",
+		"button": "Update",
+		"delete_image": "Delete image"
+	},
+	"footer_links": [
+		{
+			"id": 1,
+			"title": "Privacy Police"
+		},
+		{
+			"id": 2,
+			"title": "Licence"
+		},
+		{
+			"id": 3,
+			"title": "API"
+		},
+		{
+			"id": 4,
+			"title": "Help Center"
+		}
+	]
 }

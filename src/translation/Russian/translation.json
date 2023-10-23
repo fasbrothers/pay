@@ -43,5 +43,48 @@
 			"name": "profile settings"
 		}
 	],
-	"navigation_name": ["Навигация", "Баланс"]
+	"navigation_name": ["Навигация", "Баланс"],
+	"main": {
+		"all_cards": "Мои карты",
+		"add_card": "Добавить карту",
+		"profile": "Профиль",
+		"logout": "Выйти"
+	},
+	"profile_settings": {
+		"information": "Информация профиля",
+		"name": "Полное имя",
+		"phone": "Номер телефона",
+		"gender": "Пол",
+		"dob": "Дата рождения",
+		"update_button": "Обновить настройки",
+		"gender_one": "Мужской",
+		"gender_two": "Женский",
+		"gender_three": "Не указан"
+	},
+	"modal_profile_update": {
+		"title": "Обновить профиль пользователя",
+		"name": "Имя",
+		"name_error": "Пожалуйста, введите свое имя!",
+		"gender": "Выберите пол",
+		"button": "Обновлять",
+		"delete_image": "Удалить фотографию"
+	},
+	"footer_links": [
+		{
+			"id": 1,
+			"title": "Полиция конфиденциальности"
+		},
+		{
+			"id": 2,
+			"title": "Лицензия"
+		},
+		{
+			"id": 3,
+			"title": "API"
+		},
+		{
+			"id": 4,
+			"title": "Центр поддержки"
+		}
+	]
 }
