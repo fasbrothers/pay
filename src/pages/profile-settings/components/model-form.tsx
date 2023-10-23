@@ -37,17 +37,17 @@ function ModelForm({ setIsModalOpen, isModalOpen, profile }: IModelForm) {
 		values.image && formData.append('avatar', values.image.file.originFileObj);
 		values?.deleteImage && formData.append('deleteImage', 'true');
 
-		await httpClient.put('/customer/profile', formData);
+		const { data } = await httpClient.put('/customer/profile', formData);
 		setIsModalOpen(false);
 		values.image && setImageStatus(false);
-		form.resetFields();
+		values.image && form.resetFields(['image']);
+		data.message ? toastSuccessMessage(data.message) : null;
 	};
 
 	const { mutate, isLoading } = useMutation({
 		mutationFn: (values: InputValues) => handleSubmit(values),
 		onSuccess: () => {
 			queryClient.invalidateQueries(['profile']);
-			toastSuccessMessage('Profile updated successfully');
 		},
 	});
 

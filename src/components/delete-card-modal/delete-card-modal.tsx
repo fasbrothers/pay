@@ -10,7 +10,6 @@ interface DeleteCardProps {
 	setIsModalOpen: (value: boolean) => void;
 	handleCancel: () => void;
 	url: string;
-	successMessage: string;
 	navigateUrl: string;
 	modalTitle: string;
 	modalMessage: string;
@@ -22,7 +21,6 @@ export function DeleteCard({
 	setIsModalOpen,
 	handleCancel,
 	url,
-	successMessage,
 	navigateUrl,
 	modalTitle,
 	modalMessage,
@@ -35,11 +33,10 @@ export function DeleteCard({
 				data: { id },
 			});
 			setIsModalOpen(false);
-			return data;
+			data.message ? toastSuccessMessage(data.message) : null;
 		},
 		onSuccess: () => {
 			navigate(navigateUrl);
-			toastSuccessMessage(successMessage);
 		},
 	});
 	return (

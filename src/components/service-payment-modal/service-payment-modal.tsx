@@ -34,14 +34,14 @@ export const ServicePaymentModal = ({
 
 	const { isLoading: loading, mutate } = useMutation(
 		async (value: { card: string }) => {
-			await httpClient.post('/transaction/pay', {
+			const { data } = await httpClient.post('/transaction/pay', {
 				serviceId: service.id,
 				fromCardId: value.card,
 			});
+			data.message ? toastSuccessMessage(data.message) : null;
 		},
 		{
 			onSuccess: () => {
-				toastSuccessMessage('Successfully payed');
 				query.invalidateQueries(['profile']);
 				navigate('/cabinet/transactions');
 			},

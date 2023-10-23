@@ -30,29 +30,32 @@ function Transfer() {
 	const query = useQueryClient();
 
 	const { isLoading: transferLoading, mutate: transfer } = useMutation(
-		(values: { amount: string }) => {
+		async (values: { amount: string }) => {
 			if (isPayCardSelf) {
-				return httpClient.post('/transaction/transfer/self', {
+				const { data } = await httpClient.post('/transaction/transfer/self', {
 					fromCardId: cards?.cards[activeSlideIndex].id,
 					toCardId: cards?.cards[activeSlideIndexSelf].id,
 					amount: +values.amount,
 				});
+				data.message ? toastSuccessMessage(data.message) : null;
+				return data;
 			} else {
 				const selectedCardPan = cards?.cards[activeSlideIndex].id;
 				const sendCardPan = input;
 
-				return httpClient.post('/transaction/transfer', {
+				const { data } = await httpClient.post('/transaction/transfer', {
 					fromCardId: selectedCardPan,
 					toCardPan: sendCardPan,
 					amount: +values.amount,
 				});
+				data.message ? toastSuccessMessage(data.message) : null;
+				return data;
 			}
 		},
 		{
 			onSuccess: () => {
 				navigate('/cabinet/transactions');
 				query.invalidateQueries(['profile']);
-				toastSuccessMessage('Transfer made successfully');
 			},
 		}
 	);

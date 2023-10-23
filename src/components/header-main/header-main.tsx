@@ -9,6 +9,9 @@ import logo from '../../assets/logo.svg';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useQueryClient } from '@tanstack/react-query';
 import { IProfileResponse } from '../../pages/profile-settings/profile-settings';
+import { useTranslation } from 'react-i18next';
+import { Fragment } from 'react';
+import { Navigation } from '../../@types/inputs-type';
 
 interface Props {
 	setShowNavbar: (showNavbar: boolean) => void;
@@ -28,12 +31,17 @@ export const HeaderMain = ({
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const queryClient = useQueryClient();
+	const { t } = useTranslation();
 
 	const handleLogout = () => {
 		dispatch(deleteToken());
 		queryClient.removeQueries();
 		navigate('/auth');
 	};
+
+	const nav: Navigation[] = t('navigation', {
+		returnObjects: true,
+	}) as Navigation[];
 
 	const items: MenuProps['items'] = [
 		{
@@ -53,7 +61,13 @@ export const HeaderMain = ({
 					<img src={logo} alt='logo' className='w-4/5 h-4/5' />
 				</Link>
 			</div>
-			<h4 className='text-xl font-extrabold'>{title}</h4>
+			<h4 className='text-xl font-extrabold'>
+				{nav
+					.filter(el => (el.name === title?.toLowerCase() ? el.title : ''))
+					.map(el => (
+						<Fragment key={el.name}>{el.title}</Fragment>
+					))}
+			</h4>
 			<div className='flex items-center'>
 				<Dropdown menu={{ items }} placement='bottom'>
 					<Button className='flex items-center border-none shadow-none'>

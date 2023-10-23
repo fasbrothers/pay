@@ -5,15 +5,17 @@ import { httpClient } from '../../api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { setUIDorLanguage } from '../../utils/cookies';
+import { useTranslation } from 'react-i18next';
 
 export const FooterMain = ({ language }: { language: string }) => {
 	const form = Form.useForm()[0];
 	const query = useQueryClient();
+	const { i18n } = useTranslation();
 
 	const languageMap: Record<string, string> = {
-		uz: 'Uzbek',
+		uz: "O'zbekcha",
 		en: 'English',
-		ru: 'Russian',
+		ru: 'Русский',
 	};
 	useEffect(() => {
 		form.setFieldsValue({
@@ -25,6 +27,7 @@ export const FooterMain = ({ language }: { language: string }) => {
 		async (value: string) => {
 			await httpClient.put('/customer/lang', { lang: value });
 			setUIDorLanguage('language', value);
+			i18n.changeLanguage(value);
 		},
 		{
 			onSuccess: () => {
@@ -50,14 +53,14 @@ export const FooterMain = ({ language }: { language: string }) => {
 					<Form.Item
 						name='setLanguage'
 						initialValue={languageMap[language]}
-						className='w-[100px]'
+						className='w-[110px]'
 					>
 						<Select
 							className='select__language mt-4'
 							onChange={e => mutate(e)}
 							options={[
-								{ value: 'uz', label: 'Uzbek' },
-								{ value: 'ru', label: 'Russian' },
+								{ value: 'uz', label: "O'zbekcha" },
+								{ value: 'ru', label: 'Русский' },
 								{ value: 'en', label: 'English' },
 							]}
 						/>

@@ -1,0 +1,47 @@
+{
+	"navigation": [
+		{
+			"id": 1,
+			"title": "Asosiy",
+			"icon": "pie",
+			"url": "/cabinet/main",
+			"name": "main"
+		},
+		{
+			"id": 2,
+			"title": "Kartalar",
+			"icon": "credit",
+			"url": "/cabinet/cards",
+			"name": "cards"
+		},
+		{
+			"id": 3,
+			"title": "O'tkazish",
+			"icon": "exchange",
+			"url": "/cabinet/transfer",
+			"name": "transfer"
+		},
+		{
+			"id": 4,
+			"title": "To'lovlar",
+			"icon": "payments",
+			"url": "/cabinet/payments",
+			"name": "payments"
+		},
+		{
+			"id": 5,
+			"title": "Tranzaksiyalar",
+			"icon": "bar",
+			"url": "/cabinet/transactions",
+			"name": "transactions"
+		},
+		{
+			"id": 6,
+			"title": "Profil sozlamalari",
+			"icon": "settings",
+			"url": "/cabinet/profile-settings",
+			"name": "profile settings"
+		}
+	],
+	"navigation_name": ["Navigatsiya", "Balans"]
+}

@@ -30,11 +30,11 @@ function SingleCard() {
 				id,
 				name: nameInput,
 			});
+			data.message ? toastSuccessMessage(data.message) : null;
 			return data;
 		},
 		onSuccess: () => {
 			query.invalidateQueries(['card']);
-			toastSuccessMessage('Card updated successfully');
 		},
 	});
 
@@ -119,7 +119,6 @@ function SingleCard() {
 						setIsModalOpen={setIsModalOpen}
 						handleCancel={handleCancel}
 						url='/customer/card'
-						successMessage='Card deleted successfully'
 						navigateUrl='/cabinet/cards'
 						modalTitle='Delete card'
 						modalMessage='Do you really want to delete this card?'

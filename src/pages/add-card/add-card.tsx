@@ -31,11 +31,11 @@ function AddCard() {
 				expiry_month: expiry.slice(0, 2),
 				expiry_year: expiry.slice(3),
 			});
+			data.message ? toastSuccessMessage(data.message) : null;
 			return data;
 		},
 		onSuccess: () => {
 			navigate('/cabinet/cards');
-			toastSuccessMessage('Card added successfully');
 		},
 	});
 

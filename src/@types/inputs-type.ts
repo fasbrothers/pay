@@ -7,6 +7,13 @@ export interface IResponse {
 	customer: Customer;
 	success: boolean;
 }
+export interface Navigation {
+	id: number;
+	title: string;
+	icon: string;
+	url: string;
+	name: string;
+}
 
 export interface Customer {
 	id: string;
@@ -32,7 +39,7 @@ export interface InputValues {
 	deleteImage?: boolean;
 	image?: any;
 	gender?: string;
-	datePicker?: any;
+	datePicker?: Date | null;
 }
 
 export interface AuthProps {
@@ -44,6 +51,7 @@ export interface AuthProps {
 export interface ICardResponse {
 	success: boolean;
 	card: Card;
+	message: string;
 }
 
 export interface Card {
