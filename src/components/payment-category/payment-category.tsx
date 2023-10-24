@@ -5,12 +5,12 @@ export const PaymentCategory = ({
 }: {
 	category: string;
 	onClick: () => void;
-	activeCategory: string;
+	activeCategory: boolean;
 }) => {
 	return (
 		<div
 			className={`border-b border-gray py-4 px-3 cursor-pointer hover:bg-gray-100 hover:text-gray-600 duration-200 ${
-				activeCategory === category && 'bg-gray-100 text-gray-600'
+				activeCategory ? 'bg-gray-100 text-gray-600' : ''
 			}`}
 			onClick={onClick}
 		>
