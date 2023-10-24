@@ -45,14 +45,14 @@ export default function SignIn() {
 				trust,
 			});
 
+			dispatch(accessToken(data.token));
+
 			if (intendedUrl) {
 				navigate(intendedUrl);
 				dispatch(deleteParams());
 			} else {
-				navigate('/cabinet'); // Redirect to the default route
+				navigate('/cabinet/main');
 			}
-
-			dispatch(accessToken(data.token));
 		}
 	};
 

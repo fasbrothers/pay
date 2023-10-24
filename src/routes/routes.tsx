@@ -1,8 +1,17 @@
-import { Navigate, RouteObject, useRoutes } from 'react-router-dom';
+import {
+	Navigate,
+	RouteObject,
+	redirect,
+	createBrowserRouter,
+	LoaderFunctionArgs,
+} from 'react-router-dom';
 import React from 'react';
 import SignIn from '../pages/sign-in';
 import SignUp from '../pages/sign-up';
 import { SingleService } from '../components/single-service';
+import { getFromCookie } from '../utils/cookies';
+import { store } from '../store/store';
+import { deleteParams, getParams } from '../store/slices/authSlice';
 
 const Main = React.lazy(() => import('../pages/main'));
 const NotFound = React.lazy(() => import('../pages/not-found'));
@@ -28,8 +37,17 @@ const routes: RouteObject[] = [
 				element: <Navigate to='cabinet' />,
 			},
 			{
-				path: '/auth',
+				path: 'auth',
 				element: <SignInUpLayout />,
+				loader: () => {
+					if (getFromCookie('token')) {
+						return redirect('/cabinet/main');
+					}
+					return null;
+				},
+				handle: {
+					title: 'sdfaadf',
+				},
 				children: [
 					{
 						index: true,
@@ -45,8 +63,20 @@ const routes: RouteObject[] = [
 				],
 			},
 			{
-				path: '/cabinet',
+				path: 'cabinet',
 				element: <MainLayout />,
+				loader: ({ request }: LoaderFunctionArgs) => {
+					if (!getFromCookie('token')) {
+						store.dispatch(
+							getParams(request.url.replace(/^https?:\/\/[^/]+/, ''))
+						);
+						return redirect('/auth/login');
+					} else {
+						store.dispatch(deleteParams());
+					}
+
+					return null;
+				},
 				children: [
 					{
 						index: true,
@@ -90,6 +120,4 @@ const routes: RouteObject[] = [
 	},
 ];
 
-export function Routes() {
-	return useRoutes(routes);
-}
+export default createBrowserRouter(routes);

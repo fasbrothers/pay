@@ -1,5 +1,5 @@
-import { BrowserRouter } from 'react-router-dom';
-import { Routes } from './routes';
+import { RouterProvider } from 'react-router-dom';
+import routes from './routes/routes';
 import './utils/generateUniqueId';
 import {
 	MutationCache,
@@ -13,34 +13,31 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from './@types/inputs-type';
 import toastMessage from './utils/toast-message';
-
-function App() {
-	const queryClient = new QueryClient({
-		defaultOptions: {
-			queries: {
-				staleTime: 60 * 5,
-				refetchOnWindowFocus: false,
-				keepPreviousData: true,
-			},
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			staleTime: 60 * 5,
+			refetchOnWindowFocus: false,
+			keepPreviousData: true,
 		},
-		mutationCache: new MutationCache({
-			onError: (error: unknown) => {
-				const axiosError = error as AxiosError<ErrorResponse>;
-				toastMessage(
-					axiosError?.response?.data.message || axiosError?.message || 'Error'
-				);
-			},
-		}),
-	});
+	},
+	mutationCache: new MutationCache({
+		onError: (error: unknown) => {
+			const axiosError = error as AxiosError<ErrorResponse>;
+			toastMessage(
+				axiosError?.response?.data.message || axiosError?.message || 'Error'
+			);
+		},
+	}),
+});
+function App() {
 	return (
-		<BrowserRouter>
-			<QueryClientProvider client={queryClient}>
-				<Provider store={store}>
-					<Routes />
-					<ToastContainer style={{ width: '400px' }} />
-				</Provider>
-			</QueryClientProvider>
-		</BrowserRouter>
+		<QueryClientProvider client={queryClient}>
+			<Provider store={store}>
+				<RouterProvider router={routes} />
+				<ToastContainer style={{ width: '400px' }} />
+			</Provider>
+		</QueryClientProvider>
 	);
 }
 

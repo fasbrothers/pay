@@ -2,26 +2,35 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { SidebarInMain } from '../components/sidebar-in-main';
 import { HeaderMain } from '../components/header-main';
 import { FooterMain } from '../components/footer-main';
-import { Suspense, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { LoadingLazy } from '../components/loading-lazy';
 import { IProfileResponse } from '../pages/profile-settings/profile-settings';
-import { setUIDorLanguage } from '../utils/cookies';
+import { setLang } from '../utils/cookies';
 import { useDataFetching } from '../hooks/useDataFetching';
 
 export default function MainLayout() {
 	const [showNavbar, setShowNavbar] = useState<boolean>(false);
-	const title = useLocation()
-		.pathname.split('/')[2]
-		?.split('-')
-		?.map(el => el[0].toUpperCase() + el.slice(1))
-		.join(' ');
+	const { pathname } = useLocation();
 
-	const { data: profile, isLoading } = useDataFetching<IProfileResponse>(
-		'profile',
-		'/customer/profile'
+	const title = useMemo(
+		() =>
+			pathname
+				.split('/')[2]
+				?.split('-')
+				?.map(el => el[0].toUpperCase() + el.slice(1))
+				.join(' '),
+		[pathname]
 	);
 
-	!isLoading && setUIDorLanguage('language', profile?.lang as string);
+	const {
+		data: profile,
+		isLoading,
+		isError,
+	} = useDataFetching<IProfileResponse>('profile', '/customer/profile');
+
+	useEffect(() => {
+		!isLoading && setLang(profile?.lang as string);
+	}, [isLoading, profile?.lang]);
 
 	return (
 		<div className='w-full flex min-h-screen'>
@@ -48,7 +57,9 @@ export default function MainLayout() {
 						<Outlet />
 					</div>
 				</Suspense>
-				<FooterMain language={profile?.lang as string} />
+				{!isLoading && !isError && (
+					<FooterMain language={profile.lang as string} />
+				)}
 			</div>
 		</div>
 	);

@@ -12,6 +12,10 @@ export function setUIDorLanguage(title: string, value: string) {
 	return Cookies.set(title, value, { expires: 365 });
 }
 
+export function setLang(value: string = 'en') {
+	return Cookies.set('language', value, { expires: 365 });
+}
+
 export function setToken(token: string) {
 	Cookies.set('token', token, { expires: 1 / 24 });
 }

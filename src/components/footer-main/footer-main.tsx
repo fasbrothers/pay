@@ -3,7 +3,7 @@ import { Form, Select } from 'antd';
 import { httpClient } from '../../api';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
-import { setUIDorLanguage } from '../../utils/cookies';
+import { setLang } from '../../utils/cookies';
 import { useTranslation } from 'react-i18next';
 
 interface FooterLinks {
@@ -31,7 +31,7 @@ export const FooterMain = ({ language }: { language: string }) => {
 	const { mutate } = useMutation(
 		async (value: string) => {
 			await httpClient.put('/customer/lang', { lang: value });
-			setUIDorLanguage('language', value);
+			setLang(value);
 			i18n.changeLanguage(value);
 		},
 		{
