@@ -33,7 +33,8 @@ httpClient.interceptors.response.use(
 			error.response.data.type === 'NOT_ALLOWED' ||
 			error.response.data.type === 'MISSING_TOKEN'
 		) {
-			store.dispatch(deleteToken()); // another way, not to use useDispatch
+			store.dispatch(deleteToken());
+			window.location.href = '/auth/login';
 		}
 		return Promise.reject(error);
 	}

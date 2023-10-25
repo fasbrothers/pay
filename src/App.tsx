@@ -13,6 +13,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from './@types/inputs-type';
 import toastMessage from './utils/toast-message';
+
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
@@ -30,6 +31,7 @@ const queryClient = new QueryClient({
 		},
 	}),
 });
+
 function App() {
 	return (
 		<QueryClientProvider client={queryClient}>

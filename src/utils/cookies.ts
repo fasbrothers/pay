@@ -17,5 +17,5 @@ export function setLang(value: string = 'en') {
 }
 
 export function setToken(token: string) {
-	Cookies.set('token', token, { expires: 1 / 24 });
+	Cookies.set('token', token, { expires: 2 });
 }

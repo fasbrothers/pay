@@ -11,16 +11,17 @@ interface FooterLinks {
 	title: string;
 }
 
+const languageMap: Record<string, string> = {
+	uz: "O'zbekcha",
+	en: 'English',
+	ru: 'Русский',
+};
+
 export const FooterMain = ({ language }: { language: string }) => {
 	const form = Form.useForm()[0];
 	const query = useQueryClient();
 	const { i18n, t } = useTranslation();
 
-	const languageMap: Record<string, string> = {
-		uz: "O'zbekcha",
-		en: 'English',
-		ru: 'Русский',
-	};
 	useEffect(() => {
 		form.setFieldsValue({
 			setLanguage: languageMap[language],

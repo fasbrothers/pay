@@ -45,9 +45,6 @@ const routes: RouteObject[] = [
 					}
 					return null;
 				},
-				handle: {
-					title: 'sdfaadf',
-				},
 				children: [
 					{
 						index: true,
