@@ -1,15 +1,9 @@
 import { ButtonPrimary } from '../button';
 import { Form, Input } from 'antd';
-
 import { MaskedInput } from 'antd-mask-input';
+import { CardFormProps } from '../../@types/card.types';
 
-interface ICardFormProps {
-	setInputs: React.Dispatch<React.SetStateAction<{ [key: string]: string }>>;
-	mutate: () => void;
-	isLoading: boolean;
-}
-
-export const CardForm = ({ setInputs, mutate, isLoading }: ICardFormProps) => {
+export const CardForm = ({ setInputs, mutate, isLoading }: CardFormProps) => {
 	const [form] = Form.useForm();
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {

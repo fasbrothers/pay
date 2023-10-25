@@ -1,25 +1,5 @@
 import { Table as TableT } from 'antd';
-import { ColumnsType } from 'antd/es/table';
-import { Transaction } from '../../@types/inputs-type';
-import {
-	TablePaginationConfig,
-	FilterValue,
-	SorterResult,
-	TableCurrentDataSource,
-} from 'antd/lib/table/interface';
-
-interface TransactionTableProps {
-	columns: ColumnsType<Transaction>;
-	data: Transaction[];
-	onChange: (
-		pagination: TablePaginationConfig,
-		filters: Record<string, FilterValue | null>,
-		sorter: SorterResult<Transaction> | SorterResult<Transaction>[],
-		extra: TableCurrentDataSource<Transaction>
-	) => void;
-	isLoading: boolean;
-	rowClassName: (record: Transaction) => string;
-}
+import { TransactionTableProps } from '../../@types/transaction.types';
 
 export const Table = ({
 	columns,

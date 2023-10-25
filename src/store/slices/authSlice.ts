@@ -2,11 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import type { PayloadAction } from '@reduxjs/toolkit';
 import type { RootState } from '../store';
 import { getFromCookie, removeFromCookie, setToken } from '../../utils/cookies';
-
-interface AuthState {
-	token: string | undefined;
-	params: string;
-}
+import { AuthState } from '../../@types/auth.types';
 
 const initialState: AuthState = {
 	token: getFromCookie('token'),

@@ -4,9 +4,9 @@ import { HeaderMain } from '../components/header-main';
 import { FooterMain } from '../components/footer-main';
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { LoadingLazy } from '../components/loading-lazy';
-import { IProfileResponse } from '../pages/profile-settings/profile-settings';
 import { setLang } from '../utils/cookies';
 import { useDataFetching } from '../hooks/useDataFetching';
+import { ProfileResponse } from '../@types/profile.types';
 
 export default function MainLayout() {
 	const [showNavbar, setShowNavbar] = useState<boolean>(false);
@@ -29,7 +29,7 @@ export default function MainLayout() {
 		data: profile,
 		isLoading,
 		isError,
-	} = useDataFetching<IProfileResponse>('profile', '/customer/profile');
+	} = useDataFetching<ProfileResponse>('profile', '/customer/profile');
 
 	useEffect(() => {
 		!isLoading && setLang(profile?.lang as string);
@@ -53,7 +53,7 @@ export default function MainLayout() {
 					showNavbar={showNavbar}
 					title={title}
 					isLoading={isLoading}
-					profile={profile as IProfileResponse}
+					profile={profile as ProfileResponse}
 				/>
 				<Suspense fallback={<LoadingLazy />}>
 					<div className='grow'>

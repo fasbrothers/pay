@@ -8,18 +8,9 @@ import { deleteToken } from '../../store/slices/authSlice';
 import logo from '../../assets/logo.svg';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useQueryClient } from '@tanstack/react-query';
-import { IProfileResponse } from '../../pages/profile-settings/profile-settings';
 import { useTranslation } from 'react-i18next';
 import { Fragment } from 'react';
-import { Navigation } from '../../@types/inputs-type';
-
-interface Props {
-	setShowNavbar: (showNavbar: boolean) => void;
-	showNavbar: boolean;
-	title?: string;
-	isLoading: boolean;
-	profile: IProfileResponse;
-}
+import { HeaderMainProps, Navigation } from '../../@types/layout.types';
 
 export const HeaderMain = ({
 	setShowNavbar,
@@ -27,7 +18,7 @@ export const HeaderMain = ({
 	title,
 	isLoading,
 	profile,
-}: Props) => {
+}: HeaderMainProps) => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const queryClient = useQueryClient();

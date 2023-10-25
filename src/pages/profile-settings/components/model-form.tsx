@@ -1,23 +1,21 @@
 import { DatePicker, Form, Input, Modal, Select, Upload } from 'antd';
-import { InputValues } from '../../../@types/inputs-type';
 import { ButtonPrimary } from '../../../components/button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { toastSuccessMessage } from '../../../utils/toast-message';
-import { IProfileResponse } from '../profile-settings';
 import { httpClient } from '../../../api';
 import { CheckBox } from '../../../components/checkbox';
 import { useState } from 'react';
 import { dateFormat, dayjs } from '../../../utils/date';
 import { useTranslation } from 'react-i18next';
+import { InputValues } from '../../../@types/auth.types';
+import { ProfileModelFormProps } from '../../../@types/profile.types';
 
-interface IModelForm {
-	setIsModalOpen: (isModalOpen: boolean) => void;
-	isModalOpen: boolean;
-	profile: IProfileResponse | undefined;
-}
-
-function ModelForm({ setIsModalOpen, isModalOpen, profile }: IModelForm) {
+function ModelForm({
+	setIsModalOpen,
+	isModalOpen,
+	profile,
+}: ProfileModelFormProps) {
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
 	const [imageStatus, setImageStatus] = useState(false);

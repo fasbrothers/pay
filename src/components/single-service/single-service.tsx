@@ -1,8 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { ServicePaymentModal } from '../service-payment-modal';
 import { useDataFetching } from '../../hooks/useDataFetching';
-import { Service } from '../../@types/inputs-type';
 import { useState } from 'react';
+import { Service } from '../../@types/service.types';
 
 export const SingleService = () => {
 	const serviceId = useLocation().pathname.split('/')[4];

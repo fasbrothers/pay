@@ -1,6 +1,5 @@
 import { Skeleton } from 'antd';
 import { useDataFetching } from '../../hooks/useDataFetching';
-import { ICardAllResponse } from '../cards/cards';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
@@ -11,11 +10,12 @@ import { httpClient } from '../../api';
 import { toastSuccessMessage } from '../../utils/toast-message';
 import { CardSwiper } from '../../components/card-swiper';
 import TransferForm from '../../components/transfer-form/transfer-form';
-import { PanResponse, transferType } from './tranfer-type';
+import { transferType } from './tranfer-type';
 import SouthIcon from '@mui/icons-material/South';
+import { AllCardsResponse, PanResponse } from '../../@types/card.types';
 
 function Transfer() {
-	const { isLoading, data: cards } = useDataFetching<ICardAllResponse>(
+	const { isLoading, data: cards } = useDataFetching<AllCardsResponse>(
 		'cards',
 		'customer/card'
 	);

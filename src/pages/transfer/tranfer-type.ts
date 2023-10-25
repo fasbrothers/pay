@@ -8,10 +8,3 @@ export const transferType = [
 		name: 'Transfer to self',
 	},
 ];
-
-export interface PanResponse {
-	owner: {
-		name: string;
-	};
-}
-

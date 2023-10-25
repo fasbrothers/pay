@@ -74,6 +74,7 @@ const routes: RouteObject[] = [
 
 					return null;
 				},
+				errorElement: <Navigate to='/auth/login' />,
 				children: [
 					{
 						index: true,
@@ -108,11 +109,11 @@ const routes: RouteObject[] = [
 									{ path: 'add-card', element: <AddCard /> },
 								],
 							},
-							{ path: '*', element: <NotFound /> },
 						],
 					},
 				],
 			},
+			{ path: '*', element: <NotFound /> },
 		],
 	},
 ];

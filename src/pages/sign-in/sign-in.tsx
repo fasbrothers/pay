@@ -1,15 +1,14 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { IResponse, InputValues } from '../../@types/inputs-type';
 import logo from '../../assets/logo.svg';
 import { AuthImageTitle } from '../../components/auth-image-title';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { accessToken, deleteParams } from '../../store/slices/authSlice';
 import '../sign-up/sign-up.scss';
 import SignInForm from './components/sign-in-form';
-import { SignInProps } from './sign-in-type';
 import { httpClient } from '../../api';
+import { InputValues, SignInProps } from '../../@types/auth.types';
 
 export default function SignIn() {
 	const [additionalProperties, setAdditionalProperties] = useState<SignInProps>(
@@ -27,9 +26,12 @@ export default function SignIn() {
 		const { password, otp, phone, trust } = values;
 
 		if (!additionalProperties.showOtp && !additionalProperties.showPassword) {
-			const { data } = await httpClient.post<IResponse>('/customer/getlogin', {
-				phone: '998' + phone,
-			});
+			const { data } = await httpClient.post(
+				'/customer/getlogin',
+				{
+					phone: '998' + phone,
+				}
+			);
 
 			setAdditionalProperties({
 				showPassword: data.password,
@@ -38,7 +40,7 @@ export default function SignIn() {
 
 			return data;
 		} else {
-			const { data } = await httpClient.post<IResponse>('/customer/login', {
+			const { data } = await httpClient.post('/customer/login', {
 				phone: '998' + phone,
 				password,
 				otp,

@@ -13,19 +13,14 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import MultipleStopIcon from '@mui/icons-material/MultipleStop';
 import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
-import { Navigation } from '../../@types/inputs-type';
+import { Navigation, SidebarInMainProps } from '../../@types/layout.types';
 
 export const SidebarInMain = ({
 	showNavbar,
 	title,
 	setShowNavbar,
 	balance,
-}: {
-	showNavbar: boolean;
-	title: string;
-	setShowNavbar: (showNavbar: boolean) => void;
-	balance: string;
-}) => {
+}: SidebarInMainProps) => {
 	const [showBalance, setShowBalance] = useState<boolean>(false);
 	const highlightedStyle = 'border-blue-600 text-blue-900 border-r-2';
 	const { t } = useTranslation();

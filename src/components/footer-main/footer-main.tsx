@@ -5,11 +5,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useEffect } from 'react';
 import { setLang } from '../../utils/cookies';
 import { useTranslation } from 'react-i18next';
-
-interface FooterLinks {
-	id: number;
-	title: string;
-}
+import { FooterLinks } from '../../@types/layout.types';
 
 const languageMap: Record<string, string> = {
 	uz: "O'zbekcha",

@@ -4,9 +4,10 @@ import { useDataFetching } from '../../hooks/useDataFetching';
 import { CardStructure } from '../../components/card-structure';
 import { AddTitle } from '../../components/add-title';
 import { currencyFormat } from '../../utils/currencyFormat';
+import { AllCardsResponse, Card } from '../../@types/card.types';
 
 function AllCards() {
-	const { isLoading, data: cards } = useDataFetching<ICardAllResponse>(
+	const { isLoading, data: cards } = useDataFetching<AllCardsResponse>(
 		'cards',
 		'customer/card'
 	);
@@ -24,7 +25,7 @@ function AllCards() {
 					<h4 className='text-2xl text-center sm:text-left lg:text-3xl font-bold'>
 						{cards?.cards &&
 							currencyFormat(
-								sumAllCardsPrice(cards?.cards as ICardAllResponse['cards'])
+								sumAllCardsPrice(cards?.cards as AllCardsResponse['cards'])
 							)}
 						sum
 					</h4>
@@ -60,20 +61,3 @@ function AllCards() {
 }
 
 export default AllCards;
-
-export interface ICardAllResponse {
-	count: number;
-	cards: Card[];
-}
-
-export interface Card {
-	id: string;
-	customer_id: string;
-	name: string;
-	pan: string;
-	expiry_month: string;
-	expiry_year: string;
-	balance: string;
-	single_card?: boolean;
-	owner_name: string;
-}

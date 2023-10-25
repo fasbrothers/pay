@@ -4,12 +4,12 @@ import { useState } from 'react';
 import { DeleteCard } from '../../components/delete-card-modal';
 import { CardStructure } from '../../components/card-structure';
 import { useDataFetching } from '../../hooks/useDataFetching';
-import { Card } from '../../@types/inputs-type';
 import { Form, Input, Skeleton } from 'antd';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpClient } from '../../api';
 import { toastSuccessMessage } from '../../utils/toast-message';
 import BackToPreviousPage from '../../components/back-to-previous-page/back-to-previous-page';
+import { Card } from '../../@types/card.types';
 
 function SingleCard() {
 	const id = useLocation().pathname.split('/')[3].toString();

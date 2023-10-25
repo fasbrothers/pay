@@ -1,33 +1,26 @@
 import { Form, Modal, Select } from 'antd';
-import { Service } from '../../@types/inputs-type';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { currencyFormat } from '../../utils/currencyFormat';
 import { ButtonPrimary } from '../button';
 import { useDataFetching } from '../../hooks/useDataFetching';
-import { ICardAllResponse } from '../../pages/cards/cards';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpClient } from '../../api';
 import { toastSuccessMessage } from '../../utils/toast-message';
 import { useNavigate } from 'react-router-dom';
-
-interface ServicePaymentModal {
-	setIsModalOpen: (isModalOpen: boolean) => void;
-	isModalOpen: boolean;
-	service: Service;
-	onCancel: () => void;
-}
+import { AllCardsResponse } from '../../@types/card.types';
+import { ServicePaymentModalProps } from '../../@types/service.types';
 
 export const ServicePaymentModal = ({
 	onCancel,
 	isModalOpen,
 	service,
-}: ServicePaymentModal) => {
+}: ServicePaymentModalProps) => {
 	const [form] = Form.useForm();
 
 	const query = useQueryClient();
 	const navigate = useNavigate();
 
-	const { isLoading, data: cards } = useDataFetching<ICardAllResponse>(
+	const { isLoading, data: cards } = useDataFetching<AllCardsResponse>(
 		'cards',
 		'customer/card'
 	);

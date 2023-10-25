@@ -4,12 +4,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { CardStructure } from '../card-structure';
-import { Card } from '../../@types/inputs-type';
-
-interface CardSwiperProps {
-	cards: Card[];
-	onSlideChange: (index: number) => void;
-}
+import { CardSwiperProps } from '../../@types/card.types';
 
 export const CardSwiper = ({ cards, onSlideChange }: CardSwiperProps) => {
 	return (

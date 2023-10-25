@@ -1,7 +1,6 @@
 import { Button, Space } from 'antd';
 import { useMutation } from '@tanstack/react-query';
 import { httpClient } from '../../api';
-import { ResponseTransaction, Transaction } from '../../@types/inputs-type';
 import { useState } from 'react';
 import type { TableProps } from 'antd';
 import type {
@@ -15,6 +14,10 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { dateFormat, dayjs } from '../../utils/date';
 import { DateRangeForm } from '../../components/data-range-form';
 import { Table } from '../../components/table';
+import {
+	Transaction,
+	TransactionResponse,
+} from '../../@types/transaction.types';
 
 function Transactions() {
 	const [dateRange, setDateRange] = useState([dayjs().add(-7, 'd'), dayjs()]);
@@ -27,7 +30,7 @@ function Transactions() {
 		const fromDate = dateRange[0].format(dateFormat);
 		const toDate = dateRange[1].format(dateFormat);
 
-		const { data } = await httpClient.post<ResponseTransaction>(
+		const { data } = await httpClient.post<TransactionResponse>(
 			'/transaction',
 			{
 				fromDate,
@@ -44,7 +47,7 @@ function Transactions() {
 		isLoading: isLoadingFormSubmit,
 		data: formSubmitData,
 	} = useMutation(async (values: { rangePicker: string[] }) => {
-		const { data } = await httpClient.post<ResponseTransaction>(
+		const { data } = await httpClient.post<TransactionResponse>(
 			'/transaction',
 			{
 				fromDate: dayjs(values.rangePicker[0]).format(dateFormat),
@@ -56,14 +59,12 @@ function Transactions() {
 	});
 
 	useEffect(() => {
-		// Fetch initial data when the component mounts
 		fetchInitialData();
 	}, [fetchInitialData]);
 
 	const handleFormSubmit = (values: { rangePicker: string[] }) => {
-		// Trigger API request on form submission
 		fetchDataOnFormSubmit(values);
-		setDateRange(values.rangePicker.map(date => dayjs(date))); // Update the date range state
+		setDateRange(values.rangePicker.map(date => dayjs(date)));
 	};
 
 	const [filteredInfo, setFilteredInfo] = useState<

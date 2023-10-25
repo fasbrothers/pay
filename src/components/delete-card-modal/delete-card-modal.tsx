@@ -3,17 +3,7 @@ import { httpClient } from '../../api';
 import { Button, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { toastSuccessMessage } from '../../utils/toast-message';
-
-interface DeleteCardProps {
-	id: string;
-	isModalOpen: boolean;
-	setIsModalOpen: (value: boolean) => void;
-	handleCancel: () => void;
-	url: string;
-	navigateUrl: string;
-	modalTitle: string;
-	modalMessage: string;
-}
+import { DeleteCardProps } from '../../@types/card.types';
 
 export function DeleteCard({
 	id,

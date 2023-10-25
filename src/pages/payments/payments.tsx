@@ -2,17 +2,16 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Select } from 'antd';
 import Skeleton from 'antd/lib/skeleton';
 import { useDataFetching } from '../../hooks/useDataFetching';
-import { Service, Services } from '../../@types/inputs-type';
 import { PaymentCategory } from '../../components/payment-category';
 import { ServiceItem } from '../../components/service-item';
 import { SearchInputField } from '../../components/search-input-field';
 import { ServicePaymentModal } from '../../components/service-payment-modal';
 import { getFromCookie } from '../../utils/cookies';
-
-type Category = {
-	name: string;
-	code: string;
-};
+import {
+	Category,
+	Service,
+	ServicesResponse,
+} from '../../@types/service.types';
 
 const categorySaved: { [key: string]: Category } = {
 	ru: {
@@ -39,7 +38,10 @@ function Payments() {
 
 	const [service, setService] = useState<object>({});
 
-	const { data, isLoading } = useDataFetching<Services>('services', '/service');
+	const { data, isLoading } = useDataFetching<ServicesResponse>(
+		'services',
+		'/service'
+	);
 
 	const showModal = (serviceInfo: Service) => {
 		setIsModalOpen(true);

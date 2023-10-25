@@ -1,13 +1,13 @@
 import { Skeleton } from 'antd';
-import { ICardAllResponse } from '../cards/cards';
 import { CardStructure } from '../../components/card-structure';
 import { useDataFetching } from '../../hooks/useDataFetching';
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useTranslation } from 'react-i18next';
+import { AllCardsResponse } from '../../@types/card.types';
 
 function Main() {
-	const { isLoading, data: cards } = useDataFetching<ICardAllResponse>(
+	const { isLoading, data: cards } = useDataFetching<AllCardsResponse>(
 		'cards',
 		'customer/card'
 	);

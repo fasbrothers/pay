@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { CardForm } from '../../components/card-form';
-import { ICardResponse } from '../../@types/inputs-type';
 import { toastSuccessMessage } from '../../utils/toast-message';
 import { useNavigate } from 'react-router-dom';
 import { httpClient } from '../../api';
@@ -24,7 +23,7 @@ function AddCard() {
 		mutationFn: async () => {
 			const pan = inputs.pan && inputs.pan.replace(/\s/g, '');
 			const expiry = inputs.expiry && inputs.expiry.replace(/\s/g, '');
-			const { data } = await httpClient.post<ICardResponse>('/customer/card', {
+			const { data } = await httpClient.post('/customer/card', {
 				pan,
 				name: inputs.name,
 				owner_name: inputs.owner_name,

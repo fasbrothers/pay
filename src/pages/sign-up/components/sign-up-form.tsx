@@ -3,8 +3,8 @@ import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 import { Form, Input } from 'antd';
 import { CheckBox } from '../../../components/checkbox';
 import { ButtonPrimary } from '../../../components/button';
-import { AuthProps, InputValues } from '../../../@types/inputs-type';
 import { MaskedInput } from 'antd-mask-input';
+import { AuthProps, InputValues } from '../../../@types/auth.types';
 
 const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 	const [form] = Form.useForm();

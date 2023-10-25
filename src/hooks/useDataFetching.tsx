@@ -1,9 +1,9 @@
 import { useQuery } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
-import { ErrorResponse } from '../@types/inputs-type';
 import toastMessage from '../utils/toast-message';
 import { httpClient } from '../api';
 import { useNavigate } from 'react-router-dom';
+import { ErrorResponse } from '../@types/error.types';
 
 export const useDataFetching = <T,>(
 	key: string,

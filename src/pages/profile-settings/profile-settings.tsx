@@ -7,26 +7,12 @@ import { useDataFetching } from '../../hooks/useDataFetching';
 import dayjs from 'dayjs';
 import { formatNumber } from '../../utils/formatNumber';
 import { useTranslation } from 'react-i18next';
-
-export interface IProfileResponse {
-	id: string;
-	name: string;
-	phone: string;
-	image_url: string | null;
-	reg_date: string;
-	is_blocked: boolean;
-	safe_login_after: number;
-	last_login_attempt: string | null;
-	gender: string | null;
-	lang: string;
-	birth_date: string | null;
-	balance: string;
-}
+import { ProfileResponse } from '../../@types/profile.types';
 
 function ProfileSettings() {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
-	const { isLoading, data: profile } = useDataFetching<IProfileResponse>(
+	const { isLoading, data: profile } = useDataFetching<ProfileResponse>(
 		'profile',
 		'customer/profile'
 	);

@@ -1,4 +1,3 @@
-import { Service } from '../../@types/inputs-type';
 import { currencyFormat } from '../../utils/currencyFormat';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import StarIcon from '@mui/icons-material/Star';
@@ -7,14 +6,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { httpClient } from '../../api';
 import { toastSuccessMessage } from '../../utils/toast-message';
+import { ServiceItemProps } from '../../@types/service.types';
 
-export const ServiceItem = ({
-	service,
-	showModal,
-}: {
-	service: Service;
-	showModal: (serviceInfo: Service) => void;
-}) => {
+export const ServiceItem = ({ service, showModal }: ServiceItemProps) => {
 	const [starClicked, setStarClicked] = useState(service.saved);
 	const handleStarClick = (e: React.MouseEvent, serviceId: string) => {
 		e.stopPropagation();

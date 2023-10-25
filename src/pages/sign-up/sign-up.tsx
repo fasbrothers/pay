@@ -6,8 +6,8 @@ import { useMutation } from '@tanstack/react-query';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { accessToken } from '../../store/slices/authSlice';
 import SignUpForm from './components/sign-up-form';
-import { IResponse, InputValues } from '../../@types/inputs-type';
 import { httpClient } from '../../api';
+import { InputValues } from '../../@types/auth.types';
 
 export default function SignUp() {
 	const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function SignUp() {
 
 	const handleSubmit = async (values: InputValues) => {
 		const { name, phone, password, trust } = values;
-		const { data } = await httpClient.post<IResponse>('/customer/register', {
+		const { data } = await httpClient.post('/customer/register', {
 			name,
 			phone: '998' + phone,
 			password,

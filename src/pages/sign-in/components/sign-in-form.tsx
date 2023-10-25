@@ -4,7 +4,7 @@ import SecurityIcon from '@mui/icons-material/Security';
 import { CheckBox } from '../../../components/checkbox';
 import { ButtonPrimary } from '../../../components/button';
 import { MaskedInput } from 'antd-mask-input';
-import { InputValues, AuthProps } from '../../../@types/inputs-type';
+import { AuthProps, InputValues } from '../../../@types/auth.types';
 
 function SignInForm({ additionalProperties, mutate, isLoading }: AuthProps) {
 	const [form] = Form.useForm();

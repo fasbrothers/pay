@@ -1,16 +1,8 @@
-import React, { ChangeEvent } from 'react';
 import { Form } from 'antd';
 import { MaskedInput } from 'antd-mask-input';
 import { ButtonPrimary } from '../button';
+import { TransferFormProps } from '../../@types/transfer.types';
 
-interface TransferFormProps {
-	onFinish: (values: { amount: string }) => void;
-	isLoading: boolean;
-	isPanLoading: boolean;
-	panUser: { owner: { name: string } } | undefined;
-	isPayCardSelf: boolean;
-	handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
-}
 
 const TransferForm: React.FC<TransferFormProps> = ({
 	onFinish,

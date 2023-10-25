@@ -1,10 +1,5 @@
 import { Button } from 'antd';
-
-interface ButtonPrimaryProps {
-	title: string;
-	isLoading?: boolean;
-	disabled?: boolean;
-}
+import { ButtonPrimaryProps } from '../../@types/layout.types';
 
 export const ButtonPrimary = ({
 	title,

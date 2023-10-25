@@ -1,8 +1,8 @@
 import Cards from 'react-credit-cards-2';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { handleExpiry } from '../../utils/handleExpiry';
-import { Card } from '../../pages/cards/cards';
 import { currencyFormat } from '../../utils/currencyFormat';
+import { Card } from '../../@types/card.types';
 
 export const CardStructure = ({
 	pan,
