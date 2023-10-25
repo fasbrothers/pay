@@ -34,7 +34,6 @@ httpClient.interceptors.response.use(
 			error.response.data.type === 'MISSING_TOKEN'
 		) {
 			store.dispatch(deleteToken());
-			window.location.href = '/auth/login';
 		}
 		return Promise.reject(error);
 	}

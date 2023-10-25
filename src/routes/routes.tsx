@@ -37,7 +37,7 @@ const routes: RouteObject[] = [
 				element: <Navigate to='cabinet' />,
 			},
 			{
-				path: 'auth',
+				path: '/auth',
 				element: <SignInUpLayout />,
 				loader: () => {
 					if (getFromCookie('token')) {
@@ -60,7 +60,7 @@ const routes: RouteObject[] = [
 				],
 			},
 			{
-				path: 'cabinet',
+				path: '/cabinet',
 				element: <MainLayout />,
 				loader: ({ request }: LoaderFunctionArgs) => {
 					if (!getFromCookie('token')) {

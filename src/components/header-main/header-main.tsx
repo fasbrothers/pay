@@ -63,7 +63,7 @@ export const HeaderMain = ({
 			</div>
 			<h4 className='text-xl font-extrabold'>
 				{nav
-					.filter(el => (el.name === title?.toLowerCase() ? el.title : ''))
+					.filter(el => (el.name === title ? el.title : ''))
 					.map(el => (
 						<Fragment key={el.name}>{el.title}</Fragment>
 					))}
