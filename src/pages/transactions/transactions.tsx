@@ -12,8 +12,8 @@ import { currencyFormat } from '../../utils/currencyFormat';
 import { useEffect } from 'react';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { dateFormat, dayjs } from '../../utils/date';
-import { DateRangeForm } from '../../components/data-range-form';
-import { Table } from '../../components/table';
+import { DateRangeForm } from '../../components/transaction/data-range-form';
+import { Table } from '../../components/shared/table';
 import {
 	Transaction,
 	TransactionResponse,

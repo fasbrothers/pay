@@ -1,10 +1,10 @@
 import { DatePicker, Form, Input, Modal, Select, Upload } from 'antd';
-import { ButtonPrimary } from '../../../components/button';
+import { ButtonPrimary } from '../../../components/shared/button';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
 import { toastSuccessMessage } from '../../../utils/toast-message';
 import { httpClient } from '../../../api';
-import { CheckBox } from '../../../components/checkbox';
+import { CheckBox } from '../../../components/shared/checkbox';
 import { useState } from 'react';
 import { dateFormat, dayjs } from '../../../utils/date';
 import { useTranslation } from 'react-i18next';

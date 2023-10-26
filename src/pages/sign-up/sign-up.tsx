@@ -1,11 +1,11 @@
 import logo from '../../assets/logo.svg';
 import { Link } from 'react-router-dom';
 import './sign-up.scss';
-import { AuthImageTitle } from '../../components/auth-image-title';
+import { AuthImageTitle } from '../../components/auth/auth-image-title';
 import { useMutation } from '@tanstack/react-query';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { accessToken } from '../../store/slices/authSlice';
-import SignUpForm from './components/sign-up-form';
+import SignUpForm from '../../components/auth/sign-up-form';
 import { httpClient } from '../../api';
 import { InputValues } from '../../@types/auth.types';
 

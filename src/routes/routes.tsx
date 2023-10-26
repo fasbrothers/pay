@@ -8,7 +8,7 @@ import {
 import React from 'react';
 import SignIn from '../pages/sign-in';
 import SignUp from '../pages/sign-up';
-import { SingleService } from '../components/single-service';
+import { SingleService } from '../components/service/single-service';
 import { getFromCookie } from '../utils/cookies';
 import { store } from '../store/store';
 import { deleteParams, getParams } from '../store/slices/authSlice';

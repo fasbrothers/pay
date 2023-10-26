@@ -2,11 +2,11 @@ import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
-import { AuthImageTitle } from '../../components/auth-image-title';
+import { AuthImageTitle } from '../../components/auth/auth-image-title';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 import { accessToken } from '../../store/slices/authSlice';
 import '../sign-up/sign-up.scss';
-import SignInForm from './components/sign-in-form';
+import SignInForm from '../../components/auth/sign-in-form';
 import { httpClient } from '../../api';
 import { InputValues, SignInProps } from '../../@types/auth.types';
 

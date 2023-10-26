@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { CardForm } from '../../components/card-form';
+import { CardForm } from '../../components/card/card-form';
 import { toastSuccessMessage } from '../../utils/toast-message';
 import { useNavigate } from 'react-router-dom';
 import { httpClient } from '../../api';
 import Cards from 'react-credit-cards-2';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
-import BackToPreviousPage from '../../components/back-to-previous-page/back-to-previous-page';
+import { BackToPreviousPage } from '../../components/shared/back-to-previous-page';
 
 function AddCard() {
 	const [inputs, setInputs] = useState<{ [key: string]: string }>({

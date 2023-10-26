@@ -1,5 +1,5 @@
 import { Skeleton } from 'antd';
-import { CardStructure } from '../../components/card-structure';
+import { CardStructure } from '../../components/card/card-structure';
 import { useDataFetching } from '../../hooks/useDataFetching';
 import { Link } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';

@@ -1,10 +1,10 @@
 import { Link, Outlet } from 'react-router-dom';
-import { Skeleton } from '../../components';
 import { useDataFetching } from '../../hooks/useDataFetching';
-import { CardStructure } from '../../components/card-structure';
-import { AddTitle } from '../../components/add-title';
+import { CardStructure } from '../../components/card/card-structure';
+import { AddTitle } from '../../components/shared/add-title';
 import { currencyFormat } from '../../utils/currencyFormat';
 import { AllCardsResponse, Card } from '../../@types/card.types';
+import { Skeleton } from 'antd';
 
 function AllCards() {
 	const { isLoading, data: cards } = useDataFetching<AllCardsResponse>(

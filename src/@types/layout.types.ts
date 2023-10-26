@@ -25,6 +25,7 @@ export interface SidebarInMainProps {
 
 export interface ButtonPrimaryProps {
 	title: string;
+	weight?: string;
 	isLoading?: boolean;
 	disabled?: boolean;
 }

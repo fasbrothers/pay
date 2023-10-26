@@ -2,10 +2,10 @@ import React, { useState, useEffect, useMemo } from 'react';
 import { Select } from 'antd';
 import Skeleton from 'antd/lib/skeleton';
 import { useDataFetching } from '../../hooks/useDataFetching';
-import { PaymentCategory } from '../../components/payment-category';
-import { ServiceItem } from '../../components/service-item';
-import { SearchInputField } from '../../components/search-input-field';
-import { ServicePaymentModal } from '../../components/service-payment-modal';
+import { PaymentCategory } from '../../components/service/payment-category';
+import { ServiceItem } from '../../components/service/service-item';
+import { SearchInputField } from '../../components/service/search-input-field';
+import { ServicePaymentModal } from '../../components/service/service-payment-modal';
 import { getFromCookie } from '../../utils/cookies';
 import {
 	Category,

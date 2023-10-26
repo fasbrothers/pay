@@ -1,9 +1,9 @@
 import { Outlet, useLocation } from 'react-router-dom';
-import { SidebarInMain } from '../components/sidebar-in-main';
-import { HeaderMain } from '../components/header-main';
-import { FooterMain } from '../components/footer-main';
+import { SidebarInMain } from '../components/main/sidebar-in-main';
+import { HeaderMain } from '../components/main/header-main';
+import { FooterMain } from '../components/main/footer-main';
 import { Suspense, useEffect, useMemo, useState } from 'react';
-import { LoadingLazy } from '../components/loading-lazy';
+import { LoadingLazy } from '../components/shared/loading-lazy';
 import { setLang } from '../utils/cookies';
 import { useDataFetching } from '../hooks/useDataFetching';
 import { ProfileResponse } from '../@types/profile.types';

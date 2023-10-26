@@ -1,5 +1,5 @@
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-import { ButtonPrimary } from '../../components/button';
+import { ButtonPrimary } from '../../components/shared/button';
 import { Skeleton } from 'antd';
 import { useState } from 'react';
 import ModelForm from './components/model-form';

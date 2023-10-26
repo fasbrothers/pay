@@ -1,14 +1,14 @@
 import { useLocation } from 'react-router-dom';
-import { ButtonPrimary } from '../../components/button';
+import { ButtonPrimary } from '../../components/shared/button';
 import { useState } from 'react';
-import { DeleteCard } from '../../components/delete-card-modal';
-import { CardStructure } from '../../components/card-structure';
+import { DeleteCard } from '../../components/card/delete-card-modal';
+import { CardStructure } from '../../components/card/card-structure';
 import { useDataFetching } from '../../hooks/useDataFetching';
 import { Form, Input, Skeleton } from 'antd';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpClient } from '../../api';
 import { toastSuccessMessage } from '../../utils/toast-message';
-import BackToPreviousPage from '../../components/back-to-previous-page/back-to-previous-page';
+import { BackToPreviousPage } from '../../components/shared/back-to-previous-page';
 import { Card } from '../../@types/card.types';
 
 function SingleCard() {
