@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import { AuthImageTitle } from '../../components/auth/auth-image-title';
 import { useAppDispatch } from '../../hooks/redux-hooks';
@@ -19,6 +19,7 @@ export default function SignIn() {
 	);
 
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const handleSubmit = async (values: InputValues) => {
 		const { password, otp, phone, trust } = values;
@@ -43,6 +44,7 @@ export default function SignIn() {
 			});
 
 			dispatch(accessToken(data.token));
+			navigate('/cabinet');
 		}
 	};
 

@@ -1,5 +1,5 @@
 import logo from '../../assets/logo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './sign-up.scss';
 import { AuthImageTitle } from '../../components/auth/auth-image-title';
 import { useMutation } from '@tanstack/react-query';
@@ -11,6 +11,7 @@ import { InputValues } from '../../@types/auth.types';
 
 export default function SignUp() {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
 	const handleSubmit = async (values: InputValues) => {
 		const { name, phone, password, trust } = values;
@@ -22,6 +23,7 @@ export default function SignUp() {
 		});
 
 		dispatch(accessToken(data.token));
+		navigate('/cabinet');
 	};
 
 	const { mutate, isLoading } = useMutation({
