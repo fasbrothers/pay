@@ -27,12 +27,7 @@ httpClient.interceptors.response.use(
 		return response;
 	},
 	function (error) {
-		if (
-			error.response.data.type === 'EXPIRED_TOKEN' ||
-			error.response.data.type === 'INVALID_TOKEN' ||
-			error.response.data.type === 'NOT_ALLOWED' ||
-			error.response.data.type === 'MISSING_TOKEN'
-		) {
+		if (error.response.data.status === 401) {
 			store.dispatch(deleteToken());
 		}
 		return Promise.reject(error);

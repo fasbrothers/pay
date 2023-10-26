@@ -37,29 +37,6 @@ const routes: RouteObject[] = [
 				element: <Navigate to='cabinet' />,
 			},
 			{
-				path: '/auth',
-				element: <SignInUpLayout />,
-				loader: () => {
-					if (getFromCookie('token')) {
-						return redirect('/cabinet/main');
-					}
-					return null;
-				},
-				children: [
-					{
-						index: true,
-						element: <Navigate to='login' />,
-					},
-					{
-						children: [
-							{ path: 'login', element: <SignIn /> },
-							{ path: 'register', element: <SignUp /> },
-							{ path: '*', element: <SignIn /> },
-						],
-					},
-				],
-			},
-			{
 				path: '/cabinet',
 				element: <MainLayout />,
 				loader: ({ request }: LoaderFunctionArgs) => {
@@ -113,6 +90,30 @@ const routes: RouteObject[] = [
 					},
 				],
 			},
+			{
+				path: '/auth',
+				element: <SignInUpLayout />,
+				loader: () => {
+					if (getFromCookie('token')) {
+						return redirect('/cabinet/main');
+					}
+					return null;
+				},
+				children: [
+					{
+						index: true,
+						element: <Navigate to='login' />,
+					},
+					{
+						children: [
+							{ path: 'login', element: <SignIn /> },
+							{ path: 'register', element: <SignUp /> },
+							{ path: '*', element: <SignIn /> },
+						],
+					},
+				],
+			},
+
 			{ path: '*', element: <NotFound /> },
 		],
 	},

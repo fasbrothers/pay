@@ -28,6 +28,6 @@ export interface AuthImageTitleProps {
 }
 
 export interface AuthState {
-	token: string | undefined;
+	token: string | null;
 	params: string;
 }

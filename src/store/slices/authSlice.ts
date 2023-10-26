@@ -5,7 +5,7 @@ import { getFromCookie, removeFromCookie, setToken } from '../../utils/cookies';
 import { AuthState } from '../../@types/auth.types';
 
 const initialState: AuthState = {
-	token: getFromCookie('token'),
+	token: getFromCookie('token') || null,
 	params: '',
 };
 
@@ -18,7 +18,7 @@ export const authSlice = createSlice({
 			setToken(action.payload);
 		},
 		deleteToken: state => {
-			state.token = undefined;
+			state.token = null;
 			removeFromCookie('token');
 		},
 		getParams: (state, action: PayloadAction<string>) => {

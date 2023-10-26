@@ -1,10 +1,10 @@
 import { useMutation } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import { AuthImageTitle } from '../../components/auth-image-title';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { accessToken, deleteParams } from '../../store/slices/authSlice';
+import { useAppDispatch } from '../../hooks/redux-hooks';
+import { accessToken } from '../../store/slices/authSlice';
 import '../sign-up/sign-up.scss';
 import SignInForm from './components/sign-in-form';
 import { httpClient } from '../../api';
@@ -19,19 +19,14 @@ export default function SignIn() {
 	);
 
 	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
-	const intendedUrl = useAppSelector(state => state.auth.params);
 
 	const handleSubmit = async (values: InputValues) => {
 		const { password, otp, phone, trust } = values;
 
 		if (!additionalProperties.showOtp && !additionalProperties.showPassword) {
-			const { data } = await httpClient.post(
-				'/customer/getlogin',
-				{
-					phone: '998' + phone,
-				}
-			);
+			const { data } = await httpClient.post('/customer/getlogin', {
+				phone: '998' + phone,
+			});
 
 			setAdditionalProperties({
 				showPassword: data.password,
@@ -48,13 +43,6 @@ export default function SignIn() {
 			});
 
 			dispatch(accessToken(data.token));
-
-			if (intendedUrl) {
-				navigate(intendedUrl);
-				dispatch(deleteParams());
-			} else {
-				navigate('/cabinet/main');
-			}
 		}
 	};
 
