@@ -20,10 +20,11 @@ import {
 } from '../../@types/transaction.types';
 
 function Transactions() {
-	const [dateRange, setDateRange] = useState([dayjs().add(-14, 'd'), dayjs()]);
+	const [dateRange, setDateRange] = useState([dayjs().add(-8, 'd'), dayjs()]);
 	const [totalPassengers, setTotalPassengers] = useState(1);
 	const [page, setPage] = useState(1);
 	const [pageSize, setPageSize] = useState(10);
+	const [val, setVal] = useState({});
 
 	const handleChange: TableProps<Transaction>['onChange'] = (
 		pagination,
@@ -44,8 +45,6 @@ function Transactions() {
 	} = useMutation(async () => {
 		const fromDate = dateRange[0].format(dateFormat);
 		const toDate = dateRange[1].format(dateFormat);
-
-		console.log(page, pageSize);
 
 		const { data } = await httpClient.post<TransactionResponse>(
 			'/transaction',
@@ -72,17 +71,26 @@ function Transactions() {
 				fromDate: dayjs(values.rangePicker[0]).format(dateFormat),
 				toDate: dayjs(values.rangePicker[1]).format(dateFormat),
 				offset: new Date().getTimezoneOffset() / 60,
+				limit: 10,
+				page,
 			}
 		);
+		setTotalPassengers(data.total_count);
+		console.log(data);
 		return data;
 	});
 
 	useEffect(() => {
-		fetchInitialData();
-	}, [fetchInitialData, page, pageSize]);
+		if (Object.keys(val).length > 0) {
+			fetchDataOnFormSubmit(val as { rangePicker: string[] });
+		} else {
+			fetchInitialData();
+		}
+	}, [fetchInitialData, page, pageSize, val, fetchDataOnFormSubmit]);
 
 	const handleFormSubmit = (values: { rangePicker: string[] }) => {
 		fetchDataOnFormSubmit(values);
+		setVal(values);
 		setDateRange(values.rangePicker.map(date => dayjs(date)));
 	};
 
