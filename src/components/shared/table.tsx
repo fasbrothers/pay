@@ -8,7 +8,6 @@ export const Table = ({
 	isLoading,
 	rowClassName,
 	totalPassengers,
-	fetchRecords,
 }: TransactionTableProps) => {
 	return (
 		<TableT
@@ -21,10 +20,6 @@ export const Table = ({
 			rowKey={record => record.id}
 			pagination={{
 				total: totalPassengers,
-				onChange: (page, pageSize) => {
-					console.log(page, pageSize);
-					fetchRecords(page, pageSize);
-				},
 			}}
 		/>
 	);

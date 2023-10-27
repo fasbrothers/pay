@@ -41,25 +41,25 @@ function Transactions() {
 		mutate: fetchInitialData,
 		isLoading: isLoadingInitialData,
 		data: initialData,
-	} = useMutation(
-		async ({ page, pageSize }: { page: number; pageSize: number }) => {
-			const fromDate = dateRange[0].format(dateFormat);
-			const toDate = dateRange[1].format(dateFormat);
+	} = useMutation(async () => {
+		const fromDate = dateRange[0].format(dateFormat);
+		const toDate = dateRange[1].format(dateFormat);
 
-			const { data } = await httpClient.post<TransactionResponse>(
-				'/transaction',
-				{
-					fromDate,
-					toDate,
-					offset: new Date().getTimezoneOffset() / 60,
-					limit: pageSize,
-					page,
-				}
-			);
-			setTotalPassengers(data.total_count);
-			return data;
-		}
-	);
+		console.log(page, pageSize);
+
+		const { data } = await httpClient.post<TransactionResponse>(
+			'/transaction',
+			{
+				fromDate,
+				toDate,
+				offset: new Date().getTimezoneOffset() / 60,
+				limit: pageSize,
+				page,
+			}
+		);
+		setTotalPassengers(data.total_count);
+		return data;
+	});
 
 	const {
 		mutate: fetchDataOnFormSubmit,
@@ -78,7 +78,7 @@ function Transactions() {
 	});
 
 	useEffect(() => {
-		fetchInitialData({ page, pageSize });
+		fetchInitialData();
 	}, [fetchInitialData, page, pageSize]);
 
 	const handleFormSubmit = (values: { rangePicker: string[] }) => {
@@ -254,7 +254,6 @@ function Transactions() {
 				isLoading={isLoadingFormSubmit || isLoadingInitialData}
 				rowClassName={getRowClassName}
 				totalPassengers={totalPassengers}
-				fetchRecords={fetchInitialData}
 			/>
 		</div>
 	);

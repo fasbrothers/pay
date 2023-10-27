@@ -53,6 +53,5 @@ export interface TransactionTableProps {
 	) => void;
 	isLoading: boolean;
 	rowClassName: (record: Transaction) => string;
-	fetchRecords: any;
 	totalPassengers: number;
 }
