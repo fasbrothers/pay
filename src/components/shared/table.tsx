@@ -18,6 +18,7 @@ export const Table = ({
 			onChange={onChange}
 			loading={isLoading}
 			rowClassName={rowClassName}
+			rowKey={record => record.id}
 			pagination={{
 				total: totalPassengers,
 				onChange: (page, pageSize) => {

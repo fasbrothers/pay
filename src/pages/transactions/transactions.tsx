@@ -25,6 +25,18 @@ function Transactions() {
 	const [page, setPage] = useState(1);
 	const [pageSize, setPageSize] = useState(10);
 
+	const handleChange: TableProps<Transaction>['onChange'] = (
+		pagination,
+		filters,
+		sorter
+	) => {
+		console.log('Various parameters', pagination, filters, sorter);
+		setFilteredInfo(filters);
+		pagination.current && setPage(pagination.current);
+		pagination.pageSize && setPageSize(pagination.pageSize);
+		setSortedInfo(sorter as SorterResult<Transaction>);
+	};
+
 	const {
 		mutate: fetchInitialData,
 		isLoading: isLoadingInitialData,
@@ -33,9 +45,6 @@ function Transactions() {
 		async ({ page, pageSize }: { page: number; pageSize: number }) => {
 			const fromDate = dateRange[0].format(dateFormat);
 			const toDate = dateRange[1].format(dateFormat);
-
-			setPage(page);
-			setPageSize(pageSize);
 
 			const { data } = await httpClient.post<TransactionResponse>(
 				'/transaction',
@@ -81,18 +90,6 @@ function Transactions() {
 		Record<string, FilterValue | null>
 	>({});
 	const [sortedInfo, setSortedInfo] = useState<SorterResult<Transaction>>({});
-
-	const handleChange: TableProps<Transaction>['onChange'] = (
-		pagination,
-		filters,
-		sorter
-	) => {
-		console.log('Various parameters', pagination, filters, sorter);
-		setFilteredInfo(filters);
-		setPage(pagination.current || 1);
-		setPageSize(pagination.pageSize || 10);
-		setSortedInfo(sorter as SorterResult<Transaction>);
-	};
 
 	const clearFilters = () => {
 		setFilteredInfo({});
