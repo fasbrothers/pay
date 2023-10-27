@@ -7,6 +7,8 @@ export const Table = ({
 	onChange,
 	isLoading,
 	rowClassName,
+	totalPassengers,
+	fetchRecords,
 }: TransactionTableProps) => {
 	return (
 		<TableT
@@ -16,6 +18,13 @@ export const Table = ({
 			onChange={onChange}
 			loading={isLoading}
 			rowClassName={rowClassName}
+			pagination={{
+				total: totalPassengers,
+				onChange: (page, pageSize) => {
+					console.log(page, pageSize);
+					fetchRecords(page, pageSize);
+				},
+			}}
 		/>
 	);
 };

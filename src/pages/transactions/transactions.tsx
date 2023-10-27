@@ -20,27 +20,37 @@ import {
 } from '../../@types/transaction.types';
 
 function Transactions() {
-	const [dateRange, setDateRange] = useState([dayjs().add(-7, 'd'), dayjs()]);
+	const [dateRange, setDateRange] = useState([dayjs().add(-14, 'd'), dayjs()]);
+	const [totalPassengers, setTotalPassengers] = useState(1);
+	const [page, setPage] = useState(1);
+	const [pageSize, setPageSize] = useState(10);
 
 	const {
 		mutate: fetchInitialData,
 		isLoading: isLoadingInitialData,
 		data: initialData,
-	} = useMutation(async () => {
-		const fromDate = dateRange[0].format(dateFormat);
-		const toDate = dateRange[1].format(dateFormat);
+	} = useMutation(
+		async ({ page, pageSize }: { page: number; pageSize: number }) => {
+			const fromDate = dateRange[0].format(dateFormat);
+			const toDate = dateRange[1].format(dateFormat);
 
-		const { data } = await httpClient.post<TransactionResponse>(
-			'/transaction',
-			{
-				fromDate,
-				toDate,
-				offset: new Date().getTimezoneOffset() / 60,
-			}
-		);
+			setPage(page);
+			setPageSize(pageSize);
 
-		return data;
-	});
+			const { data } = await httpClient.post<TransactionResponse>(
+				'/transaction',
+				{
+					fromDate,
+					toDate,
+					offset: new Date().getTimezoneOffset() / 60,
+					limit: pageSize,
+					page,
+				}
+			);
+			setTotalPassengers(data.total_count);
+			return data;
+		}
+	);
 
 	const {
 		mutate: fetchDataOnFormSubmit,
@@ -59,8 +69,8 @@ function Transactions() {
 	});
 
 	useEffect(() => {
-		fetchInitialData();
-	}, [fetchInitialData]);
+		fetchInitialData({ page, pageSize });
+	}, [fetchInitialData, page, pageSize]);
 
 	const handleFormSubmit = (values: { rangePicker: string[] }) => {
 		fetchDataOnFormSubmit(values);
@@ -79,6 +89,8 @@ function Transactions() {
 	) => {
 		console.log('Various parameters', pagination, filters, sorter);
 		setFilteredInfo(filters);
+		setPage(pagination.current || 1);
+		setPageSize(pagination.pageSize || 10);
 		setSortedInfo(sorter as SorterResult<Transaction>);
 	};
 
@@ -222,11 +234,6 @@ function Transactions() {
 			),
 		},
 	];
-	const getRowClassName = (record: Transaction) => {
-		return record.type === 'income'
-			? 'bg-green-50 cursor-pointer'
-			: 'bg-red-50 cursor-pointer';
-	};
 
 	return (
 		<div>
@@ -242,21 +249,24 @@ function Transactions() {
 			<Table
 				columns={columns}
 				data={
-					(formSubmitData?.transactions.map(transaction => ({
-						...transaction,
-						key: transaction.id,
-					})) as Transaction[]) ||
-					initialData?.transactions.map(transaction => ({
-						...transaction,
-						key: transaction.id,
-					}))
+					(formSubmitData?.transactions ||
+						initialData?.transactions ||
+						[]) as Transaction[]
 				}
 				onChange={handleChange}
 				isLoading={isLoadingFormSubmit || isLoadingInitialData}
 				rowClassName={getRowClassName}
+				totalPassengers={totalPassengers}
+				fetchRecords={fetchInitialData}
 			/>
 		</div>
 	);
 }
 
 export default Transactions;
+
+const getRowClassName = (record: Transaction) => {
+	return record.type === 'income'
+		? 'bg-green-50 cursor-pointer'
+		: 'bg-red-50 cursor-pointer';
+};

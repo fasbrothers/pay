@@ -9,6 +9,7 @@ import {
 export interface TransactionResponse {
 	length: number;
 	transactions: Transaction[];
+	total_count: number;
 }
 
 export interface Transaction {
@@ -52,4 +53,6 @@ export interface TransactionTableProps {
 	) => void;
 	isLoading: boolean;
 	rowClassName: (record: Transaction) => string;
+	fetchRecords: any;
+	totalPassengers: number;
 }
