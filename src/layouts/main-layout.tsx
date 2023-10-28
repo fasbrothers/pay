@@ -13,7 +13,7 @@ export default function MainLayout() {
 	const { pathname } = useLocation();
 
 	const title = useMemo(() => {
-		if (pathname.split('/')[1] === 'cabinet') {
+		if (pathname.split('/')[2].length > 0) {
 			return pathname
 				.split('/')[2]
 				?.split('-')

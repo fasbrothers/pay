@@ -18,13 +18,18 @@ import {
 	Transaction,
 	TransactionResponse,
 } from '../../@types/transaction.types';
+import { useSearchParams } from 'react-router-dom';
 
 function Transactions() {
-	const [dateRange, setDateRange] = useState([dayjs().add(-8, 'd'), dayjs()]);
-	const [totalPassengers, setTotalPassengers] = useState(1);
-	const [page, setPage] = useState(1);
-	const [pageSize, setPageSize] = useState(10);
+	const [dateRange, setDateRange] = useState([dayjs().add(-10, 'd'), dayjs()]);
+	const [totalTransactions, setTotalTransactions] = useState(1);
+	const [pageParams, setPageParams] = useSearchParams({
+		page: '1',
+		pageSize: '10',
+	});
 	const [val, setVal] = useState({});
+	const page = pageParams.get('page');
+	const pageSize = pageParams.get('pageSize');
 
 	const handleChange: TableProps<Transaction>['onChange'] = (
 		pagination,
@@ -33,8 +38,19 @@ function Transactions() {
 	) => {
 		console.log('Various parameters', pagination, filters, sorter);
 		setFilteredInfo(filters);
-		pagination.current && setPage(pagination.current);
-		pagination.pageSize && setPageSize(pagination.pageSize);
+		setPageParams(
+			prevParams => {
+				return {
+					page:
+						(pagination.current as number)?.toString() ??
+						prevParams.get('page'),
+					pageSize:
+						(pagination.pageSize as number)?.toString() ??
+						prevParams.get('pageSize'),
+				};
+			},
+			{ replace: true }
+		);
 		setSortedInfo(sorter as SorterResult<Transaction>);
 	};
 
@@ -56,7 +72,7 @@ function Transactions() {
 				page,
 			}
 		);
-		setTotalPassengers(data.total_count);
+		setTotalTransactions(data.total_count);
 		return data;
 	});
 
@@ -71,12 +87,11 @@ function Transactions() {
 				fromDate: dayjs(values.rangePicker[0]).format(dateFormat),
 				toDate: dayjs(values.rangePicker[1]).format(dateFormat),
 				offset: new Date().getTimezoneOffset() / 60,
-				limit: 10,
+				limit: pageSize,
 				page,
 			}
 		);
-		setTotalPassengers(data.total_count);
-		console.log(data);
+		setTotalTransactions(data.total_count);
 		return data;
 	});
 
@@ -89,7 +104,6 @@ function Transactions() {
 	}, [fetchInitialData, page, pageSize, val, fetchDataOnFormSubmit]);
 
 	const handleFormSubmit = (values: { rangePicker: string[] }) => {
-		fetchDataOnFormSubmit(values);
 		setVal(values);
 		setDateRange(values.rangePicker.map(date => dayjs(date)));
 	};
@@ -254,14 +268,16 @@ function Transactions() {
 			<Table
 				columns={columns}
 				data={
-					(formSubmitData?.transactions ||
-						initialData?.transactions ||
-						[]) as Transaction[]
+					(formSubmitData?.transactions
+						? formSubmitData?.transactions
+						: initialData?.transactions) as Transaction[]
 				}
 				onChange={handleChange}
 				isLoading={isLoadingFormSubmit || isLoadingInitialData}
 				rowClassName={getRowClassName}
-				totalPassengers={totalPassengers}
+				totalTransactions={totalTransactions}
+				page={page || '1'}
+				pageSize={pageSize || '10'}
 			/>
 		</div>
 	);

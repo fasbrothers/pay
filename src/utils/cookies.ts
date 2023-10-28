@@ -9,13 +9,13 @@ export function removeFromCookie(item: string) {
 }
 
 export function setUIDorLanguage(title: string, value: string) {
-	return Cookies.set(title, value, { expires: 365 });
+	return Cookies.set(title, value);
 }
 
 export function setLang(value: string = 'en') {
-	return Cookies.set('language', value, { expires: 365 });
+	return Cookies.set('language', value);
 }
 
 export function setToken(token: string) {
-	Cookies.set('token', token, { expires: 2 });
+	Cookies.set('token', token);
 }

@@ -7,7 +7,9 @@ export const Table = ({
 	onChange,
 	isLoading,
 	rowClassName,
-	totalPassengers,
+	totalTransactions,
+	page,
+	pageSize,
 }: TransactionTableProps) => {
 	return (
 		<TableT
@@ -19,7 +21,10 @@ export const Table = ({
 			rowClassName={rowClassName}
 			rowKey={record => record.id}
 			pagination={{
-				total: totalPassengers,
+				total: totalTransactions,
+				showSizeChanger: true,
+				defaultCurrent: +page,
+				defaultPageSize: +pageSize,
 			}}
 		/>
 	);

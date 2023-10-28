@@ -53,5 +53,7 @@ export interface TransactionTableProps {
 	) => void;
 	isLoading: boolean;
 	rowClassName: (record: Transaction) => string;
-	totalPassengers: number;
+	totalTransactions: number;
+	page: string;
+	pageSize: string;
 }
