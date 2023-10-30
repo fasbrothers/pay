@@ -12,6 +12,7 @@ import {
 	Service,
 	ServicesResponse,
 } from '../../@types/service.types';
+import { useSearchParams } from 'react-router-dom';
 
 const categorySaved: { [key: string]: Category } = {
 	ru: {
@@ -33,8 +34,10 @@ function Payments() {
 		name: '',
 		code: '',
 	});
-	const [search, setSearch] = useState<string>('');
+	const [searchParams, setSearchParams] = useSearchParams({ search: '' });
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+	const search = searchParams.get('search') || '';
 
 	const [service, setService] = useState<object>({});
 
@@ -94,7 +97,7 @@ function Payments() {
 						<SearchInputField
 							value={search}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-								setSearch(e.target.value)
+								setSearchParams({ search: e.target.value })
 							}
 						/>
 						<div className='mt-3'>
@@ -112,7 +115,7 @@ function Payments() {
 						<SearchInputField
 							value={search}
 							onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-								setSearch(e.target.value)
+								setSearchParams({ search: e.target.value })
 							}
 							setWidth={'w-full sm:w-2/3'}
 						/>
