@@ -44,9 +44,10 @@ export default function MainLayout() {
 				balance={profile?.balance || ''}
 			/>
 			<div
+				onClick={() => showNavbar && setShowNavbar(!showNavbar)}
 				className={`${
 					showNavbar && 'blur-sm'
-				} w-full md:w-4/6 lg:w-3/4 xl:w-5/6 px-3 md:px-10 lg:px-20 flex flex-col`}
+				} w-full md:w-4/6 lg:w-[78%] xl:w-5/6 px-5 md:px-10 lg:px-20 flex flex-col`}
 			>
 				<HeaderMain
 					setShowNavbar={setShowNavbar}

@@ -42,18 +42,15 @@ export const FooterMain = ({ language }: { language: string }) => {
 	}) as FooterLinks[];
 
 	return (
-		<div className='lg:h-[8vh] border-t border-gray-200 flex flex-col md:flex-row justify-between items-center mt-2 xl:mt-0 py-4 lg:py-0'>
-			<div>
+		<div className='lg:h-[8vh] border-t border-gray-200 flex flex-col md:flex-row justify-between items-center mt-2 xl:mt-0 pt-4 lg:py-0'>
+			<div className='flex gap-x-4 flex-wrap justify-center md:justify-start'>
 				{footerList.map(item => (
-					<p
-						key={item.id}
-						className='inline-block mr-6 font-bold text-sm cursor-pointer'
-					>
+					<p key={item.id} className='font-bold text-sm cursor-pointer'>
 						{item.title}
 					</p>
 				))}
 			</div>
-			<div className='flex gap-y-3 items-baseline text-gray-600 mt-4 md:mt-0'>
+			<div className='flex gap-x-1 items-baseline text-gray-600 '>
 				<Form form={form}>
 					<Form.Item
 						name='setLanguage'
