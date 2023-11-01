@@ -1,32 +1,24 @@
-import { useLocation, useNavigate } from 'react-router-dom';
-import { ServicePaymentModal } from './service-payment-modal';
+import { useLocation } from 'react-router-dom';
+import { ServicePayment } from './service-payment';
 import { useDataFetching } from '../../hooks/useDataFetching';
-import { useState } from 'react';
 import { Service } from '../../@types/service.types';
+import { Spin } from 'antd';
 
 export const SingleService = () => {
 	const serviceId = useLocation().pathname.split('/')[4];
-	const { data: service, isLoading } = useDataFetching<Service>(
+	const { data: service, isFetching } = useDataFetching<Service>(
 		'single-service',
 		'/service/public/' + serviceId
 	);
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(true);
-	const navigate = useNavigate();
-
-	const handleCancel = () => {
-		setIsModalOpen(false);
-		navigate('/cabinet/main');
-	};
 
 	return (
 		<>
-			{!isLoading && (
-				<ServicePaymentModal
-					setIsModalOpen={handleCancel}
-					isModalOpen={isModalOpen}
-					service={service as Service}
-					onCancel={handleCancel}
-				/>
+			{isFetching ? (
+				<div className='flex justify-center items-center h-[50vh]'>
+					<Spin size='large' />
+				</div>
+			) : (
+				<ServicePayment service={service as Service} />
 			)}
 		</>
 	);

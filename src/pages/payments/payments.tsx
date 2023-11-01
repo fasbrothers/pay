@@ -5,29 +5,9 @@ import { useDataFetching } from '../../hooks/useDataFetching';
 import { PaymentCategory } from '../../components/service/payment-category';
 import { ServiceItem } from '../../components/service/service-item';
 import { SearchInputField } from '../../components/service/search-input-field';
-import { ServicePaymentModal } from '../../components/service/service-payment-modal';
 import { getFromCookie } from '../../utils/cookies';
-import {
-	Category,
-	Service,
-	ServicesResponse,
-} from '../../@types/service.types';
+import { Category, ServicesResponse } from '../../@types/service.types';
 import { useSearchParams } from 'react-router-dom';
-
-const categorySaved: { [key: string]: Category } = {
-	ru: {
-		code: 'saved',
-		name: 'Сохраненные услуги',
-	},
-	uz: {
-		code: 'saved',
-		name: 'Saqlangan xizmatlar',
-	},
-	en: {
-		code: 'saved',
-		name: 'Saved services',
-	},
-};
 
 function Payments() {
 	const [selectedCategory, setSelectedCategory] = useState<Category>({
@@ -35,21 +15,12 @@ function Payments() {
 		code: '',
 	});
 	const [searchParams, setSearchParams] = useSearchParams({ search: '' });
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
 	const search = searchParams.get('search') || '';
-
-	const [service, setService] = useState<object>({});
-
 	const { data, isLoading } = useDataFetching<ServicesResponse>(
 		'services',
 		'/service'
 	);
-
-	const showModal = (serviceInfo: Service) => {
-		setIsModalOpen(true);
-		setService(serviceInfo);
-	};
 
 	const userLanguage = getFromCookie('language');
 	const savedCategory = categorySaved[userLanguage || ''];
@@ -86,6 +57,16 @@ function Payments() {
 			});
 		}
 	}, [categories.length, search]);
+
+	const filteredServices = data?.services.filter(service => {
+		if (selectedCategory.code === 'search' && search.length > 0) {
+			return service.name.toLowerCase().includes(search.toLowerCase());
+		} else if (selectedCategory.code === savedCategory.code) {
+			return service.saved;
+		} else {
+			return service.category_name === selectedCategory.name;
+		}
+	});
 
 	return (
 		<>
@@ -138,34 +119,30 @@ function Payments() {
 							</h4>
 						</div>
 						<div className='flex py-4 px-2 flex-wrap gap-y-5 justify-around gap-x-1 xl::gap-x-2'>
-							{data?.services
-								.filter(service =>
-									selectedCategory.code === 'search' && search.length > 0
-										? service.name.toLowerCase().includes(search.toLowerCase())
-										: selectedCategory.code ===
-										categorySaved[userLanguage || ''].code
-										? service.saved
-										: service.category_name === selectedCategory.name
-								)
-								.map(service => (
-									<ServiceItem
-										key={service.id}
-										service={service}
-										showModal={showModal}
-									/>
-								))}
+							{filteredServices?.map(service => (
+								<ServiceItem key={service.id} service={service} />
+							))}
 						</div>
 					</div>
 				</div>
 			)}
-			<ServicePaymentModal
-				setIsModalOpen={setIsModalOpen}
-				isModalOpen={isModalOpen}
-				service={service as Service}
-				onCancel={() => setIsModalOpen(false)}
-			/>
 		</>
 	);
 }
 
 export default Payments;
+
+const categorySaved: { [key: string]: Category } = {
+	ru: {
+		code: 'saved',
+		name: 'Сохраненные услуги',
+	},
+	uz: {
+		code: 'saved',
+		name: 'Saqlangan xizmatlar',
+	},
+	en: {
+		code: 'saved',
+		name: 'Saved services',
+	},
+};

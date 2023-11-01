@@ -28,8 +28,8 @@ function Transactions() {
 		pageSize: '10',
 	});
 	const [val, setVal] = useState({});
-	const page = pageParams.get('page');
-	const pageSize = pageParams.get('pageSize');
+	const page = pageParams.get('page') || '1';
+	const pageSize = pageParams.get('pageSize') || '10';
 
 	const handleChange: TableProps<Transaction>['onChange'] = (
 		pagination,
@@ -73,6 +73,17 @@ function Transactions() {
 			}
 		);
 		setTotalTransactions(data.total_count);
+		if (data.total_count === 0) {
+			setPageParams(
+				prevParams => {
+					return {
+						page: '1',
+						pageSize: prevParams.get('pageSize') || '',
+					};
+				},
+				{ replace: true }
+			);
+		}
 		return data;
 	});
 
@@ -165,7 +176,7 @@ function Transactions() {
 							)}
 							<div>
 								<h3 className='font-semibold text-base'>
-									{record.sender.name}{' '}
+									From {record.sender.name}{' '}
 									{record.sender.pan.split('').slice(-6).join('')}
 								</h3>
 								<p>To {record.receiver.name}</p>
@@ -184,7 +195,7 @@ function Transactions() {
 							)}
 							<div>
 								<h3 className='font-semibold text-base'>
-									{record.receiver.name}{' '}
+									To {record.receiver.name}{' '}
 									{record.receiver.pan &&
 										record.receiver.pan.split('').slice(-6).join('')}
 								</h3>
@@ -276,8 +287,8 @@ function Transactions() {
 				isLoading={isLoadingFormSubmit || isLoadingInitialData}
 				rowClassName={getRowClassName}
 				totalTransactions={totalTransactions}
-				page={page || '1'}
-				pageSize={pageSize || '10'}
+				page={page}
+				pageSize={pageSize}
 			/>
 		</div>
 	);
@@ -285,8 +296,7 @@ function Transactions() {
 
 export default Transactions;
 
-const getRowClassName = (record: Transaction) => {
-	return record.type === 'income'
+const getRowClassName = (record: Transaction) =>
+	record.type === 'income'
 		? 'bg-green-50 cursor-pointer'
 		: 'bg-red-50 cursor-pointer';
-};
