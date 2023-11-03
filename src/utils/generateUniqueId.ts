@@ -1,7 +1,14 @@
 import { getFromCookie, setUIDorLanguage } from './cookies';
 
 function generateId() {
-	return Math.random().toString(36).substr(2, 72);
+	let result = '';
+	const characters =
+		'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	const charactersLength = characters.length;
+	for (let i = 0; i < 30; i++) {
+		result += characters.charAt(Math.floor(Math.random() * charactersLength));
+	}
+	return result;
 }
 
 export default function saveToStorage() {

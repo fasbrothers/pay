@@ -55,7 +55,7 @@ export const ServicePayment = ({ service }: { service: Service }) => {
 		}
 	);
 
-	const { image_url } = service;
+	const { image_url, fields } = service;
 	return (
 		<div className='w-full sm:w-4/5 xl:w-2/4 2xl:w-1/3 mx-auto mt-5'>
 			<div className='flex justify-center'>
@@ -102,8 +102,8 @@ export const ServicePayment = ({ service }: { service: Service }) => {
 						className='input__style'
 					/>
 				</Form.Item>
-				{service.fields &&
-					service.fields.map(field => {
+				{fields &&
+					fields.map(field => {
 						return (
 							<Form.Item
 								key={field.id}
@@ -125,7 +125,7 @@ export const ServicePayment = ({ service }: { service: Service }) => {
 										: ({
 												required: true,
 												message: 'Input is required',
-										} as Rule),
+									} as Rule),
 								]}
 							>
 								{field.type === 'phone' ? (
