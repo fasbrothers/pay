@@ -12,8 +12,11 @@ export function setUIDorLanguage(title: string, value: string) {
 	return Cookies.set(title, value);
 }
 
-export function setLang(value: string = 'en') {
-	return Cookies.set('language', value);
+export function setLanguage(
+	title: string,
+	value: string = navigator.language || 'en'
+) {
+	return Cookies.set(title, value);
 }
 
 export function setToken(token: string) {

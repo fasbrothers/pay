@@ -4,7 +4,7 @@ import { HeaderMain } from '../components/main/header-main';
 import { FooterMain } from '../components/main/footer-main';
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { LoadingLazy } from '../components/shared/loading-lazy';
-import { setLang } from '../utils/cookies';
+import { setLanguage } from '../utils/cookies';
 import { useDataFetching } from '../hooks/useDataFetching';
 import { ProfileResponse } from '../@types/profile.types';
 
@@ -32,7 +32,7 @@ export default function MainLayout() {
 	} = useDataFetching<ProfileResponse>('profile', '/customer/profile');
 
 	useEffect(() => {
-		!isLoading && setLang(profile?.lang as string);
+		!isLoading && setLanguage(profile?.lang as string);
 	}, [isLoading, profile?.lang]);
 
 	return (

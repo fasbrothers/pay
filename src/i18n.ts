@@ -18,7 +18,7 @@ const resources = {
 	},
 };
 
-const defaultLanguage = getFromCookie('language') || 'en';
+const defaultLanguage = getFromCookie('language') || navigator.language || 'uz';
 
 i18next.use(initReactI18next).init({
 	resources,

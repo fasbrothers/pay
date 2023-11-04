@@ -5,14 +5,37 @@ import { CheckBox } from '../shared/checkbox';
 import { ButtonPrimary } from '../shared/button';
 import { MaskedInput } from 'antd-mask-input';
 import { AuthProps, InputValues } from '../../@types/auth.types';
+import useTimer, { TimerState } from '../../hooks/useTimer';
+import { useEffect } from 'react';
+import { convertSecondsToMinutes } from '../../utils/convertSecondsToMinutes';
+import { useTranslation } from 'react-i18next';
 
-function SignInForm({ additionalProperties, mutate, isLoading }: AuthProps) {
+function SignInForm({
+	additionalProperties,
+	mutate,
+	isLoading,
+	timeLeft,
+}: AuthProps) {
 	const [form] = Form.useForm();
+	const { t } = useTranslation();
 
 	function handleSubmit(values: InputValues) {
 		values.phone = values.phone && values.phone.replace(/\s/g, '');
 		mutate(values);
 	}
+
+	const { minutes, seconds, setMinutes, setSeconds }: TimerState = useTimer({
+		initialSeconds: timeLeft || 0,
+	});
+
+	useEffect(() => {
+		const { minutes, remainingSeconds } = convertSecondsToMinutes(
+			timeLeft || 0
+		);
+		setMinutes(minutes);
+		setSeconds(remainingSeconds);
+	}, [timeLeft, setMinutes, setSeconds]);
+
 	return (
 		<>
 			<Form
@@ -24,14 +47,14 @@ function SignInForm({ additionalProperties, mutate, isLoading }: AuthProps) {
 			>
 				<Form.Item
 					name='phone'
-					label='Phone Number'
+					label={t('auth.sign_in.phone.title')}
 					labelCol={{ span: 24 }}
 					wrapperCol={{ span: 24 }}
 					rules={[
-						{ required: true, message: 'Please input your phone number!' },
+						{ required: true, message: t('auth.sign_in.phone.error') },
 						{
 							pattern: /^\d{2} \d{3} \d{2} \d{2}$/,
-							message: 'Must be a valid phone number',
+							message: t('auth.sign_in.phone.error_pattern'),
 						},
 					]}
 				>
@@ -50,13 +73,13 @@ function SignInForm({ additionalProperties, mutate, isLoading }: AuthProps) {
 				{additionalProperties?.showOtp && (
 					<Form.Item
 						name='otp'
-						label='Verification Code'
+						label={t('auth.sign_in.otp.title')}
 						labelCol={{ span: 24 }}
 						wrapperCol={{ span: 24 }}
 						rules={[
 							{
 								required: true,
-								message: 'Please input your verification code!',
+								message: t('auth.sign_in.otp.error'),
 							},
 						]}
 					>
@@ -71,23 +94,38 @@ function SignInForm({ additionalProperties, mutate, isLoading }: AuthProps) {
 					<>
 						<Form.Item
 							name='password'
-							label='Password'
+							label={t('auth.sign_in.password.title')}
 							labelCol={{ span: 24 }}
 							wrapperCol={{ span: 24 }}
 							rules={[
 								{
 									required: true,
-									message: 'Please input your password!',
+									message: t('auth.sign_in.password.error'),
 								},
 							]}
 						>
 							<Input.Password name='password' className='input__style' />
 						</Form.Item>
-						<CheckBox title='Trusted Device' name='trust' />
+						<CheckBox title={t('auth.sign_in.trust_checkbox')} name='trust' />
 					</>
 				)}
+				{seconds > 0 || minutes > 0 ? (
+					<p className='mb-3 text-base'>
+						{t('auth.sign_in.block.title')} :{' '}
+						{minutes < 10 ? `0${minutes}` : minutes}:
+						{seconds < 10 ? `0${seconds}` : seconds}
+					</p>
+				) : null}
 				<Form.Item>
-					<ButtonPrimary isLoading={isLoading} title='Sign In' />
+					<ButtonPrimary
+						disabled={seconds > 0 || minutes > 0}
+						isLoading={isLoading}
+						title={
+							seconds > 0 || minutes > 0
+								? t('auth.sign_in.button_blocked')
+								: t('auth.sign_in.button')
+						}
+					/>
 				</Form.Item>
 			</Form>
 		</>

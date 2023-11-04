@@ -86,5 +86,76 @@
 			"id": 4,
 			"title": "Help Center"
 		}
-	]
+	],
+	"auth": {
+		"sign_in": {
+			"title": "Sign In",
+			"account_text": "You don't have an account?",
+			"account_link": "Create an account",
+			"phone": {
+				"title": "Phone Number",
+				"error": "Please input your phone number!",
+				"error_pattern": "Please input valid phone number!"
+			},
+			"otp": {
+				"title": "Verification Code",
+				"error": "Please input your verification code!"
+			},
+			"password": {
+				"title": "Password",
+				"error": "Please input your password!"
+			},
+			"trust_checkbox": "Trusted Device",
+			"button": "Sign In",
+			"button_blocked": "Please wait...",
+			"block": {
+				"title": "Time for block"
+			}
+		},
+		"sign_up": {
+			"title": "Sign Up",
+			"account_text": "Already registered?",
+			"account_link": "Sign In",
+			"otp": {
+				"title": "Verification Code",
+				"error": "Please input your verification code!"
+			},
+			"name": {
+				"title": "Name",
+				"error": "Please input your name!",
+				"error_length": "Name must be minimum 2 characters"
+			},
+			"phone": {
+				"title": "Phone Number",
+				"error": "Please input your phone number!",
+				"error_pattern": "Please input valid phone number!"
+			},
+			"email": {
+				"title": "Email",
+				"error": "Please input your email!"
+			},
+			"password": {
+				"title": "Password",
+				"error": "Please input your password!",
+				"error_length": "Password must be minimum 7 characters",
+				"error_pattern": "Password must be at least one number and letter."
+			},
+			"password_confirmation": {
+				"title": "Password Confirmation",
+				"error": "Please input your password confirmation!",
+				"error_match": "The new password that you entered do not match!"
+			},
+			"button": "Create account",
+			"block": {
+				"title": "Time Remaining",
+				"button": "Resend Code"
+			},
+			"no_block": "Didn't receive the code?"
+		},
+		"sign_sidebar": {
+			"name": "Azizbek Naimov",
+			"job": "Financial Officer",
+			"description": "Fintech is the technology and innovation that aims to complete with traditional financial methods"
+		}
+	}
 }

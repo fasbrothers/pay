@@ -12,7 +12,8 @@ httpClient.interceptors.request.use(
 		const token = getToken(store.getState());
 
 		config.headers.Authorization = token ? token : undefined;
-		config.headers['Accept-Language'] = getFromCookie('language') || 'en';
+		config.headers['Accept-Language'] =
+			getFromCookie('language') || navigator.language || 'en';
 		config.headers['X-Device-Id'] = getFromCookie('uid');
 		return config;
 	},

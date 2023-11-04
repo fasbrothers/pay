@@ -5,9 +5,11 @@ import { CheckBox } from '../shared/checkbox';
 import { ButtonPrimary } from '../shared/button';
 import { MaskedInput } from 'antd-mask-input';
 import { AuthProps, InputValues } from '../../@types/auth.types';
+import { useTranslation } from 'react-i18next';
 
 const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 	const [form] = Form.useForm();
+	const { t } = useTranslation();
 
 	const handleSubmit = (values: InputValues) => {
 		values.phone = values.phone && values.phone.replace(/\s/g, '');
@@ -22,14 +24,18 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 		>
 			<Form.Item
 				name='name'
-				label='Name'
+				label={t('auth.sign_up.name.title')}
 				labelCol={{ span: 24 }}
 				wrapperCol={{ span: 24 }}
 				rules={[
 					{
 						required: true,
-						message: 'Please input your name!',
+						message: t('auth.sign_up.name.error'),
 						whitespace: true,
+					},
+					{
+						min: 2,
+						message: t('auth.sign_up.name.error_length'),
 					},
 				]}
 			>
@@ -39,20 +45,21 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 					suffix={<AccountCircleIcon className='text-gray-500' />}
 				/>
 			</Form.Item>
+
 			<Form.Item
 				name='password'
-				label='Password'
+				label={t('auth.sign_up.password.title')}
 				labelCol={{ span: 24 }}
 				wrapperCol={{ span: 24 }}
 				rules={[
 					{
 						required: true,
-						message: 'Please input your password!',
+						message: t('auth.sign_up.password.error'),
 					},
-					{ min: 6, message: 'Password must be minimum 6 characters.' },
+					{ min: 6, message: t('auth.sign_up.password.error_length') },
 					{
 						pattern: new RegExp('([A-Za-z]+[0-9]|[0-9]+[A-Za-z])[A-Za-z0-9]*'),
-						message: 'Password must be at least one number and letter.',
+						message: t('auth.sign_up.password.error_pattern'),
 					},
 				]}
 				hasFeedback
@@ -62,7 +69,7 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 
 			<Form.Item
 				name='confirm'
-				label='Confirm Password'
+				label={t('auth.sign_up.password_confirmation.title')}
 				dependencies={['password']}
 				labelCol={{ span: 24 }}
 				wrapperCol={{ span: 24 }}
@@ -70,7 +77,7 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 				rules={[
 					{
 						required: true,
-						message: 'Please confirm your password!',
+						message: t('auth.sign_up.password_confirmation.error'),
 					},
 					({ getFieldValue }) => ({
 						validator(_, value) {
@@ -78,7 +85,7 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 								return Promise.resolve();
 							}
 							return Promise.reject(
-								new Error('The new password that you entered do not match!')
+								new Error(t('auth.sign_up.password_confirmation.error_match'))
 							);
 						},
 					}),
@@ -89,14 +96,14 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 
 			<Form.Item
 				name='phone'
-				label='Phone Number'
+				label={t('auth.sign_up.phone.title')}
 				labelCol={{ span: 24 }}
 				wrapperCol={{ span: 24 }}
 				rules={[
-					{ required: true, message: 'Please input your phone number!' },
+					{ required: true, message: t('auth.sign_up.phone.error') },
 					{
 						pattern: /^\d{2} \d{3} \d{2} \d{2}$/,
-						message: 'Must be a valid phone number',
+						message: t('auth.sign_up.phone.error_pattern'),
 					},
 				]}
 			>
@@ -111,9 +118,9 @@ const SignUpForm = ({ mutate, isLoading }: AuthProps) => {
 					suffix={<PhoneEnabledIcon className='text-gray-500' />}
 				/>
 			</Form.Item>
-			<CheckBox title='Trusted Device' name='trust' />
+			<CheckBox title={t('auth.sign_in.trust_checkbox')} name='trust' />
 			<Form.Item>
-				<ButtonPrimary isLoading={isLoading} title='Create account' />
+				<ButtonPrimary isLoading={isLoading} title={t('auth.sign_up.button')} />
 			</Form.Item>
 		</Form>
 	);

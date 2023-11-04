@@ -2,6 +2,7 @@ export interface AuthProps {
 	additionalProperties?: SignInProps;
 	mutate: (values: InputValues) => void;
 	isLoading: boolean;
+	timeLeft?: number;
 }
 
 export interface InputValues {
