@@ -13,7 +13,7 @@ httpClient.interceptors.request.use(
 
 		config.headers.Authorization = token ? token : undefined;
 		config.headers['Accept-Language'] =
-			getFromCookie('language') || navigator.language || 'en';
+		getFromCookie('language') || navigator.language || 'en';
 		config.headers['X-Device-Id'] = getFromCookie('uid');
 		return config;
 	},

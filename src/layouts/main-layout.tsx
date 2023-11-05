@@ -2,7 +2,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { SidebarInMain } from '../components/main/sidebar-in-main';
 import { HeaderMain } from '../components/main/header-main';
 import { FooterMain } from '../components/main/footer-main';
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { LoadingLazy } from '../components/shared/loading-lazy';
 import { setLanguage } from '../utils/cookies';
 import { useDataFetching } from '../hooks/useDataFetching';
@@ -31,9 +31,7 @@ export default function MainLayout() {
 		isError,
 	} = useDataFetching<ProfileResponse>('profile', '/customer/profile');
 
-	useEffect(() => {
-		!isLoading && setLanguage(profile?.lang as string);
-	}, [isLoading, profile?.lang]);
+	!isLoading && setLanguage('language', profile?.lang as string);
 
 	return (
 		<div className='w-full flex min-h-screen'>
