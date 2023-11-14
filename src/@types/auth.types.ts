@@ -2,12 +2,14 @@ export interface AuthProps {
 	additionalProperties?: SignInProps;
 	mutate: (values: InputValues) => void;
 	isLoading: boolean;
-	timeLeft?: number;
+	showOTP?: boolean;
+	timeLeft: number;
+	setTimeLeft?: (time: number) => void;
 }
 
 export interface InputValues {
 	phone?: string;
-	otp?: string;
+	otp: string | undefined;
 	password?: string;
 	trust?: boolean;
 	name?: string;
@@ -31,4 +33,9 @@ export interface AuthImageTitleProps {
 export interface AuthState {
 	token: string | null;
 	params: string;
+}
+
+export interface SendCodeResponse {
+	success: boolean;
+	timeLeft: number;
 }

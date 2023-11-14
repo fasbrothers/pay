@@ -146,6 +146,7 @@
 				"error_match": "The new password that you entered do not match!"
 			},
 			"button": "Create account",
+			"button_verify": "Verify Phone",
 			"block": {
 				"title": "Time Remaining",
 				"button": "Resend Code"

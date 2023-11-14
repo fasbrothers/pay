@@ -146,6 +146,7 @@
 				"error_match": "Siz kiritgan yangi parol mos emas!"
 			},
 			"button": "Profil yaratish",
+			"button_verify": "Telefonni tasdiqlang",
 			"block": {
 				"title": "Qolgan vaqt",
 				"button": "Kodni qayta yuborish"

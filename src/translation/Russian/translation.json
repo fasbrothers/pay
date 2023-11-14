@@ -146,11 +146,12 @@
 				"error_match": "Пароль, который вы ввели, не соответствует!"
 			},
 			"button": "Регистрация",
+			"button_verify": "Подтвердить телефон",
 			"block": {
 				"title": "Времени осталось",
 				"button": "Отправить код еще раз"
 			},
-			"no_block": "Didn't receive the code?"
+			"no_block": "Не получили код?"
 		},
 		"sign_sidebar": {
 			"name": "Азизбек Наимов",
