@@ -22,7 +22,8 @@ export interface CardFormProps {
 }
 
 export interface DeleteCardProps {
-	id: string;
+	id?: string;
+	deviceId?: string;
 	isModalOpen: boolean;
 	setIsModalOpen: (value: boolean) => void;
 	handleCancel: () => void;

@@ -28,6 +28,7 @@ export interface ButtonPrimaryProps {
 	weight?: string;
 	isLoading?: boolean;
 	disabled?: boolean;
+	bgColor?: string;
 }
 
 export interface FooterLinks {

@@ -18,3 +18,15 @@ export interface ProfileModelFormProps {
 	isModalOpen: boolean;
 	profile: ProfileResponse | undefined;
 }
+
+export interface DevicesResponse {
+	count: number;
+	rows: Device[];
+}
+
+export interface Device {
+	id: number;
+	name: string;
+	last_login: string;
+	device_id: string;
+}

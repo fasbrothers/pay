@@ -6,12 +6,15 @@ export const ButtonPrimary = ({
 	weight,
 	isLoading,
 	disabled,
+	bgColor,
 }: ButtonPrimaryProps) => {
 	return (
 		<Button
 			disabled={disabled}
-			className={`bg-blue-700 text-white h-full md:text-lg py-3 mx-auto text-center rounded-md hover:bg-white ${
-				weight ? `w-[${weight}]` : 'w-full'
+			className={`${
+				bgColor ? bgColor : 'bg-blue-700'
+			} text-white h-full md:text-lg py-3 mx-auto text-center rounded-md hover:bg-white ${
+				weight ? weight : 'w-full'
 			} `}
 			htmlType='submit'
 			name='submit'

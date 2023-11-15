@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpClient } from '../../api';
 import { Button, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
@@ -7,6 +7,7 @@ import { DeleteCardProps } from '../../@types/card.types';
 
 export function DeleteCard({
 	id,
+	deviceId,
 	isModalOpen,
 	setIsModalOpen,
 	handleCancel,
@@ -16,17 +17,27 @@ export function DeleteCard({
 	modalMessage,
 }: DeleteCardProps) {
 	const navigate = useNavigate();
+	const queryClient = useQueryClient();
 
 	const { mutate, isLoading } = useMutation({
 		mutationFn: async () => {
 			const { data } = await httpClient.delete(url, {
-				data: { id },
+				data: {
+					id,
+					deviceId,
+				},
 			});
 			setIsModalOpen(false);
 			data.message ? toastSuccessMessage(data.message) : null;
 		},
 		onSuccess: () => {
 			navigate(navigateUrl);
+			if (deviceId) {
+				queryClient.invalidateQueries(['devices']);
+			}
+			if (id) {
+				queryClient.invalidateQueries(['cards']);
+			}
 		},
 	});
 	return (
