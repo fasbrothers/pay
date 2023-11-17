@@ -1,5 +1,5 @@
 import { useMutation } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import { AuthImageTitle } from '../../components/auth/auth-image-title';
@@ -7,11 +7,20 @@ import { useAppDispatch } from '../../hooks/redux-hooks';
 import { accessToken } from '../../store/slices/authSlice';
 import '../sign-up/sign-up.scss';
 import SignInForm from '../../components/auth/sign-in-form';
-import { httpClient } from '../../api';
-import { InputValues, SignInProps } from '../../@types/auth.types';
+import { connectSocket, disconnectSocket, httpClient, socket } from '../../api';
+import {
+	InputValues,
+	QRCodeResponse,
+	SignInProps,
+} from '../../@types/auth.types';
 import { AxiosError } from 'axios';
 import { ErrorResponse } from '../../@types/error.types';
 import { useTranslation } from 'react-i18next';
+import { useEffect } from 'react';
+import { GenerateQr } from '../../components/generate-qr';
+import { getFromCookie } from '../../utils/cookies';
+import toastMessage from '../../utils/toast-message';
+import { ButtonPrimary } from '../../components/shared/button';
 
 export default function SignIn() {
 	const [additionalProperties, setAdditionalProperties] = useState<SignInProps>(
@@ -20,11 +29,16 @@ export default function SignIn() {
 			showOtp: false,
 		}
 	);
+	const [timeLeft, setTimeLeft] = useState<number>(0);
+	const [qrData, setQrData] = useState<QRCodeResponse>({
+		key: '',
+	});
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const [timeLeft, setTimeLeft] = useState<number>(0);
 	const { t } = useTranslation();
+	const deviceId = getFromCookie('uid');
 
 	const handleSubmit = async (values: InputValues) => {
 		const { password, otp, phone, trust } = values;
@@ -53,6 +67,33 @@ export default function SignIn() {
 		}
 	};
 
+	const handleQrRequest = (e: FormEvent) => {
+		e.preventDefault();
+		connectSocket();
+		setLoading(true);
+		socket.emit('qr_login_request');
+	};
+
+	useEffect(() => {
+		socket.on('qr_login_response', (data: QRCodeResponse) => {
+			setQrData(data);
+			setLoading(false);
+		});
+
+		socket.on('qr_login_allow', (data: { token: string }) => {
+			dispatch(accessToken(data.token));
+			navigate('/cabinet');
+		});
+
+		socket.on('qr_login_deny', (data: { error: string }) => {
+			toastMessage(data.error);
+		});
+
+		return () => {
+			disconnectSocket();
+		};
+	}, [navigate, dispatch]);
+
 	const { mutate, isLoading } = useMutation({
 		mutationFn: (values: InputValues) => handleSubmit(values),
 		onError: (error: unknown) => {
@@ -67,13 +108,21 @@ export default function SignIn() {
 		<div className='w-full md:w-1/2 flex items-center md:h-screen'>
 			<div className='w-11/12 xl:w-7/12 mx-auto mt-5 md:mt-0'>
 				<AuthImageTitle logo={logo} title={t('auth.sign_in.title')} />
-				<SignInForm
-					additionalProperties={additionalProperties}
-					mutate={mutate}
-					isLoading={isLoading}
-					timeLeft={timeLeft}
-				/>
-				<div className='flex flex-col lg:flex-row'>
+
+				{qrData?.key && qrData.key.length > 0 ? (
+					<GenerateQr url={`${qrData.key}&${deviceId}`} />
+				) : (
+					<SignInForm
+						additionalProperties={additionalProperties}
+						mutate={mutate}
+						isLoading={isLoading}
+						timeLeft={timeLeft}
+					/>
+				)}
+				<form className='mb-3' onSubmit={handleQrRequest}>
+					<ButtonPrimary title='Log In with QR code' isLoading={loading} />
+				</form>
+				<div className='flex flex-col lg:flex-row	mt-3'>
 					<p className='mr-2'>{t('auth.sign_in.account_text')}</p>
 					<Link
 						to={`/auth/register`}

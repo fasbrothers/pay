@@ -30,3 +30,7 @@ export interface Device {
 	last_login: string;
 	device_id: string;
 }
+
+export interface QrModelProps {
+	setIsModalOpen: (isModalOpen: boolean) => void;
+}

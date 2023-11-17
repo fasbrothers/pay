@@ -21,7 +21,7 @@ export const SidebarInMain = ({
 	setShowNavbar,
 	balance,
 }: SidebarInMainProps) => {
-	const [showBalance, setShowBalance] = useState<boolean>(false);
+	const [showBalance, setShowBalance] = useState<boolean>(true);
 	const highlightedStyle = 'border-blue-600 text-blue-900 border-r-2';
 	const { t } = useTranslation();
 

@@ -39,3 +39,7 @@ export interface SendCodeResponse {
 	success: boolean;
 	timeLeft: number;
 }
+
+export interface QRCodeResponse {
+	key: string;
+}

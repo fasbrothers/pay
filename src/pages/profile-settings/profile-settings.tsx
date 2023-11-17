@@ -10,10 +10,12 @@ import { useTranslation } from 'react-i18next';
 import { ProfileResponse } from '../../@types/profile.types';
 import Tab from '../../components/shared/tab';
 import { profileType } from './profile';
-import SecurityTab from '../../components/profile/SecurityTab';
+import SecurityTab from '../../components/profile/security-tab';
+import QrReader from '../../components/profile/qr-reader';
 
 function ProfileSettings() {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+	const [isQrOpen, setIsQrOpen] = useState<boolean>(false);
 	const [isSecurity, setIsSecurity] = useState<boolean>(false);
 	const [activeTabName, setActiveTabName] = useState<string>(
 		profileType[0].name
@@ -28,6 +30,11 @@ function ProfileSettings() {
 	const showModal = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setIsModalOpen(true);
+	};
+
+	const showQr = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		setIsQrOpen(true);
 	};
 
 	const getGenderString = (gender: string | null | undefined): string => {
@@ -65,7 +72,9 @@ function ProfileSettings() {
 						<Skeleton active paragraph={{ rows: 4 }} />
 					) : (
 						<>
-							<div className={`flex flex-col-reverse md:flex-row items-center `}>
+							<div
+								className={`flex flex-col-reverse md:flex-row items-center `}
+							>
 								<div className='bg-gray-100 w-full md:w-2/3 p-6 rounded-xl'>
 									<div className='border-b-2 pb-3 border-gray-200'>
 										<p className='text-sm'>{t('profile_settings.name')}</p>
@@ -110,14 +119,20 @@ function ProfileSettings() {
 									)}
 								</div>
 							</div>
-							<form className='w-60 mt-10' onSubmit={showModal}>
-								<ButtonPrimary title={t('profile_settings.update_button')} />
-							</form>
+							<div className='flex justify-between w-full md:w-2/3'>
+								<form className='w-60 mt-10' onSubmit={showModal}>
+									<ButtonPrimary title={t('profile_settings.update_button')} />
+								</form>
+								<form className='w-60 mt-10' onSubmit={showQr}>
+									<ButtonPrimary title={'Add user by QR'} />
+								</form>
+							</div>
 							<ModelForm
 								isModalOpen={isModalOpen}
 								setIsModalOpen={setIsModalOpen}
 								profile={profile}
 							/>
+							{isQrOpen && <QrReader setIsModalOpen={setIsQrOpen} />}
 						</>
 					)}
 				</>
