@@ -117,6 +117,7 @@ export default function SignIn() {
 						mutate={mutate}
 						isLoading={isLoading}
 						timeLeft={timeLeft}
+						setTimeLeft={setTimeLeft}
 					/>
 				)}
 				<form className='mb-3' onSubmit={handleQrRequest}>

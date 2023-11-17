@@ -25,6 +25,7 @@ function QrReader({ setIsModalOpen }: QrModelProps) {
 			return data;
 		},
 		onSuccess: () => {
+			setIsModalOpen(false);
 			toastSuccessMessage('Successfully logged in');
 		},
 	});
@@ -37,7 +38,6 @@ function QrReader({ setIsModalOpen }: QrModelProps) {
 		setStarted(true);
 		const qrCodeSuccessCallback = (decodedText: string) => {
 			mutate(decodedText);
-			setIsModalOpen(false);
 			handleStop();
 		};
 		html5QrCode.start(

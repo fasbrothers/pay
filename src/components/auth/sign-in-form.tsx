@@ -6,15 +6,20 @@ import { ButtonPrimary } from '../shared/button';
 import { MaskedInput } from 'antd-mask-input';
 import { AuthProps, InputValues } from '../../@types/auth.types';
 import useTimer, { TimerState } from '../../hooks/useTimer';
-import { useEffect } from 'react';
+import { useEffect, MouseEvent } from 'react';
 import { convertSecondsToMinutes } from '../../utils/convertSecondsToMinutes';
 import { useTranslation } from 'react-i18next';
+import { useMutation } from '@tanstack/react-query';
+import { httpClient } from '../../api';
+import { AxiosError } from 'axios';
+import { ErrorResponse } from '../../@types/error.types';
 
 function SignInForm({
 	additionalProperties,
 	mutate,
 	isLoading,
 	timeLeft,
+	setTimeLeft,
 }: AuthProps) {
 	const [form] = Form.useForm();
 	const { t } = useTranslation();
@@ -35,6 +40,40 @@ function SignInForm({
 		setMinutes(minutes);
 		setSeconds(remainingSeconds);
 	}, [timeLeft, setMinutes, setSeconds]);
+
+	const { mutate: resendOTP } = useMutation({
+		mutationFn: async (phone: string) => {
+			const { data } = await httpClient.post('/customer/getlogin', {
+				phone: '998' + phone,
+			});
+
+			setTimeLeft && setTimeLeft(data.timeLeft);
+		},
+		onError: (error: unknown) => {
+			const axiosError = error as AxiosError<ErrorResponse>;
+
+			if (axiosError?.response?.data.type === 'TRY_AGAIN_AFTER') {
+				setTimeLeft && setTimeLeft(axiosError.response.data?.info?.timeLeft);
+			}
+		},
+	});
+
+	const handleResend = (e: MouseEvent<HTMLButtonElement>) => {
+		e.preventDefault();
+		let { phone } = form.getFieldsValue(['phone']);
+		phone = phone.replace(/\s/g, '');
+		resendOTP(phone);
+	};
+
+	const showTimer = (seconds: number, minutes: number) => {
+		return (
+			<p>
+				{t('auth.sign_up.block.title')}:{' '}
+				{minutes < 10 ? `0${minutes}` : minutes}:
+				{seconds < 10 ? `0${seconds}` : seconds}
+			</p>
+		);
+	};
 
 	return (
 		<>
@@ -109,22 +148,43 @@ function SignInForm({
 						<CheckBox title={t('auth.sign_in.trust_checkbox')} name='trust' />
 					</>
 				)}
-				{seconds > 0 || minutes > 0 ? (
-					<p className='mb-3 text-base'>
-						{t('auth.sign_in.block.title')} :{' '}
-						{minutes < 10 ? `0${minutes}` : minutes}:
-						{seconds < 10 ? `0${seconds}` : seconds}
-					</p>
-				) : null}
+
+				<div className='flex justify-between text-base mb-2'>
+					{additionalProperties?.showOtp ? (
+						<>
+							{seconds > 0 || minutes > 0 ? (
+								showTimer(seconds, minutes)
+							) : (
+								<p>{t('auth.sign_up.no_block')}</p>
+							)}
+							<button
+								onClick={e => handleResend(e)}
+								disabled={seconds > 0 || minutes > 0}
+								className={`font-medium mb-2 w-2/10 ml-auto ${
+									seconds > 0 || minutes > 0
+										? 'text-[#a3a5a7]'
+										: 'text-blue-700'
+								} `}
+							>
+								{t('auth.sign_up.block.button')}
+							</button>
+						</>
+					) : (
+						<>
+							{seconds > 0 || minutes > 0 ? showTimer(seconds, minutes) : null}
+						</>
+					)}
+				</div>
+
 				<Form.Item>
 					<ButtonPrimary
-						disabled={seconds > 0 || minutes > 0}
-						isLoading={isLoading}
-						title={
-							seconds > 0 || minutes > 0
-								? t('auth.sign_in.button_blocked')
-								: t('auth.sign_in.button')
+						disabled={
+							additionalProperties?.showPassword && (seconds > 0 || minutes > 0)
+								? true
+								: false
 						}
+						isLoading={isLoading}
+						title={t('auth.sign_in.button')}
 					/>
 				</Form.Item>
 			</Form>
