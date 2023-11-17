@@ -10,7 +10,7 @@ interface QrReaderProps {
 	setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const qrConfig = { fps: 10, qrbox: { width: 300, height: 300 } };
+const qrConfig = { fps: 10, qrbox: { width: 380, height: 380 } };
 let html5QrCode: any;
 
 function QrReader({ setIsModalOpen }: QrReaderProps) {
@@ -37,6 +37,7 @@ function QrReader({ setIsModalOpen }: QrReaderProps) {
 		setStarted(true);
 		const qrCodeSuccessCallback = (decodedText: string) => {
 			mutate(decodedText);
+			setIsModalOpen(false);
 			handleStop();
 		};
 		html5QrCode.start(
@@ -68,13 +69,17 @@ function QrReader({ setIsModalOpen }: QrReaderProps) {
 	};
 
 	return (
-		<div className='absolute top-0 bottom-0 left-0 right-0 bg-black text-white z-20'>
+		<div className='fixed h-screen top-0 bottom-0 left-0 right-0 bg-black text-white z-20'>
 			<div className='flex justify-end p-4'>
 				<button onClick={() => handleCancel()}>
 					<CloseIcon fontSize='large' />
 				</button>
 			</div>
-			<div className='text-center mt-32'>
+			<div
+				id='reader'
+				className='w-[95%] lg:w-[50%] 2xl:w-[40%] mx-auto mt-10'
+			></div>
+			<div className='text-center mt-20 lg:mt-32'>
 				{!started ? (
 					<Button onClick={() => handleClickAdvanced()} className='text-white'>
 						Start Scanning
@@ -86,7 +91,6 @@ function QrReader({ setIsModalOpen }: QrReaderProps) {
 				)}
 				{isLoading && <Spin />}
 			</div>
-			<div id='reader' className='w-[50%] mx-auto mt-20'></div>
 		</div>
 	);
 }

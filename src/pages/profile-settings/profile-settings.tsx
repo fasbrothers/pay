@@ -119,11 +119,11 @@ function ProfileSettings() {
 									)}
 								</div>
 							</div>
-							<div className='flex justify-between w-full md:w-2/3'>
-								<form className='w-60 mt-10' onSubmit={showModal}>
+							<div className='flex justify-center lg:justify-between w-full md:w-2/3 my-10 flex-wrap gap-x-4 lg:gap-x-0 gap-y-2'>
+								<form className='w-60' onSubmit={showModal}>
 									<ButtonPrimary title={t('profile_settings.update_button')} />
 								</form>
-								<form className='w-60 mt-10' onSubmit={showQr}>
+								<form className='w-60' onSubmit={showQr}>
 									<ButtonPrimary title={'Add user by QR'} />
 								</form>
 							</div>
