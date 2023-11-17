@@ -59,7 +59,22 @@
 		"update_button": "Обновить настройки",
 		"gender_one": "Мужской",
 		"gender_two": "Женский",
-		"gender_three": "Не указан"
+		"gender_three": "Не указан",
+		"qr_button": "Одобрить QR-вход",
+		"qr_button_active": "Начать сканирование",
+		"qr_button_deactive": "Остановить сканирование",
+		"profile_tab": [
+			{
+				"id": 1,
+				"name": "Профиль"
+			},
+			{
+				"id": 2,
+				"name": "Безопасность"
+			}
+		],
+		"security_title": "Настройки безопасности",
+		"security_button": "Удалить"
 	},
 	"modal_profile_update": {
 		"title": "Обновить профиль пользователя",
@@ -110,7 +125,8 @@
 			"button_blocked": "Пожалуйста, подождите...",
 			"block": {
 				"title": "Время для блока"
-			}
+			},
+			"qr_button": "Войдите с помощью QR-кода"
 		},
 		"sign_up": {
 			"title": "Регистрация",

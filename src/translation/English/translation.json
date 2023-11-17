@@ -59,7 +59,22 @@
 		"update_button": "Update Settings",
 		"gender_one": "Male",
 		"gender_two": "Female",
-		"gender_three": "Not specified"
+		"gender_three": "Not specified",
+		"qr_button": "Approve QR login",
+		"qr_button_active": "Start Scanning",
+		"qr_button_deactive": "Stop Scanning",
+		"profile_tab": [
+			{
+				"id": 1,
+				"name": "Profile"
+			},
+			{
+				"id": 2,
+				"name": "Security"
+			}
+		],
+		"security_title": "Security Settings",
+		"security_button": "Delete"
 	},
 	"modal_profile_update": {
 		"title": "Update User Profile",
@@ -110,7 +125,8 @@
 			"button_blocked": "Please wait...",
 			"block": {
 				"title": "Time for block"
-			}
+			},
+			"qr_button": "Log In with QR code"
 		},
 		"sign_up": {
 			"title": "Sign Up",

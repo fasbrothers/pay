@@ -59,7 +59,22 @@
 		"update_button": "Sozlamalarni yangilash",
 		"gender_one": "Erkak",
 		"gender_two": "Ayol",
-		"gender_three": "Ko'rsatilmagan"
+		"gender_three": "Ko'rsatilmagan",
+		"qr_button": "QR loginni tasdiqlang",
+		"qr_button_active": "Skanerlashni boshlang",
+		"qr_button_deactive": "Skanerlashni to'xtating",
+		"profile_tab": [
+			{
+				"id": 1,
+				"name": "Profil"
+			},
+			{
+				"id": 2,
+				"name": "Xavfsizlik"
+			}
+		],
+		"security_title": "Xavfsizlik sozlamalari",
+		"security_button": "O'chirish"
 	},
 	"modal_profile_update": {
 		"title": "Foydalanuvchi profilini yangilash",
@@ -110,7 +125,8 @@
 			"button_blocked": "Iltimos kuting...",
 			"block": {
 				"title": "Bloklash vaqti"
-			}
+			},
+			"qr_button": "QR kod bilan tizimga kiring"
 		},
 		"sign_up": {
 			"title": "Ro'yxatdan o'tish",

@@ -34,3 +34,8 @@ export interface Device {
 export interface QrModelProps {
 	setIsModalOpen: (isModalOpen: boolean) => void;
 }
+
+export interface Tabs {
+	id: number;
+	name: string;
+}

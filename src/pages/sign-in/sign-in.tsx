@@ -120,7 +120,10 @@ export default function SignIn() {
 					/>
 				)}
 				<form className='mb-3' onSubmit={handleQrRequest}>
-					<ButtonPrimary title='Log In with QR code' isLoading={loading} />
+					<ButtonPrimary
+						title={t('auth.sign_in.qr_button')}
+						isLoading={loading}
+					/>
 				</form>
 				<div className='flex flex-col lg:flex-row	mt-3'>
 					<p className='mr-2'>{t('auth.sign_in.account_text')}</p>

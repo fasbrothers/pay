@@ -3,18 +3,18 @@ import { Html5Qrcode } from 'html5-qrcode';
 import { Button, Spin } from 'antd';
 import { useMutation } from '@tanstack/react-query';
 import { httpClient } from '../../api';
-import { toastSuccessMessage } from '../../utils/toast-message';
+import toastMessage, { toastSuccessMessage } from '../../utils/toast-message';
 import CloseIcon from '@mui/icons-material/Close';
+import { useTranslation } from 'react-i18next';
+import { QrModelProps } from '../../@types/profile.types';
 
-interface QrReaderProps {
-	setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
-
-const qrConfig = { fps: 10, qrbox: { width: 380, height: 380 } };
+const qrConfig = { fps: 10, qrbox: { width: 380, height: 350 } };
 let html5QrCode: any;
 
-function QrReader({ setIsModalOpen }: QrReaderProps) {
+function QrReader({ setIsModalOpen }: QrModelProps) {
 	const [started, setStarted] = useState(false);
+	const { t } = useTranslation();
+
 	const { isLoading, mutate } = useMutation({
 		mutationFn: async (value: string) => {
 			const newValue = value.split('&');
@@ -61,7 +61,7 @@ function QrReader({ setIsModalOpen }: QrReaderProps) {
 					html5QrCode.clear();
 				})
 				.catch((err: any) => {
-					console.log(err.message);
+					toastMessage(err.message);
 				});
 		} catch (err) {
 			console.log(err);
@@ -77,16 +77,16 @@ function QrReader({ setIsModalOpen }: QrReaderProps) {
 			</div>
 			<div
 				id='reader'
-				className='w-[95%] lg:w-[50%] 2xl:w-[40%] mx-auto mt-10'
+				className='w-[95%] h-[350px] sm:h-auto lg:w-[50%] 2xl:w-[40%] mx-auto mt-10'
 			></div>
 			<div className='text-center mt-20 lg:mt-32'>
 				{!started ? (
 					<Button onClick={() => handleClickAdvanced()} className='text-white'>
-						Start Scanning
+						{t('profile_settings.qr_button_active')}
 					</Button>
 				) : (
 					<Button onClick={() => handleStop()} className='text-white'>
-						Stop Scanning
+						{t('profile_settings.qr_button_deactive')}
 					</Button>
 				)}
 				{isLoading && <Spin />}

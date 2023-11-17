@@ -7,25 +7,27 @@ import { useDataFetching } from '../../hooks/useDataFetching';
 import dayjs from 'dayjs';
 import { formatNumber } from '../../utils/formatNumber';
 import { useTranslation } from 'react-i18next';
-import { ProfileResponse } from '../../@types/profile.types';
+import { ProfileResponse, Tabs } from '../../@types/profile.types';
 import Tab from '../../components/shared/tab';
-import { profileType } from './profile';
 import SecurityTab from '../../components/profile/security-tab';
 import QrReader from '../../components/profile/qr-reader';
 
 function ProfileSettings() {
+	const { t } = useTranslation();
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [isQrOpen, setIsQrOpen] = useState<boolean>(false);
 	const [isSecurity, setIsSecurity] = useState<boolean>(false);
+	const profileType: Tabs[] = t('profile_settings.profile_tab', {
+		returnObjects: true,
+	}) as Tabs[];
+
 	const [activeTabName, setActiveTabName] = useState<string>(
 		profileType[0].name
 	);
-
 	const { isLoading, data: profile } = useDataFetching<ProfileResponse>(
 		'profile',
 		'customer/profile'
 	);
-	const { t } = useTranslation();
 
 	const showModal = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -52,7 +54,7 @@ function ProfileSettings() {
 
 	return (
 		<div className={`${isModalOpen && 'blur'}`}>
-			<div className='h-16 bg-gray-100 rounded-2xl flex justify-around items-center w-[200px] p-2 gap-x-2 mt-2 mb-4'>
+			<div className='h-16 bg-gray-100 rounded-2xl flex justify-around items-center w-[230px] p-2 gap-x-2 mt-2 mb-4'>
 				<Tab
 					tabsType={profileType}
 					activeTabName={activeTabName}
@@ -124,7 +126,7 @@ function ProfileSettings() {
 									<ButtonPrimary title={t('profile_settings.update_button')} />
 								</form>
 								<form className='w-60' onSubmit={showQr}>
-									<ButtonPrimary title={'Add user by QR'} />
+									<ButtonPrimary title={t('profile_settings.qr_button')} />
 								</form>
 							</div>
 							<ModelForm

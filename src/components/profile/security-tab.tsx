@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import DeleteCard from '../card/delete-card-modal';
 import { ButtonPrimary } from '../shared/button';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 function SecurityTab() {
 	const deviceId = getFromCookie('uid');
@@ -15,6 +16,7 @@ function SecurityTab() {
 		'customer/device'
 	);
 
+	const { t } = useTranslation();
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [id, setId] = useState<string>('');
 
@@ -30,7 +32,9 @@ function SecurityTab() {
 
 	return (
 		<div>
-			<h4 className='font-bold text-xl mb-3'>Security</h4>
+			<h4 className='font-bold text-xl mb-3'>
+				{t('profile_settings.security_title')}
+			</h4>
 			{isLoading ? (
 				<Skeleton active paragraph={{ rows: 4 }} />
 			) : (
@@ -57,7 +61,10 @@ function SecurityTab() {
 									</div>
 								</div>
 								<form onSubmit={e => showModal(e, device.id)}>
-									<ButtonPrimary title={'Delete'} bgColor='bg-red-500' />
+									<ButtonPrimary
+										title={t('profile_settings.security_button')}
+										bgColor='bg-red-500'
+									/>
 								</form>
 							</div>
 						</div>
