@@ -73,7 +73,7 @@
 				"name": "Security"
 			}
 		],
-		"security_title": "Security Settings",
+		"security_title": "Trusted Devices",
 		"security_button": "Delete"
 	},
 	"modal_profile_update": {

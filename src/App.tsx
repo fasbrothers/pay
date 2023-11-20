@@ -3,6 +3,7 @@ import routes from './routes/routes';
 import './utils/generateUniqueId';
 import {
 	MutationCache,
+	QueryCache,
 	QueryClient,
 	QueryClientProvider,
 } from '@tanstack/react-query';
@@ -23,6 +24,14 @@ const queryClient = new QueryClient({
 		},
 	},
 	mutationCache: new MutationCache({
+		onError: (error: unknown) => {
+			const axiosError = error as AxiosError<ErrorResponse>;
+			toastMessage(
+				axiosError?.response?.data.message || axiosError?.message || 'Error'
+			);
+		},
+	}),
+	queryCache: new QueryCache({
 		onError: (error: unknown) => {
 			const axiosError = error as AxiosError<ErrorResponse>;
 			toastMessage(

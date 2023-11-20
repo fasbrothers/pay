@@ -21,6 +21,14 @@ export interface Transaction {
 	created_at: string;
 	sender: Sender;
 	receiver: Receiver;
+	fields: Field[];
+}
+
+export interface Field {
+	id: string;
+	name: string;
+	type: string;
+	value: string;
 }
 
 export interface Sender {
@@ -56,4 +64,24 @@ export interface TransactionTableProps {
 	totalTransactions: number;
 	page: string;
 	pageSize: string;
+}
+
+export interface ModalTransactionProps {
+	isModalOpen: boolean;
+	setIsModalOpen: (value: boolean) => void;
+	transaction: Transaction;
+	loading: boolean;
+}
+
+export interface TransactionDetailsProps {
+	label: string;
+	value: string | number;
+}
+
+export interface TransactionHeaderProps {
+	title: string;
+	image: string | undefined;
+	amount: number;
+	name: string;
+	date: string;
 }

@@ -53,7 +53,7 @@ function ProfileSettings() {
 	const { name, gender, birth_date, phone, image_url } = profile || {};
 
 	return (
-		<div className={`${isModalOpen && 'blur'}`}>
+		<div>
 			<div className='h-16 bg-gray-100 rounded-2xl flex justify-around items-center w-[230px] p-2 gap-x-2 mt-2 mb-4'>
 				<Tab
 					tabsType={profileType}

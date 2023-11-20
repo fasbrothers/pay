@@ -73,7 +73,7 @@
 				"name": "Безопасность"
 			}
 		],
-		"security_title": "Настройки безопасности",
+		"security_title": "Доверенные устройства",
 		"security_button": "Удалить"
 	},
 	"modal_profile_update": {
