@@ -74,7 +74,9 @@
 			}
 		],
 		"security_title": "Trusted Devices",
-		"security_button": "Delete"
+		"security_button": "Delete",
+		"security_button_sessions": "Delete Sessions",
+		"security_not_found": "No trusted devices found"
 	},
 	"modal_profile_update": {
 		"title": "Update User Profile",

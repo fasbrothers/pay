@@ -19,7 +19,7 @@ const queryClient = new QueryClient({
 			staleTime: 1000 * 10,
 			refetchOnWindowFocus: false,
 			keepPreviousData: true,
-			cacheTime: 1000 * 60 * 10
+			cacheTime: 1000 * 60 * 10,
 		},
 	},
 	mutationCache: new MutationCache({

@@ -74,7 +74,9 @@
 			}
 		],
 		"security_title": "Ishonchli qurilmalar",
-		"security_button": "O'chirish"
+		"security_button": "O'chirish",
+		"security_button_sessions": "Seanslarni o'chirish",
+		"security_not_found": "Ishonchli qurilmalar topilmadi"
 	},
 	"modal_profile_update": {
 		"title": "Foydalanuvchi profilini yangilash",

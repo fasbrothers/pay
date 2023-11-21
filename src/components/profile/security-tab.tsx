@@ -1,16 +1,16 @@
 import { Skeleton } from 'antd';
 import { DevicesResponse } from '../../@types/profile.types';
 import { useDataFetching } from '../../hooks/useDataFetching';
-import { getFromCookie } from '../../utils/cookies';
-import LaptopMacIcon from '@mui/icons-material/LaptopMac';
-import dayjs from 'dayjs';
 import DeleteCard from '../card/delete-card-modal';
 import { ButtonPrimary } from '../shared/button';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { useMutation } from '@tanstack/react-query';
+import { httpClient } from '../../api';
+import { toastSuccessMessage } from '../../utils/toast-message';
+import SecurityItem from './security-item';
 
 function SecurityTab() {
-	const deviceId = getFromCookie('uid');
 	const { isLoading, data } = useDataFetching<DevicesResponse>(
 		'devices',
 		'customer/device'
@@ -26,6 +26,17 @@ function SecurityTab() {
 		setId(id.toString());
 	};
 
+	const { mutate, isLoading: isDeleting } = useMutation({
+		mutationFn: async (e: React.FormEvent<HTMLFormElement>) => {
+			e.preventDefault();
+			const { data } = await httpClient.post(`/customer/endsessions`);
+			return data;
+		},
+		onSuccess: response => {
+			response.message ? toastSuccessMessage(response.message) : null;
+		},
+	});
+
 	const handleCancel = () => {
 		setIsModalOpen(false);
 	};
@@ -40,34 +51,11 @@ function SecurityTab() {
 			) : (
 				<div className='w-full xl:w-2/3'>
 					{data?.rows?.map(device => (
-						<div
+						<SecurityItem
+							device={device}
+							showModal={showModal}
 							key={device.id}
-							className={`${
-								deviceId === device.device_id ? 'bg-slate-200' : 'bg-gray-100'
-							} p-6 `}
-						>
-							<div className='flex justify-between'>
-								<div className='flex gap-x-4 items-center'>
-									<div className='p-3 border border-gray-600 rounded-lg hidden sm:block'>
-										<LaptopMacIcon className='text-gray-600' />
-									</div>
-									<div>
-										<p className='text-xs'>
-											{dayjs(device.last_login).format('MMMM D, YYYY h:mm A')}
-										</p>
-										<h3 className='mt-1 font-bold flex flex-wrap text-sm lg:text-base'>
-											{device.name}
-										</h3>
-									</div>
-								</div>
-								<form onSubmit={e => showModal(e, device.id)}>
-									<ButtonPrimary
-										title={t('profile_settings.security_button')}
-										bgColor='bg-red-500'
-									/>
-								</form>
-							</div>
-						</div>
+						/>
 					))}
 					<DeleteCard
 						deviceId={id}
@@ -79,7 +67,15 @@ function SecurityTab() {
 						modalTitle={'Delete a device'}
 						modalMessage={'Are you sure you want to delete this device?'}
 					/>
-					{data?.count === 0 && <p>No devices found</p>}
+					{data?.count === 0 && <p>{t('profile_settings.security_not_found')}</p>}
+					<form onSubmit={e => mutate(e)} className='mt-4'>
+						<ButtonPrimary
+							title={t('profile_settings.security_button_sessions')}
+							bgColor='bg-red-500'
+							weight='w-[200px]'
+							isLoading={isDeleting}
+						/>
+					</form>
 				</div>
 			)}
 		</div>

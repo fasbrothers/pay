@@ -39,3 +39,8 @@ export interface Tabs {
 	id: number;
 	name: string;
 }
+
+export interface SecurityItemProps {
+	device: Device;
+	showModal: (e: React.FormEvent<HTMLFormElement>, id: number) => void;
+}

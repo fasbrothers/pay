@@ -74,7 +74,9 @@
 			}
 		],
 		"security_title": "Доверенные устройства",
-		"security_button": "Удалить"
+		"security_button": "Удалить",
+		"security_button_sessions": "Удалить сеансы",
+		"security_not_found": "Доверенные устройства не найдены"
 	},
 	"modal_profile_update": {
 		"title": "Обновить профиль пользователя",
