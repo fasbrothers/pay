@@ -47,12 +47,14 @@ export default function SignIn() {
 		if (!additionalProperties.showOtp && !additionalProperties.showPassword) {
 			const { data } = await httpClient.post('/customer/getlogin', {
 				phone: '998' + phone,
+				trust,
 			});
 
 			setAdditionalProperties({
 				showPassword: data.password,
 				showOtp: data.otp,
 			});
+			setTimeLeft(data.timeLeft);
 
 			return data;
 		} else {

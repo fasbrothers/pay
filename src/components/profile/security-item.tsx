@@ -8,7 +8,10 @@ function SecurityItem({ device, showModal }: SecurityItemProps) {
 	const { t } = useTranslation();
 
 	return (
-		<div key={device.id} className={`bg-gray-100 p-6 `}>
+		<div
+			key={device.id}
+			className={`${device.current ? 'bg-slate-200' : 'bg-gray-100'} p-6 `}
+		>
 			<div className='flex justify-between'>
 				<div className='flex gap-x-4 items-center'>
 					<div className='p-3 border border-gray-600 rounded-lg hidden sm:block'>

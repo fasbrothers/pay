@@ -145,9 +145,17 @@ function SignInForm({
 						>
 							<Input.Password name='password' className='input__style' />
 						</Form.Item>
-						<CheckBox title={t('auth.sign_in.trust_checkbox')} name='trust' />
 					</>
 				)}
+				<div
+					className={`${
+						additionalProperties?.showPassword || additionalProperties?.showOtp
+							? 'hidden'
+							: 'flex'
+					}`}
+				>
+					<CheckBox title={t('auth.sign_in.trust_checkbox')} name='trust' />
+				</div>
 
 				<div className='flex justify-between text-base mb-2'>
 					{additionalProperties?.showOtp ? (
@@ -178,11 +186,6 @@ function SignInForm({
 
 				<Form.Item>
 					<ButtonPrimary
-						disabled={
-							additionalProperties?.showPassword && (seconds > 0 || minutes > 0)
-								? true
-								: false
-						}
 						isLoading={isLoading}
 						title={t('auth.sign_in.button')}
 					/>

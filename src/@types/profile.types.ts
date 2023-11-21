@@ -28,7 +28,7 @@ export interface Device {
 	id: number;
 	name: string;
 	last_login: string;
-	device_id: string;
+	current: boolean;
 }
 
 export interface QrModelProps {
