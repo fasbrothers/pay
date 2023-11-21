@@ -24,9 +24,9 @@ function QrReader({ setIsModalOpen }: QrModelProps) {
 			});
 			return data;
 		},
-		onSuccess: () => {
+		onSuccess: data => {
+			data.message ? toastSuccessMessage(data.message) : null;
 			setIsModalOpen(false);
-			toastSuccessMessage('Successfully logged in');
 		},
 	});
 

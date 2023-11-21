@@ -11,33 +11,22 @@ import { Provider } from 'react-redux';
 import { store } from './store/store';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { AxiosError } from 'axios';
-import toastMessage from './utils/toast-message';
-import { ErrorResponse } from './@types/error.types';
+import { errorFunc } from './utils/errorFunc';
 
 const queryClient = new QueryClient({
 	defaultOptions: {
 		queries: {
-			staleTime: 1000 * 60 * 5,
+			staleTime: 1000 * 10,
 			refetchOnWindowFocus: false,
 			keepPreviousData: true,
+			cacheTime: 1000 * 60 * 10
 		},
 	},
 	mutationCache: new MutationCache({
-		onError: (error: unknown) => {
-			const axiosError = error as AxiosError<ErrorResponse>;
-			toastMessage(
-				axiosError?.response?.data.message || axiosError?.message || 'Error'
-			);
-		},
+		onError: errorFunc,
 	}),
 	queryCache: new QueryCache({
-		onError: (error: unknown) => {
-			const axiosError = error as AxiosError<ErrorResponse>;
-			toastMessage(
-				axiosError?.response?.data.message || axiosError?.message || 'Error'
-			);
-		},
+		onError: errorFunc,
 	}),
 });
 

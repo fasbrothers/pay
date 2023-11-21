@@ -8,10 +8,10 @@ import { LoadingLazy } from './components/shared/loading-lazy';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
-		<ErrorBoundary fallback='There was an error'>
-			<Suspense fallback={<LoadingLazy />}>
+		<Suspense fallback={<LoadingLazy />}>
+			<ErrorBoundary fallback='There was an error'>
 				<App />
-			</Suspense>
-		</ErrorBoundary>
+			</ErrorBoundary>
+		</Suspense>
 	</React.StrictMode>
 );
