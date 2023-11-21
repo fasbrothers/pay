@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 import { getFromCookie } from '../utils/cookies';
 import { store } from '../store/store.ts';
-import { deleteToken, getToken } from '../store/slices/authSlice.ts';
+import { getToken } from '../store/slices/authSlice.ts';
 
 export const httpClient = axios.create({
 	baseURL: import.meta.env.VITE_REACT_APP_API_URL,
@@ -29,7 +29,7 @@ httpClient.interceptors.response.use(
 	},
 	function (error) {
 		if (error.response.data.status === 401) {
-			store.dispatch(deleteToken());
+			store.dispatch({ type: 'logout' });
 		}
 		return Promise.reject(error);
 	}

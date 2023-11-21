@@ -10,6 +10,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { useTranslation } from 'react-i18next';
 import { Fragment } from 'react';
 import { HeaderMainProps, Navigation } from '../../@types/layout.types';
+import { deleteToken } from '../../store/slices/authSlice';
 
 export const HeaderMain = ({
 	setShowNavbar,
@@ -24,7 +25,7 @@ export const HeaderMain = ({
 	const { t } = useTranslation();
 
 	const handleLogout = () => {
-		dispatch({ type: 'logout' });
+		dispatch(deleteToken());
 		queryClient.removeQueries();
 		navigate('/auth');
 	};

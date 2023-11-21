@@ -19,6 +19,7 @@ export const authSlice = createSlice({
 		},
 		deleteToken: state => {
 			state.token = null;
+			state.params = '';
 			removeFromCookie('token');
 		},
 		getParams: (state, action: PayloadAction<string>) => {
