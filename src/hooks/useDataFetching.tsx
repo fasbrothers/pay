@@ -4,6 +4,7 @@ import toastMessage from '../utils/toast-message';
 import { httpClient } from '../api';
 import { useNavigate } from 'react-router-dom';
 import { ErrorResponse } from '../@types/error.types';
+import { useAppSelector } from './redux-hooks';
 
 export const useDataFetching = <T,>(
 	key: string,
@@ -12,6 +13,7 @@ export const useDataFetching = <T,>(
 	navigation?: string
 ) => {
 	const navigate = useNavigate();
+	const token = useAppSelector(state => state.auth.token);
 	return useQuery<T, AxiosError<ErrorResponse>>(
 		[key, dependency],
 		async () => {
@@ -25,6 +27,7 @@ export const useDataFetching = <T,>(
 				);
 				navigation && navigate(navigation);
 			},
+			enabled: !!token,
 		}
 	);
 };
