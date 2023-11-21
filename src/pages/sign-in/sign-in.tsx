@@ -3,7 +3,7 @@ import { useState, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import logo from '../../assets/logo.svg';
 import { AuthImageTitle } from '../../components/auth/auth-image-title';
-import { useAppDispatch } from '../../hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { accessToken } from '../../store/slices/authSlice';
 import '../sign-up/sign-up.scss';
 import SignInForm from '../../components/auth/sign-in-form';
@@ -39,6 +39,7 @@ export default function SignIn() {
 	const navigate = useNavigate();
 	const { t } = useTranslation();
 	const deviceId = getFromCookie('uid');
+	const getParams = useAppSelector(state => state.auth.params);
 
 	const handleSubmit = async (values: InputValues) => {
 		const { password, otp, phone, trust } = values;
@@ -63,7 +64,7 @@ export default function SignIn() {
 			});
 
 			dispatch(accessToken(data.token));
-			navigate('/cabinet');
+			navigate(getParams.length > 0 ? getParams : '/cabinet/main');
 		}
 	};
 
@@ -92,7 +93,7 @@ export default function SignIn() {
 		return () => {
 			disconnectSocket();
 		};
-	}, [navigate, dispatch]);
+	}, [dispatch, navigate]);
 
 	const { mutate, isLoading } = useMutation({
 		mutationFn: (values: InputValues) => handleSubmit(values),

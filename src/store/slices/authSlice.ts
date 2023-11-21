@@ -28,6 +28,13 @@ export const authSlice = createSlice({
 			state.params = '';
 		},
 	},
+	extraReducers(builder) {
+		builder.addCase('logout', state => {
+			state.params = '';
+			state.token = null;
+			removeFromCookie('token');
+		});
+	},
 });
 
 export const { accessToken, deleteToken, getParams, deleteParams } =

@@ -4,7 +4,6 @@ import { Button, Dropdown, Skeleton } from 'antd';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks/redux-hooks';
-import { deleteToken } from '../../store/slices/authSlice';
 import logo from '../../assets/logo.svg';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useQueryClient } from '@tanstack/react-query';
@@ -25,7 +24,7 @@ export const HeaderMain = ({
 	const { t } = useTranslation();
 
 	const handleLogout = () => {
-		dispatch(deleteToken());
+		dispatch({ type: 'logout' });
 		queryClient.removeQueries();
 		navigate('/auth');
 	};
