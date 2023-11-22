@@ -123,7 +123,7 @@ export default function SignIn() {
 						setTimeLeft={setTimeLeft}
 					/>
 				)}
-				<form className='mb-3' onSubmit={handleQrRequest}>
+				<form className='mb-3' id='show_qr' onSubmit={handleQrRequest}>
 					<ButtonPrimary
 						title={t('auth.sign_in.qr_button')}
 						isLoading={loading}
@@ -134,6 +134,7 @@ export default function SignIn() {
 					<Link
 						to={`/auth/register`}
 						className='text-blue-700 font-medium mb-5 md:mb-0'
+						id='sign_up_link'
 					>
 						{t('auth.sign_in.account_link')}
 					</Link>
