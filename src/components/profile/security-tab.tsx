@@ -1,24 +1,36 @@
 import { Skeleton } from 'antd';
 import { DevicesResponse } from '../../@types/profile.types';
-import { useDataFetching } from '../../hooks/useDataFetching';
 import DeleteCard from '../card/delete-card-modal';
 import { ButtonPrimary } from '../shared/button';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { httpClient } from '../../api';
 import { toastSuccessMessage } from '../../utils/toast-message';
 import SecurityItem from './security-item';
 
 function SecurityTab() {
-	const { isLoading, data } = useDataFetching<DevicesResponse>(
-		'devices',
-		'customer/device'
-	);
-
 	const { t } = useTranslation();
+	const [isTrusted, setIsTrusted] = useState<boolean>(false);
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [id, setId] = useState<string>('');
+
+	const { isLoading, data } = useQuery(
+		['devices'],
+		async () => {
+			const { data } = await httpClient.get<DevicesResponse>(
+				`/customer/device`
+			);
+			return data;
+		},
+		{
+			onSuccess: response => {
+				setIsTrusted(response.rows.some(device => device.current));
+			},
+			staleTime: 1000,
+		}
+	);
+	console.log(isTrusted);
 
 	const showModal = (e: React.FormEvent<HTMLFormElement>, id: number) => {
 		e.preventDefault();
@@ -54,28 +66,35 @@ function SecurityTab() {
 						<SecurityItem
 							device={device}
 							showModal={showModal}
+							isTrusted={isTrusted}
 							key={device.id}
 						/>
 					))}
-					<DeleteCard
-						deviceId={id}
-						isModalOpen={isModalOpen}
-						setIsModalOpen={setIsModalOpen}
-						handleCancel={handleCancel}
-						url='/customer/device'
-						navigateUrl='/cabinet/profile-settings'
-						modalTitle={'Delete a device'}
-						modalMessage={'Are you sure you want to delete this device?'}
-					/>
-					{data?.count === 0 && <p>{t('profile_settings.security_not_found')}</p>}
-					<form onSubmit={e => mutate(e)} className='mt-4'>
-						<ButtonPrimary
-							title={t('profile_settings.security_button_sessions')}
-							bgColor='bg-red-500'
-							weight='w-[200px]'
-							isLoading={isDeleting}
+					{isTrusted ? (
+						<DeleteCard
+							deviceId={id}
+							isModalOpen={isModalOpen}
+							setIsModalOpen={setIsModalOpen}
+							handleCancel={handleCancel}
+							url='/customer/device'
+							navigateUrl='/cabinet/profile-settings'
+							modalTitle={'Delete a device'}
+							modalMessage={'Are you sure you want to delete this device?'}
 						/>
-					</form>
+					) : null}
+					{data?.count === 0 && (
+						<p>{t('profile_settings.security_not_found')}</p>
+					)}
+					{isTrusted ? (
+						<form onSubmit={e => mutate(e)} className='mt-4'>
+							<ButtonPrimary
+								title={t('profile_settings.security_button_sessions')}
+								bgColor='bg-red-500'
+								weight='w-[200px]'
+								isLoading={isDeleting}
+							/>
+						</form>
+					) : null}
 				</div>
 			)}
 		</div>

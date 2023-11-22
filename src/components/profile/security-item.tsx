@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { ButtonPrimary } from '../shared/button';
 import { SecurityItemProps } from '../../@types/profile.types';
 
-function SecurityItem({ device, showModal }: SecurityItemProps) {
+function SecurityItem({ device, showModal, isTrusted }: SecurityItemProps) {
 	const { t } = useTranslation();
 
 	return (
@@ -26,12 +26,14 @@ function SecurityItem({ device, showModal }: SecurityItemProps) {
 						</h3>
 					</div>
 				</div>
-				<form onSubmit={e => showModal(e, device.id)}>
-					<ButtonPrimary
-						title={t('profile_settings.security_button')}
-						bgColor='bg-red-500'
-					/>
-				</form>
+				{isTrusted ? (
+					<form onSubmit={e => showModal(e, device.id)}>
+						<ButtonPrimary
+							title={t('profile_settings.security_button')}
+							bgColor='bg-red-500'
+						/>
+					</form>
+				) : null}
 			</div>
 		</div>
 	);

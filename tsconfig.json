@@ -21,6 +21,6 @@
     "noFallthroughCasesInSwitch": true,
     // "baseUrl": "src" // Uncomment if you want to use absolute paths, with folder src as root
   },
-  "include": ["src"],
+  "include": ["cypress","src"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

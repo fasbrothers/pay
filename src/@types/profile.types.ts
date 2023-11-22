@@ -43,4 +43,5 @@ export interface Tabs {
 export interface SecurityItemProps {
 	device: Device;
 	showModal: (e: React.FormEvent<HTMLFormElement>, id: number) => void;
+	isTrusted: boolean;
 }
