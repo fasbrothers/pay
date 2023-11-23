@@ -7,6 +7,7 @@ import { AuthState } from '../../@types/auth.types';
 const initialState: AuthState = {
 	token: getFromCookie('token') || null,
 	params: '',
+	isTrusted: false,
 };
 
 export const authSlice = createSlice({
@@ -28,6 +29,9 @@ export const authSlice = createSlice({
 		deleteParams: state => {
 			state.params = '';
 		},
+		setIsTrusted: (state, action: PayloadAction<boolean>) => {
+			state.isTrusted = action.payload;
+		},
 	},
 	extraReducers(builder) {
 		builder.addCase('logout', state => {
@@ -38,8 +42,13 @@ export const authSlice = createSlice({
 	},
 });
 
-export const { accessToken, deleteToken, getParams, deleteParams } =
-	authSlice.actions;
+export const {
+	accessToken,
+	deleteToken,
+	getParams,
+	deleteParams,
+	setIsTrusted,
+} = authSlice.actions;
 
 export const token = (state: RootState) => state.auth.token;
 

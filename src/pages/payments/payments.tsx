@@ -33,7 +33,7 @@ function Payments() {
 						)[0].category_name,
 						code: categoryCode,
 					})
-			)
+			  )
 			: [];
 
 		return [savedCategory, ...categoryList];
@@ -119,8 +119,8 @@ function Payments() {
 							</h4>
 						</div>
 						<div className='flex py-4 px-2 flex-wrap gap-y-5 justify-around gap-x-1 xl::gap-x-2'>
-							{filteredServices?.map(service => (
-								<ServiceItem key={service.id} service={service} />
+							{filteredServices?.map((service, i) => (
+								<ServiceItem key={service.id} service={service} index={i} />
 							))}
 						</div>
 					</div>

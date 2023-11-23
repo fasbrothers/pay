@@ -33,6 +33,7 @@ export interface AuthImageTitleProps {
 export interface AuthState {
 	token: string | null;
 	params: string;
+	isTrusted: boolean
 }
 
 export interface SendCodeResponse {

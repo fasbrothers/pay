@@ -6,8 +6,15 @@ import { useState } from 'react';
 import { httpClient } from '../../api';
 import { useNavigate } from 'react-router-dom';
 import { Service } from '../../@types/service.types';
+import { motion } from 'framer-motion';
 
-export const ServiceItem = ({ service }: { service: Service }) => {
+export const ServiceItem = ({
+	service,
+	index,
+}: {
+	service: Service;
+	index: number;
+}) => {
 	const [starClicked, setStarClicked] = useState(service.saved);
 	const handleStarClick = (e: React.MouseEvent, serviceId: string) => {
 		e.stopPropagation();
@@ -36,7 +43,10 @@ export const ServiceItem = ({ service }: { service: Service }) => {
 	});
 
 	return (
-		<div
+		<motion.div
+			initial={{ opacity: 0, x: 0 }}
+			animate={{ opacity: 1, transition: { delay: index * 0.2 } }}
+			whileHover={{ scale: 0.98 }}
 			onClick={handleItemClick}
 			className='text-center w-[49%] sm:w-[32%] md:w-[45%] xl:w-[24%] 2xl:w-[22%] hover:shadow-lg border border-gray transition duration-300 rounded-xl py-3 cursor-pointer relative'
 		>
@@ -62,6 +72,6 @@ export const ServiceItem = ({ service }: { service: Service }) => {
 			>
 				{starClicked ? <StarIcon /> : <StarBorderIcon />}
 			</div>
-		</div>
+		</motion.div>
 	);
 };

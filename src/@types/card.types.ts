@@ -8,6 +8,7 @@ export interface Card {
 	balance: string;
 	owner_name: string;
 	single_card?: boolean;
+	index: number;
 }
 
 export interface CardSwiperProps {

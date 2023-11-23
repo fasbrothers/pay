@@ -39,7 +39,7 @@ function AllCards() {
 				{isLoading ? (
 					<Skeleton active paragraph={{ rows: 5 }} />
 				) : (
-					cards?.cards.map(card => (
+					cards?.cards.map((card, i) => (
 						<Link to={card.id} key={card.id}>
 							<CardStructure
 								name={card.name}
@@ -50,6 +50,7 @@ function AllCards() {
 								id={card.id}
 								customer_id={card.customer_id}
 								owner_name={card.owner_name}
+								index={i}
 							/>
 						</Link>
 					))

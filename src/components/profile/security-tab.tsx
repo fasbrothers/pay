@@ -8,12 +8,15 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { httpClient } from '../../api';
 import { toastSuccessMessage } from '../../utils/toast-message';
 import SecurityItem from './security-item';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { setIsTrusted } from '../../store/slices/authSlice';
 
 function SecurityTab() {
 	const { t } = useTranslation();
-	const [isTrusted, setIsTrusted] = useState<boolean>(false);
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [id, setId] = useState<string>('');
+	const isTrusted = useAppSelector(state => state.auth.isTrusted);
+	const dispatch = useAppDispatch();
 
 	const { isLoading, data } = useQuery(
 		['devices'],
@@ -25,9 +28,8 @@ function SecurityTab() {
 		},
 		{
 			onSuccess: response => {
-				setIsTrusted(response.rows.some(device => device.current));
+				dispatch(setIsTrusted(response.rows.some(device => device.current)));
 			},
-			staleTime: 1000,
 		}
 	);
 	console.log(isTrusted);

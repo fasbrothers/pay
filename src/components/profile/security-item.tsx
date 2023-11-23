@@ -10,7 +10,9 @@ function SecurityItem({ device, showModal, isTrusted }: SecurityItemProps) {
 	return (
 		<div
 			key={device.id}
-			className={`${device.current ? 'bg-slate-200' : 'bg-gray-100'} p-6 `}
+			className={`${
+				device.current ? 'bg-slate-200' : 'bg-gray-100'
+			} p-6 hover:bg-slate-200 rounded-lg transition duration-300 ease-in-out cursor-pointer mt-2`}
 		>
 			<div className='flex justify-between'>
 				<div className='flex gap-x-4 items-center'>

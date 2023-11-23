@@ -111,7 +111,7 @@ function SingleCard() {
 						className='w-full sm:w-4/5 xl:w-2/4 2xl:w-1/3 mx-auto'
 						onSubmit={showModal}
 					>
-						<ButtonPrimary title={'Delete card'} />
+						<ButtonPrimary bgColor='bg-red-500' title={'Delete card'} />
 					</form>
 					<DeleteCard
 						id={id}
