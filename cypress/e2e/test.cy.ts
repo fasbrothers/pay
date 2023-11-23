@@ -12,11 +12,13 @@ describe('Login Feature', () => {
 		cy.get('#login').submit();
 
 		cy.intercept('POST', '/customer/getlogin').as('login');
-		// cy.wait('@login').should(({ request, response }) => {
-		// 	expect(request.body).to.have.property('phone', '998888888888');
-		// 	expect(response.statusCode).to.eq(404);
-		// 	expect(response.body).to.have.property('type', 'USER_NOT_FOUND');
-		// });
+		cy.wait('@login').should(({ request, response }) => {
+			expect(request.body).to.have.property('phone', '998888888888');
+			response ? expect(response.statusCode).to.eq(404) : null;
+			response
+				? expect(response.body).to.have.property('type', 'USER_NOT_FOUND')
+				: null;
+		});
 
 		cy.get('.Toastify__toast-container').should('be.visible');
 	});
@@ -30,12 +32,15 @@ describe('Login Feature', () => {
 
 		cy.intercept('POST', '/customer/login').as('login');
 
-		// cy.wait('@login').should(({ request, response }) => {
-		// 	expect(request.body).to.have.property('phone', '998946142412');
-		// 	expect(request.body).to.have.property('password', '12345');
-		// 	expect(response.statusCode).to.eq(401);
-		// 	expect(response.body).to.have.property('type', 'WRONG_PASSWORD');
-		// });
+		cy.wait('@login').should(({ request, response }) => {
+			expect(request.body).to.have.property('phone', '998946142412');
+			expect(request.body).to.have.property('password', '12345');
+
+			response ? expect(response.statusCode).to.eq(401) : null;
+			response
+				? expect(response.body).to.have.property('type', 'WRONG_PASSWORD')
+				: null;
+		});
 
 		cy.get('.Toastify__toast-container').should('be.visible');
 	});
@@ -51,12 +56,14 @@ describe('Login Feature', () => {
 			cy.get('#login').submit();
 		}
 
-		// cy.wait('@login').should(({ request, response }) => {
-		// 	expect(request.body).to.have.property('phone', '998946142412');
-		// 	expect(request.body).to.have.property('password', '12345');
-		// 	expect(response.statusCode).to.eq(401);
-		// 	expect(response.body).to.have.property('type', 'WRONG_PASSWORD');
-		// });
+		cy.wait('@login').should(({ request, response }) => {
+			expect(request.body).to.have.property('phone', '998946142412');
+			expect(request.body).to.have.property('password', '12345');
+			response ? expect(response.statusCode).to.eq(401) : null;
+			response
+				? expect(response.body).to.have.property('type', 'WRONG_PASSWORD')
+				: null;
+		});
 
 		cy.get('.Toastify__toast-container').should('be.visible');
 		cy.get('.time__for-block').should('be.visible').contains('02:00');
