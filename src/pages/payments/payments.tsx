@@ -33,7 +33,7 @@ function Payments() {
 						)[0].category_name,
 						code: categoryCode,
 					})
-			  )
+			)
 			: [];
 
 		return [savedCategory, ...categoryList];

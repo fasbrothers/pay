@@ -21,7 +21,7 @@ function Main() {
 					<Skeleton active paragraph={{ rows: 5 }} />
 				) : (
 					<>
-						{cards?.cards.slice(0, 1).map(card => (
+						{cards?.cards.slice(0, 1).map((card) => (
 							<CardStructure
 								key={card.id}
 								name={card.name}

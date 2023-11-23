@@ -15,8 +15,12 @@ export const CardStructure = ({
 	index,
 }: Card) => {
 	const cardVariants = {
-		initial: { opacity: 0, x: index * -20 },
-		animate: { opacity: 1, x: 0, transition: { delay: index * 0.2 } },
+		initial: { opacity: 0, x: index ? index * -20 : -20 },
+		animate: {
+			opacity: 1,
+			x: 0,
+			transition: { delay: index ? index * 0.2 : 0.2 },
+		},
 	};
 
 	return (
