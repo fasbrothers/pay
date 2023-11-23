@@ -41,7 +41,7 @@ export const HeaderMain = ({
 		},
 		{
 			key: '2',
-			label: <button onClick={() => handleLogout()}>{t('main.logout')}</button>,
+			label: <button id='logout' onClick={() => handleLogout()}>{t('main.logout')}</button>,
 		},
 	];
 
@@ -61,7 +61,7 @@ export const HeaderMain = ({
 			</h4>
 			<div className='flex items-center'>
 				<Dropdown menu={{ items }} placement='bottom'>
-					<Button className='flex items-center border-none shadow-none'>
+					<Button className='flex items-center border-none shadow-none profile__picture'>
 						{isLoading ? (
 							<Skeleton.Avatar active size={'default'} shape='circle' />
 						) : profile?.image_url ? (

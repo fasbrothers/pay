@@ -67,7 +67,7 @@ function SignInForm({
 
 	const showTimer = (seconds: number, minutes: number) => {
 		return (
-			<p>
+			<p className='time__for-block'>
 				{t('auth.sign_up.block.title')}:{' '}
 				{minutes < 10 ? `0${minutes}` : minutes}:
 				{seconds < 10 ? `0${seconds}` : seconds}
