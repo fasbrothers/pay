@@ -32,7 +32,6 @@ function SecurityTab() {
 			},
 		}
 	);
-	console.log(isTrusted);
 
 	const showModal = (e: React.FormEvent<HTMLFormElement>, id: number) => {
 		e.preventDefault();
@@ -80,8 +79,8 @@ function SecurityTab() {
 							handleCancel={handleCancel}
 							url='/customer/device'
 							navigateUrl='/cabinet/profile-settings'
-							modalTitle={'Delete a device'}
-							modalMessage={'Are you sure you want to delete this device?'}
+							modalTitle={t('profile_settings.delete_title')}
+							modalMessage={t('profile_settings.delete_text')}
 						/>
 					) : null}
 					{data?.count === 0 && (
@@ -92,7 +91,7 @@ function SecurityTab() {
 							<ButtonPrimary
 								title={t('profile_settings.security_button_sessions')}
 								bgColor='bg-red-500'
-								weight='w-[200px]'
+								weight='w-[220px]'
 								isLoading={isDeleting}
 							/>
 						</form>

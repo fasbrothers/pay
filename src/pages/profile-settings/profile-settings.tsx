@@ -20,7 +20,7 @@ function ProfileSettings() {
 	}) as Tabs[];
 
 	const [activeTabName, setActiveTabName] = useState<string>(
-		profileType[0].name
+		profileType[0].code
 	);
 	const { isLoading, data: profile } = useDataFetching<ProfileResponse>(
 		'profile',

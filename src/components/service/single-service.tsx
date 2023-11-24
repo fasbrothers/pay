@@ -6,14 +6,15 @@ import { Spin } from 'antd';
 
 export const SingleService = () => {
 	const serviceId = useLocation().pathname.split('/')[4];
-	const { data: service, isFetching } = useDataFetching<Service>(
+	const { data: service, isLoading } = useDataFetching<Service>(
 		'single-service',
-		'/service/public/' + serviceId
+		'/service/public/' + serviceId,
+		serviceId
 	);
 
 	return (
 		<>
-			{isFetching ? (
+			{isLoading ? (
 				<div className='flex justify-center items-center h-[50vh]'>
 					<Spin size='large' />
 				</div>

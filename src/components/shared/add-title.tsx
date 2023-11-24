@@ -5,7 +5,7 @@ export const AddTitle = ({ title }: { title: string }) => {
 	return (
 		<Link
 			to='add-card'
-			className='flex items-center font-semibold gap-2 w-[150px]'
+			className='flex items-center font-semibold gap-2 w-[180px]'
 		>
 			<AddCircleOutlineIcon />
 			{title}

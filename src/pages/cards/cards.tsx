@@ -3,20 +3,17 @@ import { useDataFetching } from '../../hooks/useDataFetching';
 import { CardStructure } from '../../components/card/card-structure';
 import { AddTitle } from '../../components/shared/add-title';
 import { currencyFormat } from '../../utils/currencyFormat';
-import { AllCardsResponse, Card } from '../../@types/card.types';
+import { AllCardsResponse } from '../../@types/card.types';
 import { Skeleton } from 'antd';
+import { sumAllCardsPrice } from '../../utils/sumAllCardsPrice';
+import { useTranslation } from 'react-i18next';
 
 function AllCards() {
 	const { isLoading, data: cards } = useDataFetching<AllCardsResponse>(
 		'cards',
 		'customer/card'
 	);
-
-	function sumAllCardsPrice(cards: Card[]) {
-		return cards.reduce((acc, card) => {
-			return acc + parseInt(card.balance);
-		}, 0);
-	}
+	const { t } = useTranslation();
 
 	return (
 		<div>
@@ -27,13 +24,11 @@ function AllCards() {
 							currencyFormat(
 								sumAllCardsPrice(cards?.cards as AllCardsResponse['cards'])
 							)}
-						sum
+						{t('cards.currency_title')}
 					</h4>
-					<p className='text-sm text-gray-600'>
-						Total balance from all accounts
-					</p>
+					<p className='text-sm text-gray-600'>{t('cards.total_balance')}</p>
 				</div>
-				<AddTitle title='Add new card' />
+				<AddTitle title={t('cards.add_card_button')} />
 			</div>
 			<div className='mt-5 flex flex-wrap gap-x-2 gap-y-5 md:gap-3 xl:gap-5 justify-center xl:justify-start mb-10 xl:mb-0'>
 				{isLoading ? (

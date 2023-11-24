@@ -10,20 +10,26 @@ import { httpClient } from '../../api';
 import { toastSuccessMessage } from '../../utils/toast-message';
 import { CardSwiper } from '../../components/card/card-swiper';
 import TransferForm from '../../components/transfer/transfer-form';
-import { transferType } from './tranfer-type';
 import SouthIcon from '@mui/icons-material/South';
 import { AllCardsResponse, PanResponse } from '../../@types/card.types';
 import Tab from '../../components/shared/tab';
+import { Tabs } from '../../@types/profile.types';
+import { useTranslation } from 'react-i18next';
 
 function Transfer() {
+	const { t } = useTranslation();
 	const { isLoading, data: cards } = useDataFetching<AllCardsResponse>(
 		'cards',
 		'customer/card'
 	);
+	const transferType: Tabs[] = t('transfer.tab', {
+		returnObjects: true,
+	}) as Tabs[];
+
 	const [activeSlideIndex, setActiveSlideIndex] = useState(0);
 	const [activeSlideIndexSelf, setActiveSlideIndexSelf] = useState(0);
 	const [activeTabName, setActiveTabName] = useState<string>(
-		transferType[0].name
+		transferType[0].code
 	);
 	const [input, setInput] = useState<string>('');
 	const [isPayCardSelf, setIsPayCardSelf] = useState<boolean>(false);
@@ -85,7 +91,7 @@ function Transfer() {
 	return (
 		<div>
 			{cards?.count !== undefined && cards.count > 0 && (
-				<div className='h-16 bg-gray-100 rounded-2xl flex justify-around items-center w-[300px] p-2 gap-x-2 mt-5'>
+				<div className='h-16 bg-gray-100 rounded-2xl flex justify-around items-center w-[350px] p-2 gap-x-2 mt-5'>
 					<Tab
 						tabsType={transferType}
 						activeTabName={activeTabName}

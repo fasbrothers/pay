@@ -2,9 +2,11 @@ import { ButtonPrimary } from '../shared/button';
 import { Form, Input } from 'antd';
 import { MaskedInput } from 'antd-mask-input';
 import { CardFormProps } from '../../@types/card.types';
+import { useTranslation } from 'react-i18next';
 
 export const CardForm = ({ setInputs, mutate, isLoading }: CardFormProps) => {
 	const [form] = Form.useForm();
+	const { t } = useTranslation();
 
 	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
 		const { name, value } = e.target;
@@ -22,16 +24,16 @@ export const CardForm = ({ setInputs, mutate, isLoading }: CardFormProps) => {
 		>
 			<Form.Item
 				name='name'
-				label='Name'
+				label={t('cards.add_card.name.title')}
 				labelCol={{ span: 24 }}
 				wrapperCol={{ span: 24 }}
 				rules={[
 					{
 						required: true,
-						message: 'Please input your name!',
+						message: t('cards.add_card.name.error'),
 						whitespace: true,
 					},
-					{ min: 2, message: 'Name must be minumum 2 letters' },
+					{ min: 2, message: t('cards.add_card.name.error_length') },
 				]}
 			>
 				<Input
@@ -42,14 +44,14 @@ export const CardForm = ({ setInputs, mutate, isLoading }: CardFormProps) => {
 			</Form.Item>
 			<Form.Item
 				name='pan'
-				label='Card Number'
+				label={t('cards.add_card.card_number.title')}
 				labelCol={{ span: 24 }}
 				wrapperCol={{ span: 24 }}
 				rules={[
-					{ required: true, message: 'Please input your card number!' },
+					{ required: true, message: t('cards.add_card.card_number.error') },
 					{
 						pattern: /^\d{4} \d{4} \d{4} \d{4}$/,
-						message: 'Must be a valid card number',
+						message: t('cards.add_card.card_number.error_length'),
 					},
 				]}
 			>
@@ -63,17 +65,17 @@ export const CardForm = ({ setInputs, mutate, isLoading }: CardFormProps) => {
 			</Form.Item>
 			<Form.Item
 				name='expiry'
-				label='Expiry'
+				label={t('cards.add_card.card_expiry.title')}
 				labelCol={{ span: 24 }}
 				wrapperCol={{ span: 24 }}
 				rules={[
 					{
 						required: true,
-						message: 'Please input your expiry month and year!',
+						message: t('cards.add_card.card_expiry.error'),
 					},
 					{
 						pattern: /^\d{2}\/\d{2}$/,
-						message: 'Must be a valid expiry month and year',
+						message: t('cards.add_card.card_expiry.error_length'),
 					},
 				]}
 			>
@@ -87,16 +89,16 @@ export const CardForm = ({ setInputs, mutate, isLoading }: CardFormProps) => {
 			</Form.Item>
 			<Form.Item
 				name='owner_name'
-				label='Owner name'
+				label={t('cards.add_card.name.title_second')}
 				labelCol={{ span: 24 }}
 				wrapperCol={{ span: 24 }}
 				rules={[
 					{
 						required: true,
-						message: 'Please input your name!',
+						message: t('cards.add_card.name.error'),
 						whitespace: true,
 					},
-					{ min: 2, message: 'Name must be minumum 2 letters' },
+					{ min: 2, message: t('cards.add_card.name.error_length') },
 				]}
 			>
 				<Input
@@ -107,7 +109,10 @@ export const CardForm = ({ setInputs, mutate, isLoading }: CardFormProps) => {
 			</Form.Item>
 
 			<Form.Item>
-				<ButtonPrimary isLoading={isLoading} title='Add new card' />
+				<ButtonPrimary
+					isLoading={isLoading}
+					title={t('cards.add_card.button')}
+				/>
 			</Form.Item>
 		</Form>
 	);

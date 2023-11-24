@@ -7,6 +7,7 @@ import { httpClient } from '../../api';
 import Cards from 'react-credit-cards-2';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { BackToPreviousPage } from '../../components/shared/back-to-previous-page';
+import { useTranslation } from 'react-i18next';
 
 function AddCard() {
 	const [inputs, setInputs] = useState<{ [key: string]: string }>({
@@ -18,6 +19,7 @@ function AddCard() {
 	});
 
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	const { isLoading, mutate } = useMutation({
 		mutationFn: async () => {
@@ -40,7 +42,7 @@ function AddCard() {
 
 	return (
 		<div id='PaymentForm'>
-			<BackToPreviousPage title='Add Card' />
+			<BackToPreviousPage title={t("cards.add_card.title")} />
 			<Cards
 				cvc={inputs.cvc}
 				expiry={inputs.expiry}

@@ -38,6 +38,7 @@ export interface QrModelProps {
 export interface Tabs {
 	id: number;
 	name: string;
+	code: string;
 }
 
 export interface SecurityItemProps {

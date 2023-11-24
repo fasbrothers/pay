@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { handleExpiry } from '../../utils/handleExpiry';
 import { currencyFormat } from '../../utils/currencyFormat';
 import { Card } from '../../@types/card.types';
+import { useTranslation } from 'react-i18next';
 
 export const CardStructure = ({
 	pan,
@@ -19,9 +20,10 @@ export const CardStructure = ({
 		animate: {
 			opacity: 1,
 			x: 0,
-			transition: { delay: index ? index * 0.2 : 0.2 },
+			transition: { delay: index && index * 0.2 },
 		},
 	};
+	const { t } = useTranslation();
 
 	return (
 		<motion.div
@@ -42,7 +44,7 @@ export const CardStructure = ({
 					single_card ? 'left-[42%]' : 'left-[10%]'
 				} text-red-300`}
 			>
-				{currencyFormat(+balance)} sum
+				{currencyFormat(+balance)} {t('cards.currency_title')}
 			</div>
 		</motion.div>
 	);

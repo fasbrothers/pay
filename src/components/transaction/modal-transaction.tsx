@@ -4,8 +4,7 @@ import { currencyFormat } from '../../utils/currencyFormat';
 import dayjs from 'dayjs';
 import { TransactionHeader } from './transaction-header';
 import { TransactionDetails } from './transaction-details';
-
-
+import { useTranslation } from 'react-i18next';
 
 function ModalTransaction({
 	isModalOpen,
@@ -16,6 +15,7 @@ function ModalTransaction({
 	const handleCancel = () => {
 		setIsModalOpen(false);
 	};
+	const { t } = useTranslation();
 
 	let isIncome;
 
@@ -25,7 +25,7 @@ function ModalTransaction({
 
 	return (
 		<Modal
-			title={'Transaction Details'}
+			title={t('transactions.details.title')}
 			open={isModalOpen}
 			onCancel={handleCancel}
 			className='profile__modal'
@@ -38,7 +38,11 @@ function ModalTransaction({
 				) : (
 					<>
 						<TransactionHeader
-							title={isIncome ? 'from' : 'to'}
+							title={
+								isIncome
+									? t('transactions.details.from')
+									: t('transactions.details.to')
+							}
 							image={
 								isIncome
 									? transaction.sender?.image_url
@@ -52,11 +56,15 @@ function ModalTransaction({
 						/>
 						<div className='mt-5 space-y-2'>
 							<TransactionDetails
-								label='Transfer'
+								label={t('transactions.details.transfer')}
 								value={`#${transaction.id.slice(0, 23)}`}
 							/>
 							<TransactionDetails
-								label={isIncome ? 'Received from' : 'Send To'}
+								label={
+									isIncome
+										? t('transactions.details.receive')
+										: t('transactions.details.send')
+								}
 								value={
 									isIncome
 										? transaction.sender?.name
@@ -65,12 +73,12 @@ function ModalTransaction({
 							/>
 							{isIncome ? (
 								<TransactionDetails
-									label='Card'
+									label={t('transactions.details.card')}
 									value={transaction.sender.pan.split('').slice(-8).join('')}
 								/>
 							) : transaction.receiver.pan ? (
 								<TransactionDetails
-									label='Card'
+									label={t('transactions.details.card')}
 									value={transaction?.receiver?.pan
 										?.split('')
 										.slice(-8)
@@ -78,7 +86,7 @@ function ModalTransaction({
 								/>
 							) : null}
 							<TransactionDetails
-								label='Amount'
+								label={t('transactions.details.amount')}
 								value={currencyFormat(+transaction.amount)}
 							/>
 						</div>

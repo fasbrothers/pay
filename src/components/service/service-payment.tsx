@@ -13,9 +13,11 @@ import { MaskedInput } from 'antd-mask-input';
 import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 import { Rule } from 'antd/lib/form';
 import { BackToPreviousPage } from '../shared/back-to-previous-page';
+import { useTranslation } from 'react-i18next';
 
 export const ServicePayment = ({ service }: { service: Service }) => {
 	const [form] = Form.useForm();
+	const { t } = useTranslation();
 
 	const query = useQueryClient();
 	const navigate = useNavigate();
@@ -59,7 +61,7 @@ export const ServicePayment = ({ service }: { service: Service }) => {
 	const { image_url, fields } = service;
 	return (
 		<>
-			<BackToPreviousPage title='Payment' />
+			<BackToPreviousPage title={t('payment.title')} />
 			<div className='w-full sm:w-4/5 xl:w-2/4 2xl:w-1/3 mx-auto mt-5'>
 				<div className='flex justify-center'>
 					{image_url ? (
@@ -84,18 +86,18 @@ export const ServicePayment = ({ service }: { service: Service }) => {
 				>
 					<Form.Item
 						name='amount'
-						label='Amount'
+						label={t('payment.amount.title')}
 						labelCol={{ span: 24 }}
 						wrapperCol={{ span: 24 }}
 						rules={[
 							{
 								required: true,
-								message: 'Please input your amount!',
+								message: t('payment.amount.error'),
 								whitespace: true,
 							},
 							{
 								pattern: /^[1-9]\d*$/,
-								message: 'Amount must be a positive number',
+								message: t('payment.amount.error_length'),
 							},
 						]}
 					>
@@ -117,17 +119,17 @@ export const ServicePayment = ({ service }: { service: Service }) => {
 									rules={[
 										{
 											required: true,
-											message: `Please input your ${field.name}!`,
+											message: `${t('payment.field.error')} ${field.name}!`,
 											whitespace: true,
 										},
 										field.type === 'phone'
 											? {
 													pattern: /^\d{2} \d{3} \d{2} \d{2}$/,
-													message: 'Must be a valid phone number',
+													message: t('payment.field.error_phone'),
 											}
 											: ({
 													required: true,
-													message: 'Input is required',
+													message: t('payment.field.error_general'),
 											} as Rule),
 									]}
 								>
@@ -149,7 +151,7 @@ export const ServicePayment = ({ service }: { service: Service }) => {
 							);
 						})}
 					<Form.Item
-						label='Select a card'
+						label={t('payment.card.title')}
 						name='card'
 						className='gender__select mb-10'
 						labelCol={{ span: 24 }}
@@ -157,11 +159,11 @@ export const ServicePayment = ({ service }: { service: Service }) => {
 						rules={[
 							{
 								required: true,
-								message: 'Please select a card!',
+								message: t('payment.card.error'),
 							},
 						]}
 					>
-						<Select placeholder='Select a card' loading={isLoading}>
+						<Select placeholder={t('payment.card.title')} loading={isLoading}>
 							{cards?.cards.map(card => (
 								<Select.Option key={card.id} value={card.id}>
 									{currencyFormat(+card.balance)} sum - {card.name}-{' '}
@@ -171,7 +173,7 @@ export const ServicePayment = ({ service }: { service: Service }) => {
 						</Select>
 					</Form.Item>
 					<Form.Item>
-						<ButtonPrimary isLoading={loading} title='Pay' />
+						<ButtonPrimary isLoading={loading} title={t('payment.button')} />
 					</Form.Item>
 				</Form>
 			</div>

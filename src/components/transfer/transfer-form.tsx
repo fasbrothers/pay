@@ -2,6 +2,7 @@ import { Form } from 'antd';
 import { MaskedInput } from 'antd-mask-input';
 import { ButtonPrimary } from '../shared/button';
 import { TransferFormProps } from '../../@types/transfer.types';
+import { useTranslation } from 'react-i18next';
 
 const TransferForm: React.FC<TransferFormProps> = ({
 	onFinish,
@@ -11,6 +12,8 @@ const TransferForm: React.FC<TransferFormProps> = ({
 	isPanLoading,
 	isPayCardSelf,
 }) => {
+	const { t } = useTranslation();
+
 	return (
 		<Form
 			name='transfer payment'
@@ -21,13 +24,13 @@ const TransferForm: React.FC<TransferFormProps> = ({
 			{!isPayCardSelf && (
 				<Form.Item
 					name='toCardPan'
-					label='Receiver Card Number'
+					label={t('transfer.card_number.title')}
 					labelCol={{ span: 24 }}
 					wrapperCol={{ span: 24 }}
 					rules={[
 						{
 							pattern: /^\d{4} \d{4} \d{4} \d{4}$/,
-							message: 'Must be a valid card number',
+							message: t('transfer.card_number.error_length'),
 						},
 					]}
 				>
@@ -45,17 +48,17 @@ const TransferForm: React.FC<TransferFormProps> = ({
 			)}
 			<Form.Item
 				name='amount'
-				label='Amount'
+				label={t('transfer.amount.title')}
 				labelCol={{ span: 24 }}
 				wrapperCol={{ span: 24 }}
 				rules={[
 					{
 						required: true,
-						message: 'Please input amount!',
+						message: t('transfer.amount.error'),
 					},
 					{
 						pattern: /^[1-9]\d*$/,
-						message: 'Must be a valid amount',
+						message: t('transfer.amount.error_length'),
 					},
 				]}
 			>
@@ -69,7 +72,7 @@ const TransferForm: React.FC<TransferFormProps> = ({
 				<ButtonPrimary
 					disabled={!isPayCardSelf && !panUser?.owner.name}
 					isLoading={isLoading}
-					title='Transfer'
+					title={t('transfer.button')}
 				/>
 			</Form.Item>
 		</Form>

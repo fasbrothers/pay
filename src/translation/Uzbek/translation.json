@@ -66,17 +66,21 @@
 		"profile_tab": [
 			{
 				"id": 1,
-				"name": "Profil"
+				"name": "Profil",
+				"code": "Profile"
 			},
 			{
 				"id": 2,
-				"name": "Xavfsizlik"
+				"name": "Xavfsizlik",
+				"code": "Security"
 			}
 		],
 		"security_title": "Ishonchli qurilmalar",
 		"security_button": "O'chirish",
 		"security_button_sessions": "Seanslarni o'chirish",
-		"security_not_found": "Ishonchli qurilmalar topilmadi"
+		"security_not_found": "Ishonchli qurilmalar topilmadi",
+		"delete_title": "Qurilmani o'chirish",
+		"delete_text": "Haqiqatan ham bu qurilmani oʻchirib tashlamoqchimisiz?"
 	},
 	"modal_profile_update": {
 		"title": "Foydalanuvchi profilini yangilash",
@@ -175,6 +179,121 @@
 			"name": "Azizbek Naimov",
 			"job": "Moliyaviy mutaxassis",
 			"description": "Fintech - bu an'anaviy moliyaviy usullar bilan yakunlashni maqsad qilgan texnologiya va innovatsiya"
+		}
+	},
+	"cards": {
+		"currency_title": "so'm",
+		"total_balance": "Barcha hisoblardagi jami balans",
+		"add_card_button": "Karta qo'shing",
+		"card_details": "Karta tafsilotlari",
+		"name": {
+			"title": "Ism",
+			"error": "Iltimos, ismingizni kiriting!",
+			"error_length": "Ism kamida 2 ta belgidan iborat boʻlishi kerak"
+		},
+		"save_button": "Saqlash",
+		"delete_button": "Oʻchirish",
+		"delete_title": "Kartani o'chirish",
+		"delete_text": "Bu kartani o‘chirib tashlamoqchimisiz?",
+		"delete_cancel": "Bekor qilish",
+		"add_card": {
+			"title": "Karta qo'shish",
+			"name": {
+				"title": "Ism",
+				"title_second": "Egasining ismi",
+				"error": "Iltimos, ismingizni kiriting!",
+				"error_length": "Ism kamida 2 ta belgidan iborat boʻlishi kerak"
+			},
+			"card_number": {
+				"title": "Karta raqami",
+				"error": "Iltimos, karta raqamingizni kiriting!",
+				"error_length": "Yaroqli karta raqami boʻlishi kerak"
+			},
+			"card_expiry": {
+				"title": "Kartaning amal qilish muddati",
+				"error": "Iltimos, amal qilish muddati tugagan oy va yilingizni kiriting!",
+				"error_length": "Yaroqlilik muddati tugagan oy va yil bo'lishi kerak"
+			},
+			"button": "Yangi karta qo'shing"
+		}
+	},
+	"transfer": {
+		"tab": [
+			{
+				"id": 1,
+				"name": "Kartaga o'tkazish",
+				"code": "Transfer to card"
+			},
+			{
+				"id": 2,
+				"name": "O'ziga o'tkazish",
+				"code": "Transfer to self"
+			}
+		],
+		"card_number": {
+			"title": "Karta raqami",
+			"error": "Iltimos, karta raqamingizni kiriting!",
+			"error_length": "Yaroqli karta raqami boʻlishi kerak"
+		},
+		"amount": {
+			"title": "Miqdori",
+			"error": "Iltimos, miqdoringizni kiriting!",
+			"error_length": "Yaroqli miqdor bo‘lishi kerak"
+		},
+		"button": "O'tkazish"
+	},
+	"payment": {
+		"title": "To'lov",
+		"amount": {
+			"title": "Miqdori",
+			"error": "Iltimos, miqdoringizni kiriting!",
+			"error_length": "Yaroqli miqdor bo‘lishi kerak"
+		},
+		"field": {
+			"error": "Iltimos, kiriting",
+			"error_phone": "Yaroqli telefon raqami boʻlishi kerak",
+			"error_general": "Kiritish talab qilinadi"
+		},
+		"card": {
+			"title": "Kartani tanlang",
+			"error": "Iltimos, kartani tanlang!"
+		},
+		"button": "To'lash"
+	},
+	"transactions": {
+		"form": {
+			"date": {
+				"title": "Sanani tanlang",
+				"error": "Iltimos, sana tanlang!"
+			},
+			"range_date": {
+				"start": "Boshlanish sanasi",
+				"end": "Tugash sanasi"
+			},
+			"button": "Izlash"
+		},
+		"buttons": {
+			"sort": "Saralash turi",
+			"clear_filter": "Filtrni tozalash",
+			"clear_filter_sort": "Filtrlar va tartiblarni tozalang"
+		},
+		"table_columns": {
+			"date": "Sana",
+			"details": "Tafsilotlar",
+			"amount": "Miqdori",
+			"type": "Turkumi",
+			"action": "Jarayon"
+		},
+		"details": {
+			"title": "Tranzaksiya tafsilotlari",
+			"amount": "Miqdori",
+			"card": "Karta",
+			"complete": "Bajarildi",
+			"send": "Yuborish",
+			"receive": "Qabul qilish",
+			"transfer": "O'tkazish",
+			"from": "dan",
+			"to": "ga"
 		}
 	}
 }

@@ -19,6 +19,7 @@ import {
 	TransactionResponse,
 } from '../../@types/transaction.types';
 import { useSearchParams } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function Transactions() {
 	const [dateRange, setDateRange] = useState([dayjs().add(-10, 'd'), dayjs()]);
@@ -30,13 +31,13 @@ function Transactions() {
 	const [val, setVal] = useState({});
 	const page = pageParams.get('page') || '1';
 	const pageSize = pageParams.get('pageSize') || '10';
+	const { t } = useTranslation();
 
 	const handleChange: TableProps<Transaction>['onChange'] = (
 		pagination,
 		filters,
 		sorter
 	) => {
-		console.log('Various parameters', pagination, filters, sorter);
 		setFilteredInfo(filters);
 		setPageParams(
 			prevParams => {
@@ -142,7 +143,7 @@ function Transactions() {
 
 	const columns: ColumnsType<Transaction> = [
 		{
-			title: 'Date',
+			title: t('transactions.table_columns.date'),
 			dataIndex: 'created_at',
 			key: 'date',
 			sorter: (a, b) => a.created_at.localeCompare(b.created_at),
@@ -157,7 +158,7 @@ function Transactions() {
 			),
 		},
 		{
-			title: 'Details',
+			title: t('transactions.table_columns.details'),
 			dataIndex: 'details',
 			key: 'details',
 			width: '30%',
@@ -207,7 +208,7 @@ function Transactions() {
 			),
 		},
 		{
-			title: 'Type',
+			title: t('transactions.table_columns.type'),
 			dataIndex: 'type',
 			key: 'type',
 			width: '15%',
@@ -222,7 +223,7 @@ function Transactions() {
 			ellipsis: true,
 		},
 		{
-			title: 'Action',
+			title: t('transactions.table_columns.action'),
 			dataIndex: 'action',
 			key: 'action',
 			sorter: (a, b) => a.action.length - b.action.length,
@@ -244,7 +245,7 @@ function Transactions() {
 			),
 		},
 		{
-			title: 'Amount',
+			title: t('transactions.table_columns.amount'),
 			dataIndex: 'amount',
 			key: 'amount',
 			sorter: (a, b) => {
@@ -259,7 +260,9 @@ function Transactions() {
 			render: (_, record) => (
 				<p className='font-semibold'>
 					{record.type === 'income' ? <span>+</span> : <span>-</span>}
-					<span>{currencyFormat(+record.amount)} sum</span>
+					<span>
+						{currencyFormat(+record.amount)} {t('cards.currency_title')}
+					</span>
 				</p>
 			),
 		},
@@ -272,9 +275,13 @@ function Transactions() {
 				isLoading={isLoadingFormSubmit}
 			/>
 			<Space style={{ marginBottom: 16, display: 'flex', flexWrap: 'wrap' }}>
-				<Button onClick={setAgeSort}>Sort Type</Button>
-				<Button onClick={clearFilters}>Clear filters</Button>
-				<Button onClick={clearAll}>Clear filters and sorters</Button>
+				<Button onClick={setAgeSort}>{t('transactions.buttons.sort')}</Button>
+				<Button onClick={clearFilters}>
+					{t('transactions.buttons.clear_filter')}
+				</Button>
+				<Button onClick={clearAll}>
+					{t('transactions.buttons.clear_filter_sort')}
+				</Button>
 			</Space>
 			<Table
 				columns={columns}

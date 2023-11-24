@@ -10,6 +10,7 @@ import { httpClient } from '../../api';
 import { toastSuccessMessage } from '../../utils/toast-message';
 import { BackToPreviousPage } from '../../components/shared/back-to-previous-page';
 import { Card } from '../../@types/card.types';
+import { useTranslation } from 'react-i18next';
 
 function SingleCard() {
 	const id = useLocation().pathname.split('/')[3].toString();
@@ -23,6 +24,7 @@ function SingleCard() {
 	const [nameInput, setNameInput] = useState<string | undefined>(data?.name);
 	const [disabled, setDisabled] = useState<boolean>(true);
 	const query = useQueryClient();
+	const { t } = useTranslation();
 
 	const { isLoading, mutate } = useMutation({
 		mutationFn: async () => {
@@ -48,14 +50,14 @@ function SingleCard() {
 	};
 
 	return (
-		<div className={`${isModalOpen && 'blur-sm'}`}>
+		<div>
 			{loading ? (
 				<div className='lg:w-1/2 mx-auto'>
 					<Skeleton active paragraph={{ rows: 4 }} />
 				</div>
 			) : (
 				<div>
-					<BackToPreviousPage title='Card Details' />
+					<BackToPreviousPage title={t('cards.card_details')} />
 					<CardStructure
 						name={data?.name || ''}
 						pan={data?.pan || ''}
@@ -78,16 +80,16 @@ function SingleCard() {
 					>
 						<Form.Item
 							name='name'
-							label='Name'
+							label={t('cards.name.title')}
 							labelCol={{ span: 24 }}
 							wrapperCol={{ span: 24 }}
 							rules={[
 								{
 									required: true,
-									message: 'Please input your name!',
+									message: t('cards.name.error'),
 									whitespace: true,
 								},
-								{ min: 2, message: 'Name must be minumum 2 letters' },
+								{ min: 2, message: t('cards.name.error_length') },
 							]}
 						>
 							<Input
@@ -103,7 +105,7 @@ function SingleCard() {
 							<ButtonPrimary
 								disabled={disabled}
 								isLoading={isLoading}
-								title='Save'
+								title={t('cards.save_button')}
 							/>
 						</Form.Item>
 					</Form>
@@ -111,7 +113,10 @@ function SingleCard() {
 						className='w-full sm:w-4/5 xl:w-2/4 2xl:w-1/3 mx-auto'
 						onSubmit={showModal}
 					>
-						<ButtonPrimary bgColor='bg-red-500' title={'Delete card'} />
+						<ButtonPrimary
+							bgColor='bg-red-500'
+							title={t('cards.delete_button')}
+						/>
 					</form>
 					<DeleteCard
 						id={id}
@@ -120,8 +125,8 @@ function SingleCard() {
 						handleCancel={handleCancel}
 						url='/customer/card'
 						navigateUrl='/cabinet/cards'
-						modalTitle='Delete card'
-						modalMessage='Do you really want to delete this card?'
+						modalTitle={t('cards.delete_title')}
+						modalMessage={t('cards.delete_text')}
 					/>
 				</div>
 			)}

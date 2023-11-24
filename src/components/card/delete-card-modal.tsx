@@ -4,6 +4,7 @@ import { Button, Modal } from 'antd';
 import { useNavigate } from 'react-router-dom';
 import { toastSuccessMessage } from '../../utils/toast-message';
 import { DeleteCardProps } from '../../@types/card.types';
+import { useTranslation } from 'react-i18next';
 
 export function DeleteCard({
 	id,
@@ -18,6 +19,7 @@ export function DeleteCard({
 }: DeleteCardProps) {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
+	const { t } = useTranslation();
 
 	const { mutate, isLoading } = useMutation({
 		mutationFn: async () => {
@@ -47,7 +49,7 @@ export function DeleteCard({
 			onCancel={handleCancel}
 			footer={[
 				<Button key='back' onClick={handleCancel}>
-					Return
+					{t('cards.delete_cancel')}
 				</Button>,
 				<Button
 					key='submit'
@@ -57,7 +59,7 @@ export function DeleteCard({
 						mutate();
 					}}
 				>
-					Delete
+					{t('cards.delete_button')}
 				</Button>,
 			]}
 		>

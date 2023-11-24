@@ -66,17 +66,21 @@
 		"profile_tab": [
 			{
 				"id": 1,
-				"name": "Profile"
+				"name": "Profile",
+				"code": "Profile"
 			},
 			{
 				"id": 2,
-				"name": "Security"
+				"name": "Security",
+				"code": "Security"
 			}
 		],
 		"security_title": "Trusted Devices",
 		"security_button": "Delete",
 		"security_button_sessions": "Delete Sessions",
-		"security_not_found": "No trusted devices found"
+		"security_not_found": "No trusted devices found",
+		"delete_title": "Delete a device",
+		"delete_text": "Are you sure you want to delete this device?"
 	},
 	"modal_profile_update": {
 		"title": "Update User Profile",
@@ -175,6 +179,121 @@
 			"name": "Azizbek Naimov",
 			"job": "Financial Officer",
 			"description": "Fintech is the technology and innovation that aims to complete with traditional financial methods"
+		}
+	},
+	"cards": {
+		"currency_title": "sum",
+		"total_balance": "Total Balance from all accounts",
+		"add_card_button": "Add new card",
+		"card_details": "Card details",
+		"name": {
+			"title": "Name",
+			"error": "Please input your name!",
+			"error_length": "Name must be minimum 2 characters"
+		},
+		"save_button": "Save",
+		"delete_button": "Delete",
+		"delete_title": "Delete card",
+		"delete_text": "Are you sure you want to delete this card?",
+		"delete_cancel": "Cancel",
+		"add_card": {
+			"title": "Add Card",
+			"name": {
+				"title": "Name",
+				"title_second": "Owner Name",
+				"error": "Please input your name!",
+				"error_length": "Name must be minimum 2 characters"
+			},
+			"card_number": {
+				"title": "Card Number",
+				"error": "Please input your card number!",
+				"error_length": "Must be a valid card number"
+			},
+			"card_expiry": {
+				"title": "Card Expiry",
+				"error": "Please input your expiry month and year!",
+				"error_length": "Must be a valid expiry month and year"
+			},
+			"button": "Add new card"
+		}
+	},
+	"transfer": {
+		"tab": [
+			{
+				"id": 1,
+				"name": "Transfer to card",
+				"code": "Transfer to card"
+			},
+			{
+				"id": 2,
+				"name": "Transfer to self",
+				"code": "Transfer to self"
+			}
+		],
+		"card_number": {
+			"title": "Card Number",
+			"error": "Please input your card number!",
+			"error_length": "Must be a valid card number"
+		},
+		"amount": {
+			"title": "Amount",
+			"error": "Please input your amount!",
+			"error_length": "Must be a valid amount"
+		},
+		"button": "Transfer"
+	},
+	"payment": {
+		"title": "Payment",
+		"amount": {
+			"title": "Amount",
+			"error": "Please input your amount!",
+			"error_length": "Must be a valid amount"
+		},
+		"field": {
+			"error": "Please input your",
+			"error_phone": "Must be a valid phone number",
+			"error_general": "Input is required"
+		},
+		"card": {
+			"title": "Select a card",
+			"error": "Please select a card!"
+		},
+		"button": "Pay"
+	},
+	"transactions": {
+		"form": {
+			"date": {
+				"title": "Select Date",
+				"error": "Please select a date!"
+			},
+			"range_date": {
+				"start": "Start Date",
+				"end": "End Date"
+			},
+			"button": "Search"
+		},
+		"buttons": {
+			"sort": "Sort Type",
+			"clear_filter": "Clear Filter",
+			"clear_filter_sort": "Clear filters and sorts"
+		},
+		"table_columns": {
+			"date": "Date",
+			"details": "Details",
+			"amount": "Amount",
+			"type": "Type",
+			"action": "Action"
+		},
+		"details": {
+			"title": "Transaction Details",
+			"amount": "Amount",
+			"card": "Card",
+			"complete": "Completed",
+			"send": "Send To",
+			"receive": "Receive From",
+			"transfer": "Transfer",
+			"from": "from",
+			"to": "to"
 		}
 	}
 }
