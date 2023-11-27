@@ -87,27 +87,6 @@ export const CardForm = ({ setInputs, mutate, isLoading }: CardFormProps) => {
 					className='input__style'
 				/>
 			</Form.Item>
-			<Form.Item
-				name='owner_name'
-				label={t('cards.add_card.name.title_second')}
-				labelCol={{ span: 24 }}
-				wrapperCol={{ span: 24 }}
-				rules={[
-					{
-						required: true,
-						message: t('cards.add_card.name.error'),
-						whitespace: true,
-					},
-					{ min: 2, message: t('cards.add_card.name.error_length') },
-				]}
-			>
-				<Input
-					className='input__style'
-					onChange={handleInputChange}
-					name='owner_name'
-				/>
-			</Form.Item>
-
 			<Form.Item>
 				<ButtonPrimary
 					isLoading={isLoading}

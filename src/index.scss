@@ -133,6 +133,9 @@ body {
 .ant-btn-primary {
 	background-color: #1677ff;
 }
+.ant-modal-mask{
+	background-color: rgba(0, 0, 0, 0.9) !important;
+}
 
 @media (max-width: 500px) {
 

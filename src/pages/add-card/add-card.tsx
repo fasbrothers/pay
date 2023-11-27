@@ -1,25 +1,25 @@
 import { useState } from 'react';
 import { useMutation } from '@tanstack/react-query';
 import { CardForm } from '../../components/card/card-form';
-import { toastSuccessMessage } from '../../utils/toast-message';
-import { useNavigate } from 'react-router-dom';
 import { httpClient } from '../../api';
 import Cards from 'react-credit-cards-2';
 import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { BackToPreviousPage } from '../../components/shared/back-to-previous-page';
 import { useTranslation } from 'react-i18next';
+import VerificationCodeForm from '../../components/card/verification-code-form';
 
 function AddCard() {
 	const [inputs, setInputs] = useState<{ [key: string]: string }>({
 		cvc: '',
 		expiry: '',
 		name: '',
-		owner_name: '',
 		pan: '',
+		owner_name: '',
 	});
 
-	const navigate = useNavigate();
 	const { t } = useTranslation();
+	const [timeLeft, setTimeLeft] = useState<number>(0);
+	const [showCode, setShowCode] = useState<boolean>(false);
 
 	const { isLoading, mutate } = useMutation({
 		mutationFn: async () => {
@@ -28,28 +28,36 @@ function AddCard() {
 			const { data } = await httpClient.post('/customer/card', {
 				pan,
 				name: inputs.name,
-				owner_name: inputs.owner_name,
 				expiry_month: expiry.slice(0, 2),
 				expiry_year: expiry.slice(3),
 			});
-			data.message ? toastSuccessMessage(data.message) : null;
-			return data;
+			setTimeLeft(data.info.timeLeft);
 		},
 		onSuccess: () => {
-			navigate('/cabinet/cards');
+			setShowCode(true);
 		},
 	});
 
 	return (
 		<div id='PaymentForm'>
-			<BackToPreviousPage title={t("cards.add_card.title")} />
-			<Cards
-				cvc={inputs.cvc}
-				expiry={inputs.expiry}
-				name={inputs.owner_name}
-				number={inputs.pan}
-			/>
-			<CardForm isLoading={isLoading} setInputs={setInputs} mutate={mutate} />
+			<BackToPreviousPage title={t('cards.add_card.title')} />
+			{showCode ? (
+				<VerificationCodeForm timeLeft={timeLeft} />
+			) : (
+				<>
+					<Cards
+						cvc={inputs.cvc}
+						expiry={inputs.expiry}
+						name={inputs.owner_name}
+						number={inputs.pan}
+					/>
+					<CardForm
+						isLoading={isLoading}
+						setInputs={setInputs}
+						mutate={mutate}
+					/>
+				</>
+			)}
 		</div>
 	);
 }
