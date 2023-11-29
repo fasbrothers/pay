@@ -8,3 +8,7 @@ export interface TransferFormProps {
 	isPayCardSelf: boolean;
 	handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
+
+export interface QrProps {
+	activeIndex: number;
+}

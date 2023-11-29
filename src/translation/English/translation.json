@@ -258,7 +258,19 @@
 			"title": "Select a card",
 			"error": "Please select a card!"
 		},
-		"button": "Pay"
+		"button": "Pay",
+		"tab": [
+			{
+				"id": 1,
+				"name": "Metro",
+				"code": "metro"
+			},
+			{
+				"id": 2,
+				"name": "Bus",
+				"code": "bus"
+			}
+		]
 	},
 	"transactions": {
 		"form": {

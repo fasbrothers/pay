@@ -7,6 +7,7 @@ export interface Card {
 	expiry_year: string;
 	balance: string;
 	owner_name: string;
+	main?: boolean;
 	single_card?: boolean;
 	index?: number;
 }
@@ -18,7 +19,7 @@ export interface CardSwiperProps {
 
 export interface CardFormProps {
 	setInputs: React.Dispatch<React.SetStateAction<{ [key: string]: string }>>;
-	mutate: () => void;
+	mutate: (values: CardFormInputs) => void;
 	isLoading: boolean;
 }
 
@@ -43,4 +44,11 @@ export interface PanResponse {
 	owner: {
 		name: string;
 	};
+}
+
+export interface CardFormInputs {
+	name: string;
+	pan: string;
+	expiry: string;
+	main: boolean;
 }

@@ -7,7 +7,8 @@ import { ServiceItem } from '../../components/service/service-item';
 import { SearchInputField } from '../../components/service/search-input-field';
 import { getFromCookie } from '../../utils/cookies';
 import { Category, ServicesResponse } from '../../@types/service.types';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
+import { ButtonPrimary } from '../../components/shared/button';
 
 function Payments() {
 	const [selectedCategory, setSelectedCategory] = useState<Category>({
@@ -22,6 +23,7 @@ function Payments() {
 		'/service'
 	);
 
+	const navigate = useNavigate();
 	const userLanguage = getFromCookie('language');
 	const savedCategory = categorySaved[userLanguage || ''];
 	const categories = useMemo(() => {
@@ -70,6 +72,12 @@ function Payments() {
 
 	return (
 		<>
+			<div
+				className='mb-4 text-[#1F2A66] w-40 font-bold text-xl'
+				onClick={() => navigate('/cabinet/payments/qr')}
+			>
+				<ButtonPrimary title='QR Payment' />
+			</div>
 			{isLoading ? (
 				<Skeleton active paragraph={{ rows: 6 }} />
 			) : (

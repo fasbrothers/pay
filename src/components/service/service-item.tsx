@@ -44,8 +44,14 @@ export const ServiceItem = ({
 
 	return (
 		<motion.div
-			initial={{ opacity: 0, x: 0 }}
-			animate={{ opacity: 1, transition: { delay: index * 0.2 } }}
+			initial={{ opacity: 0, scale: 0.2 }}
+			animate={{
+				opacity: 1,
+				scale: 1,
+				transition: {
+					delay: index * 0.1,
+				},
+			}}
 			whileHover={{ scale: 0.98 }}
 			onClick={handleItemClick}
 			className='text-center w-[49%] sm:w-[32%] md:w-[45%] xl:w-[24%] 2xl:w-[22%] hover:shadow-lg border border-gray transition duration-300 rounded-xl py-3 cursor-pointer relative'

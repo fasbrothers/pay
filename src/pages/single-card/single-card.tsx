@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { ButtonPrimary } from '../../components/shared/button';
 import { useState } from 'react';
 import { DeleteCard } from '../../components/card/delete-card-modal';
@@ -11,6 +11,7 @@ import { toastSuccessMessage } from '../../utils/toast-message';
 import { BackToPreviousPage } from '../../components/shared/back-to-previous-page';
 import { Card } from '../../@types/card.types';
 import { useTranslation } from 'react-i18next';
+import { CheckBox } from '../../components/shared/checkbox';
 
 function SingleCard() {
 	const id = useLocation().pathname.split('/')[3].toString();
@@ -21,22 +22,23 @@ function SingleCard() {
 		`/customer/card/${id}`,
 		id
 	);
-	const [nameInput, setNameInput] = useState<string | undefined>(data?.name);
-	const [disabled, setDisabled] = useState<boolean>(true);
+
 	const query = useQueryClient();
 	const { t } = useTranslation();
+	const navigate = useNavigate();
 
 	const { isLoading, mutate } = useMutation({
-		mutationFn: async () => {
+		mutationFn: async (values: { name: string; main: boolean }) => {
 			const { data } = await httpClient.put('/customer/card', {
 				id,
-				name: nameInput,
+				name: values.name,
+				main: values.main !== undefined ? values.main : false,
 			});
 			data.message ? toastSuccessMessage(data.message) : null;
-			return data;
 		},
 		onSuccess: () => {
 			query.invalidateQueries(['card']);
+			navigate('/cabinet/cards');
 		},
 	});
 
@@ -76,7 +78,10 @@ function SingleCard() {
 						onFinish={value => mutate(value)}
 						scrollToFirstError
 						className='w-full sm:w-4/5 xl:w-2/4 2xl:w-1/3 mx-auto mt-5'
-						initialValues={{ name: data && data?.name }}
+						initialValues={{
+							name: data && data?.name,
+							main: data && data?.main,
+						}}
 					>
 						<Form.Item
 							name='name'
@@ -92,18 +97,11 @@ function SingleCard() {
 								{ min: 2, message: t('cards.name.error_length') },
 							]}
 						>
-							<Input
-								className='input__style'
-								name='name'
-								onChange={e => {
-									setNameInput(e.target.value);
-									setDisabled(false);
-								}}
-							/>
+							<Input className='input__style' />
 						</Form.Item>
+						<CheckBox name='main' title='Main Card' />
 						<Form.Item>
 							<ButtonPrimary
-								disabled={disabled}
 								isLoading={isLoading}
 								title={t('cards.save_button')}
 							/>

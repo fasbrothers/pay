@@ -258,7 +258,19 @@
 			"title": "Kartani tanlang",
 			"error": "Iltimos, kartani tanlang!"
 		},
-		"button": "To'lash"
+		"button": "To'lash",
+		"tab": [
+			{
+				"id": 1,
+				"name": "Metro",
+				"code": "metro"
+			},
+			{
+				"id": 2,
+				"name": "Avtobus",
+				"code": "bus"
+			}
+		]
 	},
 	"transactions": {
 		"form": {

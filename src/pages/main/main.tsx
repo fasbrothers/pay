@@ -1,10 +1,11 @@
 import { Skeleton } from 'antd';
 import { CardStructure } from '../../components/card/card-structure';
 import { useDataFetching } from '../../hooks/useDataFetching';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useTranslation } from 'react-i18next';
-import { AllCardsResponse } from '../../@types/card.types';
+import { AllCardsResponse, Card } from '../../@types/card.types';
+import { ButtonPrimary } from '../../components/shared/button';
 
 function Main() {
 	const { isLoading, data: cards } = useDataFetching<AllCardsResponse>(
@@ -12,7 +13,26 @@ function Main() {
 		'customer/card'
 	);
 
+	const mainCard = (cards: AllCardsResponse['cards']) => {
+		const main = cards?.find(card => card.main === true);
+		const card: Card = main ? main : cards[0];
+		return (
+			<CardStructure
+				key={card.id}
+				name={card.name}
+				pan={card.pan}
+				expiry_month={card.expiry_month}
+				expiry_year={card.expiry_year}
+				balance={card.balance}
+				id={card.id}
+				customer_id={card.customer_id}
+				owner_name={card.owner_name}
+			/>
+		);
+	};
+
 	const { t } = useTranslation();
+	const navigate = useNavigate();
 
 	return (
 		<div>
@@ -21,19 +41,7 @@ function Main() {
 					<Skeleton active paragraph={{ rows: 5 }} />
 				) : (
 					<>
-						{cards?.cards.slice(0, 1).map((card) => (
-							<CardStructure
-								key={card.id}
-								name={card.name}
-								pan={card.pan}
-								expiry_month={card.expiry_month}
-								expiry_year={card.expiry_year}
-								balance={card.balance}
-								id={card.id}
-								customer_id={card.customer_id}
-								owner_name={card.owner_name}
-							/>
-						))}
+						{cards && cards?.count > 0 && mainCard(cards.cards)}
 						<div className='w-full max-w-[290px]'>
 							<Link
 								className='group h-[100px] sm:h-[182px] w-full max-w-[290px] bg-blue-300 border-8 text-white font-bold hover:opacity-80 duration-150 rounded-[14.5px] flex justify-center items-center'
@@ -53,6 +61,12 @@ function Main() {
 						</div>
 					</>
 				)}
+			</div>
+			<div
+				className='mt-4 text-[#1F2A66] w-40 font-bold text-xl'
+				onClick={() => navigate('/cabinet/payments/qr')}
+			>
+				<ButtonPrimary title='QR Payment' />
 			</div>
 		</div>
 	);

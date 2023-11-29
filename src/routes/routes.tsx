@@ -26,6 +26,7 @@ const Transactions = React.lazy(() => import('../pages/transactions'));
 const Transfer = React.lazy(() => import('../pages/transfer'));
 const Payments = React.lazy(() => import('../pages/payments'));
 const QR = React.lazy(() => import('../pages/qr'));
+const QrPayment = React.lazy(() => import('../pages/qr-payment'));
 
 const routes: RouteObject[] = [
 	{
@@ -73,6 +74,10 @@ const routes: RouteObject[] = [
 									{
 										path: 'item/:service_id',
 										element: <SingleService />,
+									},
+									{
+										path: 'qr',
+										element: <QrPayment />,
 									},
 								],
 							},

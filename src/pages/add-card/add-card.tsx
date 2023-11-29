@@ -7,6 +7,7 @@ import 'react-credit-cards-2/dist/es/styles-compiled.css';
 import { BackToPreviousPage } from '../../components/shared/back-to-previous-page';
 import { useTranslation } from 'react-i18next';
 import VerificationCodeForm from '../../components/card/verification-code-form';
+import { CardFormInputs } from '../../@types/card.types';
 
 function AddCard() {
 	const [inputs, setInputs] = useState<{ [key: string]: string }>({
@@ -22,7 +23,7 @@ function AddCard() {
 	const [showCode, setShowCode] = useState<boolean>(false);
 
 	const { isLoading, mutate } = useMutation({
-		mutationFn: async () => {
+		mutationFn: async (values: CardFormInputs) => {
 			const pan = inputs.pan && inputs.pan.replace(/\s/g, '');
 			const expiry = inputs.expiry && inputs.expiry.replace(/\s/g, '');
 			const { data } = await httpClient.post('/customer/card', {
@@ -30,6 +31,7 @@ function AddCard() {
 				name: inputs.name,
 				expiry_month: expiry.slice(0, 2),
 				expiry_year: expiry.slice(3),
+				main: values.main !== undefined ? values.main : false,
 			});
 			setTimeLeft(data.info.timeLeft);
 		},

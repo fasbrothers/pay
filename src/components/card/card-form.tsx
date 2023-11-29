@@ -1,8 +1,9 @@
 import { ButtonPrimary } from '../shared/button';
 import { Form, Input } from 'antd';
 import { MaskedInput } from 'antd-mask-input';
-import { CardFormProps } from '../../@types/card.types';
+import { CardFormInputs, CardFormProps } from '../../@types/card.types';
 import { useTranslation } from 'react-i18next';
+import { CheckBox } from '../shared/checkbox';
 
 export const CardForm = ({ setInputs, mutate, isLoading }: CardFormProps) => {
 	const [form] = Form.useForm();
@@ -14,11 +15,15 @@ export const CardForm = ({ setInputs, mutate, isLoading }: CardFormProps) => {
 		setInputs(inputs => ({ ...inputs, [name]: value }));
 	};
 
+	const onFinish = (values: CardFormInputs) => {
+		mutate(values);
+	};
+
 	return (
 		<Form
 			form={form}
 			name='add card'
-			onFinish={mutate}
+			onFinish={onFinish}
 			scrollToFirstError
 			className='w-full sm:w-4/5 xl:w-2/4 2xl:w-1/3 mx-auto mt-5'
 		>
@@ -87,6 +92,7 @@ export const CardForm = ({ setInputs, mutate, isLoading }: CardFormProps) => {
 					className='input__style'
 				/>
 			</Form.Item>
+			<CheckBox name='main' title='Main Card' />
 			<Form.Item>
 				<ButtonPrimary
 					isLoading={isLoading}
