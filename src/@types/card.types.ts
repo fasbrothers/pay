@@ -52,3 +52,5 @@ export interface CardFormInputs {
 	expiry: string;
 	main: boolean;
 }
+
+export type OutletContextType = [boolean, AllCardsResponse];

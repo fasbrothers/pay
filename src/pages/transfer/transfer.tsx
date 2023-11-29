@@ -1,27 +1,24 @@
 import { Skeleton } from 'antd';
-import { useDataFetching } from '../../hooks/useDataFetching';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { ChangeEvent, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { httpClient } from '../../api';
 import { toastSuccessMessage } from '../../utils/toast-message';
 import { CardSwiper } from '../../components/card/card-swiper';
 import TransferForm from '../../components/transfer/transfer-form';
 import SouthIcon from '@mui/icons-material/South';
-import { AllCardsResponse, PanResponse } from '../../@types/card.types';
+import { OutletContextType, PanResponse } from '../../@types/card.types';
 import Tab from '../../components/shared/tab';
 import { Tabs } from '../../@types/profile.types';
 import { useTranslation } from 'react-i18next';
 
 function Transfer() {
 	const { t } = useTranslation();
-	const { isLoading, data: cards } = useDataFetching<AllCardsResponse>(
-		'cards',
-		'customer/card'
-	);
+	const [isLoading, cards] = useOutletContext() as OutletContextType;
+
 	const transferType: Tabs[] = t('transfer.tab', {
 		returnObjects: true,
 	}) as Tabs[];

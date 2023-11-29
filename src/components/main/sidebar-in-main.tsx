@@ -14,12 +14,14 @@ import MultipleStopIcon from '@mui/icons-material/MultipleStop';
 import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import { Navigation, SidebarInMainProps } from '../../@types/layout.types';
+import { sumAllCardsPrice } from '../../utils/sumAllCardsPrice';
+import { AllCardsResponse } from '../../@types/card.types';
 
 export const SidebarInMain = ({
 	showNavbar,
 	title,
 	setShowNavbar,
-	balance,
+	cards,
 }: SidebarInMainProps) => {
 	const [showBalance, setShowBalance] = useState<boolean>(true);
 	const highlightedStyle = 'border-blue-600 text-blue-900 border-r-2';
@@ -83,7 +85,10 @@ export const SidebarInMain = ({
 					</div>
 					<h4>
 						{showBalance ? (
-							currencyFormat(+balance) + 'sum'
+							cards?.cards &&
+							currencyFormat(
+								sumAllCardsPrice(cards?.cards as AllCardsResponse['cards'])
+							) + 'sum'
 						) : (
 							<span className='mr-2'>* * * * * *</span>
 						)}

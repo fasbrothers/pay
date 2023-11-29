@@ -10,7 +10,6 @@ export interface ProfileResponse {
 	gender: string | null;
 	lang: string;
 	birth_date: string | null;
-	balance: string;
 }
 
 export interface ProfileModelFormProps {

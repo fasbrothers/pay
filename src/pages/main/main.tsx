@@ -66,7 +66,7 @@ function Main() {
 				className='mt-4 text-[#1F2A66] w-40 font-bold text-xl'
 				onClick={() => navigate('/cabinet/payments/qr')}
 			>
-				<ButtonPrimary title='QR Payment' />
+				<ButtonPrimary title='Atto Pay' />
 			</div>
 		</div>
 	);

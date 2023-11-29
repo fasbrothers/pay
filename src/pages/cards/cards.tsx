@@ -1,19 +1,16 @@
-import { Link, Outlet } from 'react-router-dom';
-import { useDataFetching } from '../../hooks/useDataFetching';
+import { Link, Outlet, useOutletContext } from 'react-router-dom';
 import { CardStructure } from '../../components/card/card-structure';
 import { AddTitle } from '../../components/shared/add-title';
 import { currencyFormat } from '../../utils/currencyFormat';
-import { AllCardsResponse } from '../../@types/card.types';
+import { AllCardsResponse, Card, OutletContextType } from '../../@types/card.types';
 import { Skeleton } from 'antd';
 import { sumAllCardsPrice } from '../../utils/sumAllCardsPrice';
 import { useTranslation } from 'react-i18next';
 
+
 function AllCards() {
-	const { isLoading, data: cards } = useDataFetching<AllCardsResponse>(
-		'cards',
-		'customer/card'
-	);
 	const { t } = useTranslation();
+	const [isLoading, cards] = useOutletContext() as OutletContextType;
 
 	return (
 		<div>
@@ -34,7 +31,7 @@ function AllCards() {
 				{isLoading ? (
 					<Skeleton active paragraph={{ rows: 5 }} />
 				) : (
-					cards?.cards.map((card, i) => (
+					cards?.cards.map((card: Card, i: number) => (
 						<Link to={card.id} key={card.id}>
 							<CardStructure
 								name={card.name}

@@ -7,10 +7,13 @@ import { LoadingLazy } from '../components/shared/loading-lazy';
 import { setLanguage } from '../utils/cookies';
 import { useDataFetching } from '../hooks/useDataFetching';
 import { ProfileResponse } from '../@types/profile.types';
+import { AllCardsResponse } from '../@types/card.types';
 
 export default function MainLayout() {
 	const [showNavbar, setShowNavbar] = useState<boolean>(false);
 	const { pathname } = useLocation();
+	const { isLoading: isCardLoading, data: cards } =
+		useDataFetching<AllCardsResponse>('cards', 'customer/card');
 
 	const title = () => {
 		if (pathname.split('/')[2].length > 0) {
@@ -39,7 +42,7 @@ export default function MainLayout() {
 				showNavbar={showNavbar}
 				setShowNavbar={setShowNavbar}
 				title={title()}
-				balance={profile?.balance || ''}
+				cards={cards as AllCardsResponse}
 			/>
 			<div
 				onClick={() => showNavbar && setShowNavbar(!showNavbar)}
@@ -56,7 +59,7 @@ export default function MainLayout() {
 				/>
 				<Suspense fallback={<LoadingLazy />}>
 					<div className='grow'>
-						<Outlet />
+						<Outlet context={[isCardLoading, cards]} />
 					</div>
 				</Suspense>
 				{!isLoading && !isError && (

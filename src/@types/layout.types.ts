@@ -1,3 +1,4 @@
+import { AllCardsResponse } from './card.types';
 import { ProfileResponse } from './profile.types';
 
 export interface Navigation {
@@ -20,7 +21,7 @@ export interface SidebarInMainProps {
 	showNavbar: boolean;
 	title: string;
 	setShowNavbar: (showNavbar: boolean) => void;
-	balance: string;
+	cards: AllCardsResponse;
 }
 
 export interface ButtonPrimaryProps {

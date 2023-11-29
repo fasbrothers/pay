@@ -2,18 +2,17 @@ import { Form, Select, Input } from 'antd';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { currencyFormat } from '../../utils/currencyFormat';
 import { ButtonPrimary } from '../shared/button';
-import { useDataFetching } from '../../hooks/useDataFetching';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpClient } from '../../api';
 import { toastSuccessMessage } from '../../utils/toast-message';
-import { useNavigate } from 'react-router-dom';
-import { AllCardsResponse } from '../../@types/card.types';
+import { useNavigate, useOutletContext } from 'react-router-dom';
 import { Service } from '../../@types/service.types';
 import { MaskedInput } from 'antd-mask-input';
 import PhoneEnabledIcon from '@mui/icons-material/PhoneEnabled';
 import { Rule } from 'antd/lib/form';
 import { BackToPreviousPage } from '../shared/back-to-previous-page';
 import { useTranslation } from 'react-i18next';
+import { OutletContextType } from '../../@types/card.types';
 
 export const ServicePayment = ({ service }: { service: Service }) => {
 	const [form] = Form.useForm();
@@ -22,10 +21,7 @@ export const ServicePayment = ({ service }: { service: Service }) => {
 	const query = useQueryClient();
 	const navigate = useNavigate();
 
-	const { isLoading, data: cards } = useDataFetching<AllCardsResponse>(
-		'cards',
-		'customer/card'
-	);
+	const [isLoading, cards] = useOutletContext() as OutletContextType;
 
 	const { isLoading: loading, mutate } = useMutation(
 		async (value: { card: string; amount: string }) => {
@@ -52,7 +48,7 @@ export const ServicePayment = ({ service }: { service: Service }) => {
 		},
 		{
 			onSuccess: () => {
-				query.invalidateQueries(['profile']);
+				query.invalidateQueries(['cards']);
 				navigate('/cabinet/transactions');
 			},
 		}

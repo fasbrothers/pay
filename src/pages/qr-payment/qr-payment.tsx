@@ -1,6 +1,5 @@
 import { Skeleton } from 'antd';
-import { AllCardsResponse } from '../../@types/card.types';
-import { useDataFetching } from '../../hooks/useDataFetching';
+import { OutletContextType } from '../../@types/card.types';
 import { CardSwiper } from '../../components/card/card-swiper';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -9,6 +8,7 @@ import Tab from '../../components/shared/tab';
 import QrMetro from '../../components/transfer/qr-metro';
 import QrBus from '../../components/transfer/qr-bus';
 import { BackToPreviousPage } from '../../components/shared/back-to-previous-page';
+import { useOutletContext } from 'react-router-dom';
 
 function QrPayment() {
 	const { t } = useTranslation();
@@ -22,10 +22,7 @@ function QrPayment() {
 	);
 	const [isBusPay, setIsBusPay] = useState<boolean>(false);
 
-	const { isLoading, data: cards } = useDataFetching<AllCardsResponse>(
-		'cards',
-		'customer/card'
-	);
+	const [isLoading, cards] = useOutletContext() as OutletContextType;
 
 	return (
 		<>
