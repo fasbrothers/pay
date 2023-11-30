@@ -33,13 +33,13 @@ function QrPayment() {
 				) : (
 					<>
 						<CardSwiper
-							cards={cards?.cards || []}
+							cards={[...cards.uzcard, ...cards.atto] || []}
 							onSlideChange={setActiveSlideIndex}
 						/>
 					</>
 				)}
 			</div>
-			{cards && cards?.count > 0 ? (
+			{cards && [...cards.uzcard, ...cards.atto].length > 0 ? (
 				<>
 					<div className='h-16 bg-gray-100 rounded-2xl flex justify-around items-center w-[200px] mx-auto p-2 gap-x-2 mt-5'>
 						<Tab

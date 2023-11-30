@@ -160,7 +160,7 @@ export const ServicePayment = ({ service }: { service: Service }) => {
 						]}
 					>
 						<Select placeholder={t('payment.card.title')} loading={isLoading}>
-							{cards?.cards.map(card => (
+							{cards?.uzcard.map(card => (
 								<Select.Option key={card.id} value={card.id}>
 									{currencyFormat(+card.balance)} sum - {card.name}-{' '}
 									{card.pan.split('').slice(-6).join('')}
