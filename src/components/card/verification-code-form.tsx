@@ -1,4 +1,4 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Form, Input } from 'antd';
 import { httpClient } from '../../api';
 import { ButtonPrimary } from '../shared/button';
@@ -13,6 +13,7 @@ function VerificationCodeForm({ timeLeft }: { timeLeft: number }) {
 	const [form] = Form.useForm();
 	const navigate = useNavigate();
 	const { t } = useTranslation();
+	const queryClient = useQueryClient();
 
 	const { minutes, seconds, setMinutes, setSeconds }: TimerState = useTimer({
 		initialSeconds: timeLeft || 0,
@@ -43,6 +44,7 @@ function VerificationCodeForm({ timeLeft }: { timeLeft: number }) {
 		},
 		onSuccess: data => {
 			data.message ? toastSuccessMessage(data.message) : null;
+			queryClient.invalidateQueries(['cards']);
 			navigate('/cabinet/cards');
 		},
 	});

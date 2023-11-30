@@ -37,7 +37,7 @@ function SingleCard() {
 			data.message ? toastSuccessMessage(data.message) : null;
 		},
 		onSuccess: () => {
-			query.invalidateQueries(['card']);
+			query.invalidateQueries(['card', id]);
 			navigate('/cabinet/cards');
 		},
 	});
