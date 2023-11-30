@@ -15,11 +15,12 @@ import { CheckBox } from '../../components/shared/checkbox';
 
 function SingleCard() {
 	const id = useLocation().pathname.split('/')[3].toString();
+	const { state } = useLocation();
 	const [isModalOpen, setIsModalOpen] = useState(false);
 	const [form] = Form.useForm();
 	const { data, isLoading: loading } = useDataFetching<Card>(
 		'card',
-		`/customer/card/${id}`,
+		`/customer/card/${id}?type=${state.type}`,
 		id
 	);
 
@@ -33,6 +34,7 @@ function SingleCard() {
 				id,
 				name: values.name,
 				main: values.main !== undefined ? values.main : false,
+				type: state.type,
 			});
 			data.message ? toastSuccessMessage(data.message) : null;
 		},

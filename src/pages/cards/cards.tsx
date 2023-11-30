@@ -30,7 +30,7 @@ function AllCards() {
 				) : (
 					cards &&
 					[...cards.atto, ...cards.uzcard].map((card: Card, i: number) => (
-						<Link to={card.id} key={card.id}>
+						<Link to={card.id} key={card.id} state={{ type: card.type }}>
 							<CardStructure
 								name={card.name}
 								pan={card.pan}
