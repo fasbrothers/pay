@@ -36,7 +36,7 @@ export const CardStructure = ({
 			<Cards
 				cvc={''}
 				expiry={handleExpiry(expiry_month, expiry_year)}
-				name={owner_name}
+				name={owner_name ? owner_name : '.'}
 				number={pan}
 			/>
 			<div
@@ -44,7 +44,9 @@ export const CardStructure = ({
 					single_card ? 'left-[42%]' : 'left-[10%]'
 				} text-red-300`}
 			>
-				{currencyFormat(+balance)} {t('cards.currency_title')}
+				{+balance > 0
+					? currencyFormat(+balance) + ' ' + t('cards.currency_title')
+					: 'not available'}
 			</div>
 		</motion.div>
 	);

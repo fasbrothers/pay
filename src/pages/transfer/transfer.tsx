@@ -37,14 +37,14 @@ function Transfer() {
 		async (values: { amount: string }) => {
 			if (isPayCardSelf) {
 				const { data } = await httpClient.post('/transaction/transfer/self', {
-					fromCardId: cards?.cards[activeSlideIndex].id,
-					toCardId: cards?.cards[activeSlideIndexSelf].id,
+					fromCardId: cards?.uzcard[activeSlideIndex].id,
+					toCardId: cards?.uzcard[activeSlideIndexSelf].id,
 					amount: +values.amount,
 				});
 				data.message ? toastSuccessMessage(data.message) : null;
 				return data;
 			} else {
-				const selectedCardPan = cards?.cards[activeSlideIndex].id;
+				const selectedCardPan = cards?.uzcard[activeSlideIndex].id;
 				const sendCardPan = input;
 
 				const { data } = await httpClient.post('/transaction/transfer', {
@@ -87,7 +87,7 @@ function Transfer() {
 	};
 	return (
 		<div>
-			{cards?.count !== undefined && cards.count > 0 && (
+			{cards?.uzcard?.length > 0 && (
 				<div className='h-16 bg-gray-100 rounded-2xl flex justify-around items-center w-[350px] p-2 gap-x-2 mt-5'>
 					<Tab
 						tabsType={transferType}
@@ -103,14 +103,14 @@ function Transfer() {
 					<Skeleton active paragraph={{ rows: 3 }} />
 				) : (
 					<CardSwiper
-						cards={cards?.cards || []}
+						cards={cards?.uzcard || []}
 						onSlideChange={setActiveSlideIndex}
 					/>
 				)}
 			</div>
 			{isPayCardSelf && (
 				<div>
-					{cards?.count !== undefined && cards.count > 0 && (
+					{cards?.uzcard?.length > 0 && (
 						<div className='text-center mb-2 text-gray-400'>
 							<SouthIcon sx={{ fontSize: '50px' }} />
 						</div>
@@ -121,7 +121,7 @@ function Transfer() {
 							<Skeleton active paragraph={{ rows: 3 }} />
 						) : (
 							<CardSwiper
-								cards={cards?.cards || []}
+								cards={cards?.uzcard || []}
 								onSlideChange={setActiveSlideIndexSelf}
 							/>
 						)}
@@ -129,7 +129,7 @@ function Transfer() {
 				</div>
 			)}
 
-			{cards?.count !== undefined && cards.count > 0 && (
+			{cards?.uzcard?.length > 0 && (
 				<TransferForm
 					onFinish={transfer}
 					isPanLoading={panLoading}

@@ -15,7 +15,7 @@ import PaymentsOutlinedIcon from '@mui/icons-material/PaymentsOutlined';
 import BarChartOutlinedIcon from '@mui/icons-material/BarChartOutlined';
 import { Navigation, SidebarInMainProps } from '../../@types/layout.types';
 import { sumAllCardsPrice } from '../../utils/sumAllCardsPrice';
-import { AllCardsResponse } from '../../@types/card.types';
+import { Cards } from '../../@types/card.types';
 
 export const SidebarInMain = ({
 	showNavbar,
@@ -85,9 +85,9 @@ export const SidebarInMain = ({
 					</div>
 					<h4>
 						{showBalance ? (
-							cards?.cards &&
+							cards?.uzcard &&
 							currencyFormat(
-								sumAllCardsPrice(cards?.cards as AllCardsResponse['cards'])
+								sumAllCardsPrice(cards.uzcard as Cards['uzcard'])
 							) + 'sum'
 						) : (
 							<span className='mr-2'>* * * * * *</span>

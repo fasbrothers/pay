@@ -2,11 +2,10 @@ import { Link, Outlet, useOutletContext } from 'react-router-dom';
 import { CardStructure } from '../../components/card/card-structure';
 import { AddTitle } from '../../components/shared/add-title';
 import { currencyFormat } from '../../utils/currencyFormat';
-import { AllCardsResponse, Card, OutletContextType } from '../../@types/card.types';
+import { Card, Cards, OutletContextType } from '../../@types/card.types';
 import { Skeleton } from 'antd';
 import { sumAllCardsPrice } from '../../utils/sumAllCardsPrice';
 import { useTranslation } from 'react-i18next';
-
 
 function AllCards() {
 	const { t } = useTranslation();
@@ -17,10 +16,8 @@ function AllCards() {
 			<div className='flex flex-col sm:flex-row justify-between items-center py-5'>
 				<div className='mb-2 sm:mb-0'>
 					<h4 className='text-2xl text-center sm:text-left lg:text-3xl font-bold'>
-						{cards?.cards &&
-							currencyFormat(
-								sumAllCardsPrice(cards?.cards as AllCardsResponse['cards'])
-							)}
+						{cards &&
+							currencyFormat(sumAllCardsPrice(cards.uzcard as Cards['uzcard']))}
 						{t('cards.currency_title')}
 					</h4>
 					<p className='text-sm text-gray-600'>{t('cards.total_balance')}</p>
@@ -31,7 +28,8 @@ function AllCards() {
 				{isLoading ? (
 					<Skeleton active paragraph={{ rows: 5 }} />
 				) : (
-					cards?.cards.map((card: Card, i: number) => (
+					cards &&
+					[...cards.atto, ...cards.uzcard].map((card: Card, i: number) => (
 						<Link to={card.id} key={card.id}>
 							<CardStructure
 								name={card.name}

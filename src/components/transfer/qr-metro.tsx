@@ -1,12 +1,19 @@
-import { Form, Select } from 'antd';
-import { QrProps } from '../../@types/transfer.types';
+import { Form, TreeSelect } from 'antd';
+import { QrProps, ResponseMetroStations } from '../../@types/transfer.types';
 import { ButtonPrimary } from '../shared/button';
+import { useDataFetching } from '../../hooks/useDataFetching';
 
 function QrMetro({ activeIndex }: QrProps) {
 	console.log(activeIndex);
 
+	const { data, isLoading } = useDataFetching<ResponseMetroStations>(
+		'stations',
+		'transport/metro-stations'
+	);
+	console.log(data);
+
 	const [form] = Form.useForm();
-	const handleSubmit = (values: {station: string}) => {
+	const handleSubmit = (values: { station: string }) => {
 		console.log(values);
 	};
 
@@ -32,9 +39,21 @@ function QrMetro({ activeIndex }: QrProps) {
 						},
 					]}
 				>
-					<Select placeholder='Select a station'>
-						<Select.Option value='demo'>Demo</Select.Option>
-					</Select>
+					<TreeSelect
+						loading={isLoading}
+						treeData={
+							data?.lines.map(station => ({
+								title: station.name,
+								value: station.name,
+								children: station.stations.map(line => ({
+									title: line.name,
+									value: line.id,
+									key: line.id,
+								})),
+							})) || []
+						}
+						placeholder='Please select station'
+					/>
 				</Form.Item>
 				<Form.Item>
 					<ButtonPrimary title={'Generate QR code'} />

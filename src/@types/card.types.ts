@@ -6,7 +6,8 @@ export interface Card {
 	expiry_month: string;
 	expiry_year: string;
 	balance: string;
-	owner_name: string;
+	owner_name?: string;
+	type?: string;
 	main?: boolean;
 	single_card?: boolean;
 	index?: number;
@@ -36,10 +37,14 @@ export interface DeleteCardProps {
 }
 
 export interface AllCardsResponse {
+	cards: Cards;
 	count: number;
-	cards: Card[];
 }
 
+export interface Cards {
+	uzcard: Card[];
+	atto: Card[];
+}
 export interface PanResponse {
 	owner: {
 		name: string;
@@ -53,4 +58,4 @@ export interface CardFormInputs {
 	main: boolean;
 }
 
-export type OutletContextType = [boolean, AllCardsResponse];
+export type OutletContextType = [boolean, Cards];

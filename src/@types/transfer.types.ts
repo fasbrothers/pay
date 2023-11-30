@@ -12,3 +12,18 @@ export interface TransferFormProps {
 export interface QrProps {
 	activeIndex: number;
 }
+
+export interface ResponseMetroStations {
+	success: boolean;
+	lines: Line[];
+}
+
+export interface Line {
+	name: string;
+	stations: Station[];
+}
+
+export interface Station {
+	id: number;
+	name: string;
+}

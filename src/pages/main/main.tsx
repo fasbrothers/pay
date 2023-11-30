@@ -4,7 +4,7 @@ import { useDataFetching } from '../../hooks/useDataFetching';
 import { Link, useNavigate } from 'react-router-dom';
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
 import { useTranslation } from 'react-i18next';
-import { AllCardsResponse, Card } from '../../@types/card.types';
+import { AllCardsResponse, Cards, Card } from '../../@types/card.types';
 import { ButtonPrimary } from '../../components/shared/button';
 
 function Main() {
@@ -13,9 +13,19 @@ function Main() {
 		'customer/card'
 	);
 
-	const mainCard = (cards: AllCardsResponse['cards']) => {
-		const main = cards?.find(card => card.main === true);
-		const card: Card = main ? main : cards[0];
+	const mainCard = (cards: Cards['uzcard']) => {
+		let cardMain: Card | undefined;
+
+		if (cards.length === 0) return null;
+
+		if (cards[0].type === 'uzcard') {
+			cardMain = cards.find(uzcard => uzcard.main === true);
+		} else {
+			cardMain = cards.find(atto => atto.main === true);
+		}
+
+		const card = cardMain ? cardMain : cards[0];
+
 		return (
 			<CardStructure
 				key={card.id}
@@ -41,7 +51,8 @@ function Main() {
 					<Skeleton active paragraph={{ rows: 5 }} />
 				) : (
 					<>
-						{cards && cards?.count > 0 && mainCard(cards.cards)}
+						{cards && mainCard(cards.cards.uzcard)}
+						{cards && mainCard(cards.cards.atto)}
 						<div className='w-full max-w-[290px]'>
 							<Link
 								className='group h-[100px] sm:h-[182px] w-full max-w-[290px] bg-blue-300 border-8 text-white font-bold hover:opacity-80 duration-150 rounded-[14.5px] flex justify-center items-center'
