@@ -222,12 +222,17 @@
 			{
 				"id": 1,
 				"name": "Kartaga o'tkazish",
-				"code": "Transfer to card"
+				"code": "card"
 			},
 			{
 				"id": 2,
 				"name": "O'ziga o'tkazish",
-				"code": "Transfer to self"
+				"code": "self"
+			},
+			{
+				"id": 3,
+				"name": "Atto",
+				"code": "atto"
 			}
 		],
 		"card_number": {

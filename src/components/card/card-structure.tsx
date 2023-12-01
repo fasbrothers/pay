@@ -14,6 +14,7 @@ export const CardStructure = ({
 	single_card,
 	owner_name,
 	index,
+	type,
 }: Card) => {
 	const cardVariants = {
 		initial: { opacity: 0, x: index ? index * -20 : -20 },
@@ -36,7 +37,7 @@ export const CardStructure = ({
 			<Cards
 				cvc={''}
 				expiry={handleExpiry(expiry_month, expiry_year)}
-				name={owner_name ? owner_name : '.'}
+				name={owner_name ? owner_name : type?.toUpperCase()}
 				number={pan}
 			/>
 			<div
@@ -44,7 +45,7 @@ export const CardStructure = ({
 					single_card ? 'left-[42%]' : 'left-[10%]'
 				} text-red-300`}
 			>
-				{+balance > 0
+				{+balance !== null
 					? currencyFormat(+balance) + ' ' + t('cards.currency_title')
 					: 'not available'}
 			</div>

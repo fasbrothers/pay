@@ -52,9 +52,12 @@ function QrPayment() {
 					</div>
 
 					{!isBusPay ? (
-						<QrMetro activeIndex={activeSlideIndex} />
+						<QrMetro
+							activeIndex={activeSlideIndex}
+							cards={[...cards.uzcard, ...cards.atto]}
+						/>
 					) : (
-						<QrBus activeIndex={activeSlideIndex} />
+						<QrBus activeIndex={activeSlideIndex} cards={[...cards.uzcard, ...cards.atto]} />
 					)}
 				</>
 			) : null}

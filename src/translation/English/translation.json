@@ -222,12 +222,17 @@
 			{
 				"id": 1,
 				"name": "Transfer to card",
-				"code": "Transfer to card"
+				"code": "card"
 			},
 			{
 				"id": 2,
 				"name": "Transfer to self",
-				"code": "Transfer to self"
+				"code": "self"
+			},
+			{
+				"id": 3,
+				"name": "Atto",
+				"code": "atto"
 			}
 		],
 		"card_number": {

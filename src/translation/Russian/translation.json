@@ -222,12 +222,17 @@
 			{
 				"id": 1,
 				"name": "Перевод на карту",
-				"code": "Transfer to card"
+				"code": "card"
 			},
 			{
 				"id": 2,
 				"name": "Перевести на себя",
-				"code": "Transfer to self"
+				"code": "self"
+			},
+			{
+				"id": 3,
+				"name": "Atto",
+				"code": "atto"
 			}
 		],
 		"card_number": {

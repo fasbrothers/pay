@@ -37,6 +37,7 @@ function Main() {
 				id={card.id}
 				customer_id={card.customer_id}
 				owner_name={card.owner_name}
+				type={card.type}
 			/>
 		);
 	};
@@ -74,7 +75,7 @@ function Main() {
 				)}
 			</div>
 			<div
-				className='mt-4 text-[#1F2A66] w-40 font-bold text-xl'
+				className='mt-4 text-[#1F2A66] w-40 mx-auto font-bold text-xl xl:mx-0'
 				onClick={() => navigate('/cabinet/payments/qr')}
 			>
 				<ButtonPrimary title='Atto Pay' />

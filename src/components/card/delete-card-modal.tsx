@@ -16,6 +16,7 @@ export function DeleteCard({
 	navigateUrl,
 	modalTitle,
 	modalMessage,
+	type,
 }: DeleteCardProps) {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
@@ -27,6 +28,7 @@ export function DeleteCard({
 				data: {
 					id,
 					deviceId,
+					type,
 				},
 			});
 			setIsModalOpen(false);

@@ -1,4 +1,5 @@
 import { ChangeEvent } from 'react';
+import { Card } from './card.types';
 
 export interface TransferFormProps {
 	onFinish: (values: { amount: string }) => void;
@@ -6,11 +7,13 @@ export interface TransferFormProps {
 	isPanLoading: boolean;
 	panUser: { owner: { name: string } } | undefined;
 	isPayCardSelf: boolean;
+	isAtto: boolean;
 	handleInputChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface QrProps {
 	activeIndex: number;
+	cards: Card[];
 }
 
 export interface ResponseMetroStations {
@@ -26,4 +29,9 @@ export interface Line {
 export interface Station {
 	id: number;
 	name: string;
+}
+export interface QrMetroModalProps {
+	setIsModalOpen: (isModalOpen: boolean) => void;
+	isModalOpen: boolean;
+	qrLink: string;
 }

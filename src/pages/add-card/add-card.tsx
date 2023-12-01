@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { CardForm } from '../../components/card/card-form';
 import { httpClient } from '../../api';
 import Cards from 'react-credit-cards-2';
@@ -8,6 +8,8 @@ import { BackToPreviousPage } from '../../components/shared/back-to-previous-pag
 import { useTranslation } from 'react-i18next';
 import VerificationCodeForm from '../../components/card/verification-code-form';
 import { CardFormInputs } from '../../@types/card.types';
+import { useNavigate } from 'react-router-dom';
+import { toastSuccessMessage } from '../../utils/toast-message';
 
 function AddCard() {
 	const [inputs, setInputs] = useState<{ [key: string]: string }>({
@@ -21,6 +23,8 @@ function AddCard() {
 	const { t } = useTranslation();
 	const [timeLeft, setTimeLeft] = useState<number>(0);
 	const [showCode, setShowCode] = useState<boolean>(false);
+	const queryClient = useQueryClient();
+	const navigate = useNavigate();
 
 	const { isLoading, mutate } = useMutation({
 		mutationFn: async (values: CardFormInputs) => {
@@ -33,10 +37,15 @@ function AddCard() {
 				expiry_year: expiry.slice(3),
 				main: values.main !== undefined ? values.main : false,
 			});
-			setTimeLeft(data.info.timeLeft);
-		},
-		onSuccess: () => {
-			setShowCode(true);
+			if (data.need_otp) {
+				setTimeLeft(data.info.timeLeft);
+				setShowCode(true);
+			} else {
+				setShowCode(false);
+				data.message ? toastSuccessMessage(data.message) : null;
+				queryClient.invalidateQueries(['cards']);
+				navigate('/cabinet/cards');
+			}
 		},
 	});
 

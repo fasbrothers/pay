@@ -39,7 +39,7 @@ function SingleCard() {
 			data.message ? toastSuccessMessage(data.message) : null;
 		},
 		onSuccess: () => {
-			query.invalidateQueries(['card', id]);
+			query.invalidateQueries();
 			navigate('/cabinet/cards');
 		},
 	});
@@ -72,6 +72,7 @@ function SingleCard() {
 						customer_id={data?.customer_id || ''}
 						owner_name={data?.owner_name || ''}
 						single_card={true}
+						type={data?.type || ''}
 					/>
 
 					<Form
@@ -127,6 +128,7 @@ function SingleCard() {
 						navigateUrl='/cabinet/cards'
 						modalTitle={t('cards.delete_title')}
 						modalMessage={t('cards.delete_text')}
+						type={state.type}
 					/>
 				</div>
 			)}

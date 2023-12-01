@@ -11,9 +11,9 @@ import { CardSwiper } from '../../components/card/card-swiper';
 import TransferForm from '../../components/transfer/transfer-form';
 import SouthIcon from '@mui/icons-material/South';
 import { OutletContextType, PanResponse } from '../../@types/card.types';
-import Tab from '../../components/shared/tab';
 import { Tabs } from '../../@types/profile.types';
 import { useTranslation } from 'react-i18next';
+import TabTransfer from '../../components/shared/tab-transfer';
 
 function Transfer() {
 	const { t } = useTranslation();
@@ -30,6 +30,7 @@ function Transfer() {
 	);
 	const [input, setInput] = useState<string>('');
 	const [isPayCardSelf, setIsPayCardSelf] = useState<boolean>(false);
+	const [isAtto, setIsAtto] = useState<boolean>(false);
 	const navigate = useNavigate();
 	const query = useQueryClient();
 
@@ -39,6 +40,14 @@ function Transfer() {
 				const { data } = await httpClient.post('/transaction/transfer/self', {
 					fromCardId: cards?.uzcard[activeSlideIndex].id,
 					toCardId: cards?.uzcard[activeSlideIndexSelf].id,
+					amount: +values.amount,
+				});
+				data.message ? toastSuccessMessage(data.message) : null;
+				return data;
+			} else if (isAtto) {
+				const { data } = await httpClient.post('/transport/topup', {
+					fromCardId: cards?.uzcard[activeSlideIndex].id,
+					toCardId: cards?.atto[activeSlideIndexSelf].id,
 					amount: +values.amount,
 				});
 				data.message ? toastSuccessMessage(data.message) : null;
@@ -59,7 +68,7 @@ function Transfer() {
 		{
 			onSuccess: () => {
 				navigate('/cabinet/transactions');
-				query.invalidateQueries(['profile']);
+				query.invalidateQueries(['cards']);
 			},
 		}
 	);
@@ -88,13 +97,13 @@ function Transfer() {
 	return (
 		<div>
 			{cards?.uzcard?.length > 0 && (
-				<div className='h-16 bg-gray-100 rounded-2xl flex justify-around items-center w-[350px] p-2 gap-x-2 mt-5'>
-					<Tab
+				<div className='h-16 bg-gray-100 rounded-2xl flex justify-around items-center w-[430px] p-2 gap-x-2 mt-5'>
+					<TabTransfer
 						tabsType={transferType}
 						activeTabName={activeTabName}
 						setActiveTabName={setActiveTabName}
-						isSecondTabActive={isPayCardSelf}
 						setIsSecondTabActive={setIsPayCardSelf}
+						setIsThirdTabActive={setIsAtto}
 					/>
 				</div>
 			)}
@@ -128,6 +137,26 @@ function Transfer() {
 					</div>
 				</div>
 			)}
+			{isAtto && (
+				<div>
+					{cards?.uzcard?.length > 0 && (
+						<div className='text-center mb-2 text-gray-400'>
+							<SouthIcon sx={{ fontSize: '50px' }} />
+						</div>
+					)}
+
+					<div className='flex justify-center w-11/12 md:w-4/5 lg:w-2/3 xl:w-3/5 2xl:w-1/3 mx-auto'>
+						{isLoading ? (
+							<Skeleton active paragraph={{ rows: 3 }} />
+						) : (
+							<CardSwiper
+								cards={cards?.atto || []}
+								onSlideChange={setActiveSlideIndexSelf}
+							/>
+						)}
+					</div>
+				</div>
+			)}
 
 			{cards?.uzcard?.length > 0 && (
 				<TransferForm
@@ -137,6 +166,7 @@ function Transfer() {
 					panUser={panUser}
 					handleInputChange={handleInputChange}
 					isPayCardSelf={isPayCardSelf}
+					isAtto={isAtto}
 				/>
 			)}
 		</div>

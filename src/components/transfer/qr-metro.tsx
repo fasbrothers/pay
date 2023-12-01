@@ -2,27 +2,41 @@ import { Form, TreeSelect } from 'antd';
 import { QrProps, ResponseMetroStations } from '../../@types/transfer.types';
 import { ButtonPrimary } from '../shared/button';
 import { useDataFetching } from '../../hooks/useDataFetching';
+import { useState } from 'react';
+import QrMetroModal from './qr-metro-modal';
+import { useMutation } from '@tanstack/react-query';
+import { httpClient } from '../../api';
 
-function QrMetro({ activeIndex }: QrProps) {
-	console.log(activeIndex);
-
+function QrMetro({ activeIndex, cards }: QrProps) {
 	const { data, isLoading } = useDataFetching<ResponseMetroStations>(
 		'stations',
 		'transport/metro-stations'
 	);
-	console.log(data);
 
+	const [isQrOpen, setIsQrOpen] = useState<boolean>(false);
+	const [qrLink, setQrLink] = useState<string>('');
 	const [form] = Form.useForm();
-	const handleSubmit = (values: { station: string }) => {
-		console.log(values);
-	};
+
+	const { mutate, isLoading: qrLoading } = useMutation({
+		mutationFn: async (values: { station: string }) => {
+			const { data } = await httpClient.post('/transport/qr/generate', {
+				stationId: values.station,
+				cardId: cards[activeIndex].id,
+				type: cards[activeIndex].type,
+			});
+			setQrLink(data.qr);
+		},
+		onSuccess: () => {
+			setIsQrOpen(true);
+		},
+	});
 
 	return (
 		<>
 			<Form
 				name='payment'
 				form={form}
-				onFinish={handleSubmit}
+				onFinish={mutate}
 				scrollToFirstError
 				className='w-full sm:w-4/5 xl:w-2/4 2xl:w-1/3 mx-auto mt-5'
 			>
@@ -56,9 +70,16 @@ function QrMetro({ activeIndex }: QrProps) {
 					/>
 				</Form.Item>
 				<Form.Item>
-					<ButtonPrimary title={'Generate QR code'} />
+					<ButtonPrimary title={'Generate QR code'} isLoading={qrLoading} />
 				</Form.Item>
 			</Form>
+			{isQrOpen && (
+				<QrMetroModal
+					isModalOpen={isQrOpen}
+					setIsModalOpen={setIsQrOpen}
+					qrLink={qrLink}
+				/>
+			)}
 		</>
 	);
 }

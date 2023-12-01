@@ -29,6 +29,7 @@ export const CardSwiper = ({ cards, onSlideChange }: CardSwiperProps) => {
 						customer_id={card.customer_id}
 						single_card={true}
 						owner_name={card.owner_name}
+						type={card.type}
 					/>
 				</SwiperSlide>
 			))}

@@ -7,7 +7,7 @@ export interface Card {
 	expiry_year: string;
 	balance: string;
 	owner_name?: string;
-	type?: string;
+	type: string;
 	main?: boolean;
 	single_card?: boolean;
 	index?: number;
@@ -34,6 +34,7 @@ export interface DeleteCardProps {
 	navigateUrl: string;
 	modalTitle: string;
 	modalMessage: string;
+	type?: string;
 }
 
 export interface AllCardsResponse {
@@ -59,3 +60,15 @@ export interface CardFormInputs {
 }
 
 export type OutletContextType = [boolean, Cards];
+
+export interface AddCardResponse {
+	success: boolean;
+	need_otp: boolean;
+	info: Info;
+}
+
+export interface Info {
+	timeLeft: number;
+	phoneMask: string;
+	type: string;
+}

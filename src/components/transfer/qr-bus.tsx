@@ -3,12 +3,13 @@ import { useState } from 'react';
 import QrReader from '../profile/qr-reader';
 import { ButtonPrimary } from '../shared/button';
 
-function QrBus({ activeIndex }: QrProps) {
+function QrBus({ activeIndex, cards }: QrProps) {
 	const [isQrOpen, setIsQrOpen] = useState<boolean>(false);
+
 	const showQr = (e: React.FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 		setIsQrOpen(true);
-		console.log(activeIndex);
+		console.log(activeIndex, cards);
 	};
 
 	return (

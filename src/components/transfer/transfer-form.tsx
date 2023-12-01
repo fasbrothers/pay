@@ -11,6 +11,7 @@ const TransferForm: React.FC<TransferFormProps> = ({
 	handleInputChange,
 	isPanLoading,
 	isPayCardSelf,
+	isAtto,
 }) => {
 	const { t } = useTranslation();
 
@@ -21,7 +22,7 @@ const TransferForm: React.FC<TransferFormProps> = ({
 			scrollToFirstError
 			className='w-full sm:w-4/5 xl:w-2/4 2xl:w-1/3 mx-auto mt-5'
 		>
-			{!isPayCardSelf && (
+			{!isPayCardSelf && !isAtto && (
 				<Form.Item
 					name='toCardPan'
 					label={t('transfer.card_number.title')}
@@ -43,7 +44,7 @@ const TransferForm: React.FC<TransferFormProps> = ({
 					/>
 				</Form.Item>
 			)}
-			{!isPayCardSelf && (
+			{!isPayCardSelf && !isAtto && (
 				<h4 className='font-bold -mt-4 text-base'>{panUser?.owner.name}</h4>
 			)}
 			<Form.Item
@@ -70,7 +71,7 @@ const TransferForm: React.FC<TransferFormProps> = ({
 			</Form.Item>
 			<Form.Item>
 				<ButtonPrimary
-					disabled={!isPayCardSelf && !panUser?.owner.name}
+					disabled={!isAtto && !isPayCardSelf && !panUser?.owner.name}
 					isLoading={isLoading}
 					title={t('transfer.button')}
 				/>

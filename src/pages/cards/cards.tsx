@@ -41,6 +41,7 @@ function AllCards() {
 								customer_id={card.customer_id}
 								owner_name={card.owner_name}
 								index={i}
+								type={card.type}
 							/>
 						</Link>
 					))
