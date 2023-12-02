@@ -47,11 +47,11 @@ function QrMetroModal({
 		>
 			<div className='flex justify-center flex-col items-center'>
 				<div className='flex items-center gap-x-2 my-2 text-green-500 justify-center'>
-					<p className='text-lg'>Payment was successful!</p>
+					<p className='text-base sm:text-lg'>{qrData.message}</p>
 					<DoneIcon fontSize='small' />
 				</div>
 				<GenerateQr url={qrData.qr} size={300} />
-				<p>Code expiration tome: </p>
+				<p>Code expiration time: </p>
 				<span className='font-bold text-xl'>
 					{minutes < 10 ? `0${minutes}` : minutes}:
 					{seconds < 10 ? `0${seconds}` : seconds}

@@ -7,7 +7,7 @@ import QrReader from '../shared/qr-reader';
 function QrScreen({ setIsModalOpen }: QrScreenProps) {
 	const { isLoading, mutate } = useMutation({
 		mutationFn: async (value: string) => {
-			const newValue = value.split('&');
+			const newValue = value.split('/');
 			const { data } = await httpClient.post('/customer/login/qr', {
 				key: newValue[0],
 				allowDeviceId: newValue[1],

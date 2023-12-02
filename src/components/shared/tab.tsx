@@ -26,8 +26,10 @@ function Tab({
 							setIsSecondTabActive(!isSecondTabActive);
 						}
 					}}
-					className={`rounded-[12px] hover:bg-black duration-200 hover:text-white cursor-pointer py-3 px-2 ${
-						activeTabName === tab.code ? 'bg-black text-white' : 'bg-gray-100'
+					className={`rounded-[12px] hover:bg-[#3D4C99] duration-200 hover:text-white cursor-pointer py-3 px-2 ${
+						activeTabName === tab.code
+							? 'bg-[#3D4C99] text-white'
+							: 'bg-gray-100'
 					}`}
 				>
 					{tab.name}

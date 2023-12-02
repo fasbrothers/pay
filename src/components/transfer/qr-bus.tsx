@@ -9,7 +9,6 @@ import QrModal from './qr-modal';
 import { httpClient } from '../../api';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import QrBusModal from './qr-bus-modal';
-import { toastSuccessMessage } from '../../utils/toast-message';
 
 function QrBus({ activeIndex, cards }: QrProps) {
 	const [isQrOpen, setIsQrOpen] = useState<boolean>(false);
@@ -49,7 +48,6 @@ function QrBus({ activeIndex, cards }: QrProps) {
 					cardId: cards[activeIndex].id,
 				}
 			);
-			data.message ? toastSuccessMessage(data.message) : null;
 			return data;
 		},
 		onSuccess: () => {
@@ -78,7 +76,7 @@ function QrBus({ activeIndex, cards }: QrProps) {
 							{qrInfo.routeName}, {qrInfo.regNumber}
 						</p>
 					</div>
-					<form className='w-60 mx-auto mt-5' onSubmit={mutate}>
+					<form className='w-60 mx-auto my-5' onSubmit={mutate}>
 						<ButtonPrimary isLoading={isLoading} title='Pay' />
 					</form>
 				</div>
@@ -87,7 +85,7 @@ function QrBus({ activeIndex, cards }: QrProps) {
 				<QrBusModal
 					setIsModalOpen={setIsModalOpen}
 					isModalOpen={isModalOpen}
-					qrData={payInfo?.details as ResponseQrBusPayment['details']}
+					qrData={payInfo as ResponseQrBusPayment}
 				/>
 			)}
 		</div>

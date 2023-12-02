@@ -113,7 +113,9 @@ export default function SignIn() {
 				<AuthImageTitle logo={logo} title={t('auth.sign_in.title')} />
 
 				{qrData?.key && qrData.key.length > 0 ? (
-					<GenerateQr url={`${qrData.key}&${deviceId}`} size={220} />
+					<div className='flex justify-center md:justify-start'>
+						<GenerateQr url={`${qrData.key}/${deviceId}`} size={220} />
+					</div>
 				) : (
 					<SignInForm
 						additionalProperties={additionalProperties}

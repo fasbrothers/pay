@@ -36,13 +36,14 @@ export interface QrMetroModalProps {
 	qrData: {
 		qr: string;
 		expireIn: number;
+		message: string;
 	};
 }
 
 export interface QrBusModalProps {
 	setIsModalOpen: (isModalOpen: boolean) => void;
 	isModalOpen: boolean;
-	qrData: ResponseQrBusPayment['details'];
+	qrData: ResponseQrBusPayment;
 }
 export interface ResponseQrBus {
 	regNumber: string;

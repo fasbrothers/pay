@@ -6,7 +6,6 @@ import { useState } from 'react';
 import QrMetroModal from './qr-metro-modal';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpClient } from '../../api';
-import { toastSuccessMessage } from '../../utils/toast-message';
 
 function QrMetro({ activeIndex, cards }: QrProps) {
 	const { data, isLoading } = useDataFetching<ResponseMetroStations>(
@@ -18,6 +17,7 @@ function QrMetro({ activeIndex, cards }: QrProps) {
 	const [qrData, setQrData] = useState({
 		qr: '',
 		expireIn: 0,
+		message: '',
 	});
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
@@ -31,8 +31,8 @@ function QrMetro({ activeIndex, cards }: QrProps) {
 			setQrData({
 				qr: data.qr,
 				expireIn: data.expiresIn,
+				message: data.message,
 			});
-			data.message ? toastSuccessMessage(data.message) : null;
 		},
 		onSuccess: () => {
 			setIsQrOpen(true);
