@@ -1,9 +1,9 @@
 import { QRCode } from 'antd';
 
-export const GenerateQr = ({ url }: { url: string }) => {
+export const GenerateQr = ({ url, size }: { url: string; size: number }) => {
 	return (
 		<div id='myqrcode' className='mb-5'>
-			<QRCode value={url} bgColor='#fff' />
+			<QRCode value={url} bgColor='#fff' size={size} />
 		</div>
 	);
 };

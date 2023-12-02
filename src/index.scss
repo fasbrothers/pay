@@ -63,7 +63,19 @@ body {
 		border-color: #d9d9d9 !important;
 	}
 }
-.rccs__card--unknown > div {
+.card_uz .rccs__card--unknown > div {
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+	background-image: url('./assets/uzcard.png') !important;
+}
+
+.atto_uz .rccs__card--unknown > div {
+	background-repeat: no-repeat !important;
+	background-size: cover !important;
+	background-image: url('./assets/atto.png') !important;
+}
+
+.card_simple .rccs__card--unknown > div {
 	background-repeat: no-repeat !important;
 	background-size: cover !important;
 	background-image: url('./assets/card.jpg') !important;

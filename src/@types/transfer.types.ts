@@ -33,5 +33,38 @@ export interface Station {
 export interface QrMetroModalProps {
 	setIsModalOpen: (isModalOpen: boolean) => void;
 	isModalOpen: boolean;
-	qrLink: string;
+	qrData: {
+		qr: string;
+		expireIn: number;
+	};
+}
+
+export interface QrBusModalProps {
+	setIsModalOpen: (isModalOpen: boolean) => void;
+	isModalOpen: boolean;
+	qrData: ResponseQrBusPayment['details'];
+}
+export interface ResponseQrBus {
+	regNumber: string;
+	routeName: string;
+	fee: number;
+	success: boolean;
+}
+
+export interface ResponseQrBusPayment {
+	success: boolean;
+	message: string;
+	details: Details;
+}
+
+export interface Details {
+	qr: string;
+	orderNumber: string;
+	fee: number;
+	bus: Bus;
+}
+
+export interface Bus {
+	regNumber: string;
+	routeName: string;
 }

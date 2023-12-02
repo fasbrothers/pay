@@ -15,6 +15,7 @@ export const CardStructure = ({
 	owner_name,
 	index,
 	type,
+	name,
 }: Card) => {
 	const cardVariants = {
 		initial: { opacity: 0, x: index ? index * -20 : -20 },
@@ -28,7 +29,7 @@ export const CardStructure = ({
 
 	return (
 		<motion.div
-			className='relative'
+			className={`relative ${type === 'uzcard' ? 'card_uz' : 'atto_uz'}`}
 			variants={cardVariants}
 			initial='initial'
 			animate='animate'
@@ -37,15 +38,15 @@ export const CardStructure = ({
 			<Cards
 				cvc={''}
 				expiry={handleExpiry(expiry_month, expiry_year)}
-				name={owner_name ? owner_name : type?.toUpperCase()}
+				name={owner_name ? owner_name : name}
 				number={pan}
 			/>
 			<div
 				className={`absolute top-[35%] ${
 					single_card ? 'left-[42%]' : 'left-[10%]'
-				} text-red-300`}
+				} text-white font-medium text-lg `}
 			>
-				{+balance !== null
+				{balance !== null
 					? currencyFormat(+balance) + ' ' + t('cards.currency_title')
 					: 'not available'}
 			</div>

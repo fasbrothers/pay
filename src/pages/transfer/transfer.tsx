@@ -117,7 +117,7 @@ function Transfer() {
 					/>
 				)}
 			</div>
-			{isPayCardSelf && (
+			{isPayCardSelf ? (
 				<div>
 					{cards?.uzcard?.length > 0 && (
 						<div className='text-center mb-2 text-gray-400'>
@@ -126,17 +126,13 @@ function Transfer() {
 					)}
 
 					<div className='flex justify-center w-11/12 md:w-4/5 lg:w-2/3 xl:w-3/5 2xl:w-1/3 mx-auto'>
-						{isLoading ? (
-							<Skeleton active paragraph={{ rows: 3 }} />
-						) : (
-							<CardSwiper
-								cards={cards?.uzcard || []}
-								onSlideChange={setActiveSlideIndexSelf}
-							/>
-						)}
+						<CardSwiper
+							cards={cards?.uzcard || []}
+							onSlideChange={setActiveSlideIndexSelf}
+						/>
 					</div>
 				</div>
-			)}
+			) : null}
 			{isAtto && (
 				<div>
 					{cards?.uzcard?.length > 0 && (
@@ -146,14 +142,10 @@ function Transfer() {
 					)}
 
 					<div className='flex justify-center w-11/12 md:w-4/5 lg:w-2/3 xl:w-3/5 2xl:w-1/3 mx-auto'>
-						{isLoading ? (
-							<Skeleton active paragraph={{ rows: 3 }} />
-						) : (
-							<CardSwiper
-								cards={cards?.atto || []}
-								onSlideChange={setActiveSlideIndexSelf}
-							/>
-						)}
+						<CardSwiper
+							cards={cards?.atto || []}
+							onSlideChange={setActiveSlideIndexSelf}
+						/>
 					</div>
 				</div>
 			)}

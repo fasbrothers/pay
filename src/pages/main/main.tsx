@@ -75,7 +75,7 @@ function Main() {
 				)}
 			</div>
 			<div
-				className='mt-4 text-[#1F2A66] w-40 mx-auto font-bold text-xl xl:mx-0'
+				className='mt-4 text-[#1F2A66] w-40 mx-auto font-bold text-xl xl:mx-0 mb-4'
 				onClick={() => navigate('/cabinet/payments/qr')}
 			>
 				<ButtonPrimary title='Atto Pay' />

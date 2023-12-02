@@ -60,77 +60,81 @@ function SingleCard() {
 					<Skeleton active paragraph={{ rows: 4 }} />
 				</div>
 			) : (
-				<div>
-					<BackToPreviousPage title={t('cards.card_details')} />
-					<CardStructure
-						name={data?.name || ''}
-						pan={data?.pan || ''}
-						expiry_month={data?.expiry_month || ''}
-						expiry_year={data?.expiry_year || ''}
-						balance={data?.balance || ''}
-						id={data?.id || ''}
-						customer_id={data?.customer_id || ''}
-						owner_name={data?.owner_name || ''}
-						single_card={true}
-						type={data?.type || ''}
-					/>
-
-					<Form
-						form={form}
-						name='add card'
-						onFinish={value => mutate(value)}
-						scrollToFirstError
-						className='w-full sm:w-4/5 xl:w-2/4 2xl:w-1/3 mx-auto mt-5'
-						initialValues={{
-							name: data && data?.name,
-							main: data && data?.main,
-						}}
-					>
-						<Form.Item
-							name='name'
-							label={t('cards.name.title')}
-							labelCol={{ span: 24 }}
-							wrapperCol={{ span: 24 }}
-							rules={[
-								{
-									required: true,
-									message: t('cards.name.error'),
-									whitespace: true,
-								},
-								{ min: 2, message: t('cards.name.error_length') },
-							]}
-						>
-							<Input className='input__style' />
-						</Form.Item>
-						<CheckBox name='main' title='Main Card' />
-						<Form.Item>
-							<ButtonPrimary
-								isLoading={isLoading}
-								title={t('cards.save_button')}
+				<>
+					{data && (
+						<div>
+							<BackToPreviousPage title={t('cards.card_details')} />
+							<CardStructure
+								name={data.name}
+								pan={data.pan}
+								expiry_month={data.expiry_month}
+								expiry_year={data.expiry_year}
+								balance={data.balance}
+								id={data.id}
+								customer_id={data.customer_id}
+								owner_name={data.owner_name}
+								single_card={true}
+								type={data.type}
 							/>
-						</Form.Item>
-					</Form>
-					<form
-						className='w-full sm:w-4/5 xl:w-2/4 2xl:w-1/3 mx-auto'
-						onSubmit={showModal}
-					>
-						<ButtonPrimary
-							bgColor='bg-red-500'
-							title={t('cards.delete_button')}
-						/>
-					</form>
-					<DeleteCard
-						id={id}
-						isModalOpen={isModalOpen}
-						setIsModalOpen={setIsModalOpen}
-						handleCancel={handleCancel}
-						url='/customer/card'
-						navigateUrl='/cabinet/cards'
-						modalTitle={t('cards.delete_title')}
-						modalMessage={t('cards.delete_text')}
-						type={state.type}
-					/>
-				</div>
+
+							<Form
+								form={form}
+								name='add card'
+								onFinish={value => mutate(value)}
+								scrollToFirstError
+								className='w-full sm:w-4/5 xl:w-2/4 2xl:w-1/3 mx-auto mt-5'
+								initialValues={{
+									name: data && data?.name,
+									main: data && data?.main,
+								}}
+							>
+								<Form.Item
+									name='name'
+									label={t('cards.name.title')}
+									labelCol={{ span: 24 }}
+									wrapperCol={{ span: 24 }}
+									rules={[
+										{
+											required: true,
+											message: t('cards.name.error'),
+											whitespace: true,
+										},
+										{ min: 2, message: t('cards.name.error_length') },
+									]}
+								>
+									<Input className='input__style' />
+								</Form.Item>
+								<CheckBox name='main' title='Main Card' />
+								<Form.Item>
+									<ButtonPrimary
+										isLoading={isLoading}
+										title={t('cards.save_button')}
+									/>
+								</Form.Item>
+							</Form>
+							<form
+								className='w-full sm:w-4/5 xl:w-2/4 2xl:w-1/3 mx-auto'
+								onSubmit={showModal}
+							>
+								<ButtonPrimary
+									bgColor='bg-red-500'
+									title={t('cards.delete_button')}
+								/>
+							</form>
+							<DeleteCard
+								id={id}
+								isModalOpen={isModalOpen}
+								setIsModalOpen={setIsModalOpen}
+								handleCancel={handleCancel}
+								url='/customer/card'
+								navigateUrl='/cabinet/cards'
+								modalTitle={t('cards.delete_title')}
+								modalMessage={t('cards.delete_text')}
+								type={state.type}
+							/>
+						</div>
+					)}
+				</>
 			)}
 		</div>
 	);

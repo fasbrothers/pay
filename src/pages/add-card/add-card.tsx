@@ -56,12 +56,14 @@ function AddCard() {
 				<VerificationCodeForm timeLeft={timeLeft} />
 			) : (
 				<>
-					<Cards
-						cvc={inputs.cvc}
-						expiry={inputs.expiry}
-						name={inputs.owner_name}
-						number={inputs.pan}
-					/>
+					<div className={`relative card_simple`}>
+						<Cards
+							cvc={inputs.cvc}
+							expiry={inputs.expiry}
+							name={inputs.owner_name}
+							number={inputs.pan}
+						/>
+					</div>
 					<CardForm
 						isLoading={isLoading}
 						setInputs={setInputs}

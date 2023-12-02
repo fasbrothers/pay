@@ -1,7 +1,7 @@
 import { Skeleton } from 'antd';
 import { OutletContextType } from '../../@types/card.types';
 import { CardSwiper } from '../../components/card/card-swiper';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Tabs } from '../../@types/profile.types';
 import Tab from '../../components/shared/tab';
@@ -9,6 +9,7 @@ import QrMetro from '../../components/transfer/qr-metro';
 import QrBus from '../../components/transfer/qr-bus';
 import { BackToPreviousPage } from '../../components/shared/back-to-previous-page';
 import { useOutletContext } from 'react-router-dom';
+import { useQueryClient } from '@tanstack/react-query';
 
 function QrPayment() {
 	const { t } = useTranslation();
@@ -23,6 +24,13 @@ function QrPayment() {
 	const [isBusPay, setIsBusPay] = useState<boolean>(false);
 
 	const [isLoading, cards] = useOutletContext() as OutletContextType;
+	const queryClient = useQueryClient();
+
+	useEffect(() => {
+		return () => {
+			queryClient.removeQueries(['bus-info']);
+		};
+	}, [queryClient]);
 
 	return (
 		<>
@@ -33,13 +41,13 @@ function QrPayment() {
 				) : (
 					<>
 						<CardSwiper
-							cards={[...cards.uzcard, ...cards.atto] || []}
+							cards={cards.uzcard || []}
 							onSlideChange={setActiveSlideIndex}
 						/>
 					</>
 				)}
 			</div>
-			{cards && [...cards.uzcard, ...cards.atto].length > 0 ? (
+			{cards && cards.uzcard.length > 0 ? (
 				<>
 					<div className='h-16 bg-gray-100 rounded-2xl flex justify-around items-center w-[200px] mx-auto p-2 gap-x-2 mt-5'>
 						<Tab
@@ -52,12 +60,9 @@ function QrPayment() {
 					</div>
 
 					{!isBusPay ? (
-						<QrMetro
-							activeIndex={activeSlideIndex}
-							cards={[...cards.uzcard, ...cards.atto]}
-						/>
+						<QrMetro activeIndex={activeSlideIndex} cards={cards.uzcard} />
 					) : (
-						<QrBus activeIndex={activeSlideIndex} cards={[...cards.uzcard, ...cards.atto]} />
+						<QrBus activeIndex={activeSlideIndex} cards={cards.uzcard} />
 					)}
 				</>
 			) : null}

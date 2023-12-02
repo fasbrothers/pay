@@ -7,8 +7,8 @@ import { useTranslation } from 'react-i18next';
 import { ProfileResponse, Tabs } from '../../@types/profile.types';
 import Tab from '../../components/shared/tab';
 import SecurityTab from '../../components/profile/security-tab';
-import QrReader from '../../components/profile/qr-reader';
 import ProfileDescription from '../../components/profile/profile-description';
+import QrScreen from '../../components/profile/qr-screen';
 
 function ProfileSettings() {
 	const { t } = useTranslation();
@@ -73,7 +73,7 @@ function ProfileSettings() {
 								setIsModalOpen={setIsModalOpen}
 								profile={profile}
 							/>
-							{isQrOpen && <QrReader setIsModalOpen={setIsQrOpen} />}
+							{isQrOpen && <QrScreen setIsModalOpen={setIsQrOpen} />}
 						</>
 					)}
 				</>

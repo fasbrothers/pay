@@ -32,6 +32,16 @@ export interface Device {
 
 export interface QrModelProps {
 	setIsModalOpen: (isModalOpen: boolean) => void;
+	setTerminalId: (terminalId: string) => void;
+}
+export interface QrScreenProps {
+	setIsModalOpen: (isModalOpen: boolean) => void;
+}
+
+export interface QrReaderProps {
+	setIsModalOpen: (isModalOpen: boolean) => void;
+	isLoading?: boolean;
+	mutate: (val: string) => void;
 }
 
 export interface Tabs {

@@ -4,8 +4,9 @@ import { ButtonPrimary } from '../shared/button';
 import { useDataFetching } from '../../hooks/useDataFetching';
 import { useState } from 'react';
 import QrMetroModal from './qr-metro-modal';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpClient } from '../../api';
+import { toastSuccessMessage } from '../../utils/toast-message';
 
 function QrMetro({ activeIndex, cards }: QrProps) {
 	const { data, isLoading } = useDataFetching<ResponseMetroStations>(
@@ -14,20 +15,28 @@ function QrMetro({ activeIndex, cards }: QrProps) {
 	);
 
 	const [isQrOpen, setIsQrOpen] = useState<boolean>(false);
-	const [qrLink, setQrLink] = useState<string>('');
+	const [qrData, setQrData] = useState({
+		qr: '',
+		expireIn: 0,
+	});
 	const [form] = Form.useForm();
+	const queryClient = useQueryClient();
 
 	const { mutate, isLoading: qrLoading } = useMutation({
 		mutationFn: async (values: { station: string }) => {
-			const { data } = await httpClient.post('/transport/qr/generate', {
+			const { data } = await httpClient.post('/transport/qr/metro', {
 				stationId: values.station,
 				cardId: cards[activeIndex].id,
-				type: cards[activeIndex].type,
 			});
-			setQrLink(data.qr);
+			setQrData({
+				qr: data.qr,
+				expireIn: data.expiresIn,
+			});
+			data.message ? toastSuccessMessage(data.message) : null;
 		},
 		onSuccess: () => {
 			setIsQrOpen(true);
+			queryClient.invalidateQueries(['cards']);
 		},
 	});
 
@@ -59,10 +68,19 @@ function QrMetro({ activeIndex, cards }: QrProps) {
 							data?.lines.map(station => ({
 								title: station.name,
 								value: station.name,
+								selectable: false,
+								style: {
+									fontWeight: 'medium',
+									color: '#000',
+								},
 								children: station.stations.map(line => ({
 									title: line.name,
 									value: line.id,
 									key: line.id,
+									checkable: true,
+									style: {
+										color: 'blue',
+									},
 								})),
 							})) || []
 						}
@@ -77,7 +95,7 @@ function QrMetro({ activeIndex, cards }: QrProps) {
 				<QrMetroModal
 					isModalOpen={isQrOpen}
 					setIsModalOpen={setIsQrOpen}
-					qrLink={qrLink}
+					qrData={qrData}
 				/>
 			)}
 		</>

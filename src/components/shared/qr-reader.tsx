@@ -1,34 +1,17 @@
 import { useEffect, useState } from 'react';
 import { Html5Qrcode } from 'html5-qrcode';
 import { Button, Spin } from 'antd';
-import { useMutation } from '@tanstack/react-query';
-import { httpClient } from '../../api';
-import toastMessage, { toastSuccessMessage } from '../../utils/toast-message';
+import toastMessage from '../../utils/toast-message';
 import CloseIcon from '@mui/icons-material/Close';
 import { useTranslation } from 'react-i18next';
-import { QrModelProps } from '../../@types/profile.types';
+import { QrReaderProps } from '../../@types/profile.types';
 
 const qrConfig = { fps: 10, qrbox: { width: 380, height: 350 } };
 let html5QrCode: any;
 
-function QrReader({ setIsModalOpen }: QrModelProps) {
+function QrReader({ setIsModalOpen, mutate, isLoading }: QrReaderProps) {
 	const [started, setStarted] = useState(false);
 	const { t } = useTranslation();
-
-	const { isLoading, mutate } = useMutation({
-		mutationFn: async (value: string) => {
-			const newValue = value.split('&');
-			const { data } = await httpClient.post('/customer/login/qr', {
-				key: newValue[0],
-				allowDeviceId: newValue[1],
-			});
-			return data;
-		},
-		onSuccess: data => {
-			data.message ? toastSuccessMessage(data.message) : null;
-			setIsModalOpen(false);
-		},
-	});
 
 	useEffect(() => {
 		html5QrCode = new Html5Qrcode('reader');

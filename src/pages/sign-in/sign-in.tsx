@@ -113,7 +113,7 @@ export default function SignIn() {
 				<AuthImageTitle logo={logo} title={t('auth.sign_in.title')} />
 
 				{qrData?.key && qrData.key.length > 0 ? (
-					<GenerateQr url={`${qrData.key}&${deviceId}`} />
+					<GenerateQr url={`${qrData.key}&${deviceId}`} size={220} />
 				) : (
 					<SignInForm
 						additionalProperties={additionalProperties}
