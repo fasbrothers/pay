@@ -29,7 +29,9 @@ export const CardStructure = ({
 
 	return (
 		<motion.div
-			className={`relative ${type === 'uzcard' ? 'card_uz' : 'atto_uz'}`}
+			className={`relative ${
+				type === 'uzcard' ? 'card_uz' : 'atto_uz'
+			} cursor-pointer`}
 			variants={cardVariants}
 			initial='initial'
 			animate='animate'

@@ -34,7 +34,7 @@ function QrPayment() {
 
 	return (
 		<>
-			<BackToPreviousPage title={'Qr Payment'} />
+			<BackToPreviousPage title={t("atto_qr.title")} />
 			<div className='flex justify-center w-11/12 md:w-4/5 lg:w-2/3 xl:w-3/5 2xl:w-1/3 mx-auto mt-3'>
 				{isLoading ? (
 					<Skeleton active paragraph={{ rows: 3 }} />
@@ -49,7 +49,7 @@ function QrPayment() {
 			</div>
 			{cards && cards.uzcard.length > 0 ? (
 				<>
-					<div className='h-16 bg-gray-100 rounded-2xl flex justify-around items-center w-[200px] mx-auto p-2 gap-x-2 mt-5'>
+					<div className='h-16 bg-gray-100 rounded-2xl flex justify-around items-center w-[180px] mx-auto p-2 gap-x-2 mt-5'>
 						<Tab
 							tabsType={paymnetType}
 							activeTabName={activeTabName}

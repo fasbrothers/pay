@@ -6,6 +6,7 @@ import { convertSecondsToMinutes } from '../../utils/convertSecondsToMinutes';
 import { useEffect } from 'react';
 import DoneIcon from '@mui/icons-material/Done';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function QrMetroModal({
 	setIsModalOpen,
@@ -13,6 +14,7 @@ function QrMetroModal({
 	qrData,
 }: QrMetroModalProps) {
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	const handleCancel = () => {
 		setIsModalOpen(false);
@@ -39,7 +41,7 @@ function QrMetroModal({
 
 	return (
 		<Modal
-			title={'QR Payment for metro'}
+			title={t('atto_qr.metro.title')}
 			open={isModalOpen}
 			onCancel={handleCancel}
 			className='profile__modal'
@@ -51,7 +53,7 @@ function QrMetroModal({
 					<DoneIcon fontSize='small' />
 				</div>
 				<GenerateQr url={qrData.qr} size={300} />
-				<p>Code expiration time: </p>
+				<p>{t('atto_qr.metro.remaining_time')} </p>
 				<span className='font-bold text-xl'>
 					{minutes < 10 ? `0${minutes}` : minutes}:
 					{seconds < 10 ? `0${seconds}` : seconds}

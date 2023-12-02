@@ -3,9 +3,11 @@ import { GenerateQr } from '../generate-qr';
 import DoneIcon from '@mui/icons-material/Done';
 import { QrBusModalProps } from '../../@types/transfer.types';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 function QrBusModal({ setIsModalOpen, isModalOpen, qrData }: QrBusModalProps) {
 	const navigate = useNavigate();
+	const { t } = useTranslation();
 
 	const handleCancel = () => {
 		setIsModalOpen(false);
@@ -14,7 +16,7 @@ function QrBusModal({ setIsModalOpen, isModalOpen, qrData }: QrBusModalProps) {
 
 	return (
 		<Modal
-			title={'QR Payment for bus'}
+			title={t('atto_qr.bus.title')}
 			open={isModalOpen}
 			onCancel={handleCancel}
 			className='profile__modal'
@@ -27,16 +29,20 @@ function QrBusModal({ setIsModalOpen, isModalOpen, qrData }: QrBusModalProps) {
 				</div>
 				<GenerateQr url={qrData.details.qr} size={300} />
 				<div className='flex gap-x-3'>
-					<h4>Transport fee: </h4>
-					<p className='font-medium text-base'>{qrData.details.fee} sum</p>
+					<h4>{t('atto_qr.bus.fee')}</h4>
+					<p className='font-medium md:text-base'>
+						{qrData.details.fee} {t('cards.currency_title')}
+					</p>
 				</div>
 				<div className='flex gap-x-3'>
-					<h4>Order Number:</h4>
-					<p className='font-medium text-base'>{qrData.details.orderNumber}</p>
+					<h4>{t('atto_qr.bus.order_number')}</h4>
+					<p className='font-medium md:text-base'>
+						{qrData.details.orderNumber}
+					</p>
 				</div>
 				<div className='flex gap-x-3'>
-					<h4>Bus Number:</h4>
-					<p className='font-medium text-base'>
+					<h4>{t('atto_qr.bus.number')}</h4>
+					<p className='font-medium md:text-base'>
 						{qrData.details.bus.routeName}, {qrData.details.bus.regNumber}
 					</p>
 				</div>

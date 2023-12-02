@@ -104,7 +104,7 @@ function SingleCard() {
 								>
 									<Input className='input__style' />
 								</Form.Item>
-								<CheckBox name='main' title='Main Card' />
+								<CheckBox name='main' title={t('cards.main')} />
 								<Form.Item>
 									<ButtonPrimary
 										isLoading={isLoading}

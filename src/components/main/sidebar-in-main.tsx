@@ -88,7 +88,7 @@ export const SidebarInMain = ({
 							cards?.uzcard &&
 							currencyFormat(
 								sumAllCardsPrice(cards.uzcard as Cards['uzcard'])
-							) + 'sum'
+							) + t('cards.currency_title')
 						) : (
 							<span className='mr-2'>* * * * * *</span>
 						)}

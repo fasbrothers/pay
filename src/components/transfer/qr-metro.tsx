@@ -6,6 +6,7 @@ import { useState } from 'react';
 import QrMetroModal from './qr-metro-modal';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpClient } from '../../api';
+import { useTranslation } from 'react-i18next';
 
 function QrMetro({ activeIndex, cards }: QrProps) {
 	const { data, isLoading } = useDataFetching<ResponseMetroStations>(
@@ -21,6 +22,7 @@ function QrMetro({ activeIndex, cards }: QrProps) {
 	});
 	const [form] = Form.useForm();
 	const queryClient = useQueryClient();
+	const { t } = useTranslation();
 
 	const { mutate, isLoading: qrLoading } = useMutation({
 		mutationFn: async (values: { station: string }) => {
@@ -51,14 +53,14 @@ function QrMetro({ activeIndex, cards }: QrProps) {
 			>
 				<Form.Item
 					name='station'
-					label={'Select a station'}
+					label={t('atto_qr.metro.station.title')}
 					className='station__select mb-10'
 					labelCol={{ span: 24 }}
 					wrapperCol={{ span: 24 }}
 					rules={[
 						{
 							required: true,
-							message: 'Please, select a station!',
+							message: t('atto_qr.metro.station.error'),
 						},
 					]}
 				>
@@ -84,11 +86,14 @@ function QrMetro({ activeIndex, cards }: QrProps) {
 								})),
 							})) || []
 						}
-						placeholder='Please select station'
+						placeholder={t('atto_qr.metro.station.title')}
 					/>
 				</Form.Item>
 				<Form.Item>
-					<ButtonPrimary title={'Generate QR code'} isLoading={qrLoading} />
+					<ButtonPrimary
+						title={t('atto_qr.metro.button')}
+						isLoading={qrLoading}
+					/>
 				</Form.Item>
 			</Form>
 			{isQrOpen && (

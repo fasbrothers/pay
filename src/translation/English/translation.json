@@ -186,6 +186,7 @@
 		"total_balance": "Total Balance from all accounts",
 		"add_card_button": "Add new card",
 		"card_details": "Card details",
+		"main": "Main Card",
 		"name": {
 			"title": "Name",
 			"error": "Please input your name!",
@@ -311,6 +312,26 @@
 			"transfer": "Transfer",
 			"from": "from",
 			"to": "to"
+		}
+	},
+	"atto_qr": {
+		"title": "Qr Payment",
+		"metro": {
+			"button": "Generate QR code",
+			"station": {
+				"title": "Select a station",
+				"error": "Please select a station!"
+			},
+			"title": "Qr Payment for metro",
+			"remaining_time": "Code expiration time"
+		},
+		"bus": {
+			"button": "Scan QR",
+			"button_pay": "Pay",
+			"fee": "Transport fee:",
+			"number": "Bus number:",
+			"title": "Qr Payment for bus",
+			"order_number": "Order number:"
 		}
 	}
 }

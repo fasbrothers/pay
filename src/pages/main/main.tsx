@@ -27,18 +27,20 @@ function Main() {
 		const card = cardMain ? cardMain : cards[0];
 
 		return (
-			<CardStructure
-				key={card.id}
-				name={card.name}
-				pan={card.pan}
-				expiry_month={card.expiry_month}
-				expiry_year={card.expiry_year}
-				balance={card.balance}
-				id={card.id}
-				customer_id={card.customer_id}
-				owner_name={card.owner_name}
-				type={card.type}
-			/>
+			<Link to={`/cabinet/cards/${card.id}`} key={card.id} state={{ type: card.type }}>
+				<CardStructure
+					key={card.id}
+					name={card.name}
+					pan={card.pan}
+					expiry_month={card.expiry_month}
+					expiry_year={card.expiry_year}
+					balance={card.balance}
+					id={card.id}
+					customer_id={card.customer_id}
+					owner_name={card.owner_name}
+					type={card.type}
+				/>
+			</Link>
 		);
 	};
 

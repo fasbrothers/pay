@@ -186,6 +186,7 @@
 		"total_balance": "Barcha hisoblardagi jami balans",
 		"add_card_button": "Karta qo'shing",
 		"card_details": "Karta tafsilotlari",
+		"main": "Asosiy Karta",
 		"name": {
 			"title": "Ism",
 			"error": "Iltimos, ismingizni kiriting!",
@@ -311,6 +312,26 @@
 			"transfer": "O'tkazish",
 			"from": "dan",
 			"to": "ga"
+		}
+	},
+	"atto_qr": {
+		"title": "QR to'lov",
+		"metro": {
+			"button": "QR kodini yaratish",
+			"station": {
+				"title": "Stansiyani tanlang",
+				"error": "Iltimos, stantsiyani tanlang"
+			},
+			"title": "Metro uchun QR to'lovi",
+			"remaining_time": "Kodning amal qilish muddati"
+		},
+		"bus": {
+			"button": "QR ni skanerlash",
+			"button_pay": "To'lash",
+			"fee": "Transport to'lovi:",
+			"number": "Avtobus nomer:",
+			"title": "Avtobus uchun QR to'lovi",
+			"order_number": "Buyurtma raqami:"
 		}
 	}
 }
