@@ -279,6 +279,8 @@
 		]
 	},
 	"transactions": {
+		"income": "Daromad",
+		"spendings": "Xarajatlar",
 		"form": {
 			"date": {
 				"title": "Sanani tanlang",

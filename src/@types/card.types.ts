@@ -1,3 +1,5 @@
+import { ProfileResponse } from './profile.types';
+
 export interface Card {
 	id: string;
 	customer_id: string;
@@ -59,7 +61,7 @@ export interface CardFormInputs {
 	main: boolean;
 }
 
-export type OutletContextType = [boolean, Cards];
+export type OutletContextType = [boolean, Cards, ProfileResponse['summary']];
 
 export interface AddCardResponse {
 	success: boolean;

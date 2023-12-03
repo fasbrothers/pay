@@ -10,6 +10,14 @@ export interface ProfileResponse {
 	gender: string | null;
 	lang: string;
 	birth_date: string | null;
+	summary: Summary;
+}
+
+export interface Summary {
+	expense: string;
+	expense_count: string;
+	income: string;
+	income_count: string;
 }
 
 export interface ProfileModelFormProps {

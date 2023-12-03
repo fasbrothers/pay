@@ -1,5 +1,5 @@
 import { Button, Space } from 'antd';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { httpClient } from '../../api';
 import { useState } from 'react';
 import type { TableProps } from 'antd';
@@ -32,6 +32,7 @@ function Transactions() {
 	const page = pageParams.get('page') || '1';
 	const pageSize = pageParams.get('pageSize') || '10';
 	const { t } = useTranslation();
+	const queryClient = useQueryClient();
 
 	const handleChange: TableProps<Transaction>['onChange'] = (
 		pagination,
@@ -119,6 +120,10 @@ function Transactions() {
 		setVal(values);
 		setDateRange(values.rangePicker.map(date => dayjs(date)));
 	};
+
+	useEffect(() => {
+		queryClient.invalidateQueries(['profile']);
+	}, [queryClient]);
 
 	const [filteredInfo, setFilteredInfo] = useState<
 		Record<string, FilterValue | null>

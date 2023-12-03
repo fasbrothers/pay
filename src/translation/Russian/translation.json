@@ -279,6 +279,8 @@
 		]
 	},
 	"transactions": {
+		"income": "Доход",
+		"spendings": "Расходы",
 		"form": {
 			"date": {
 				"title": "Выберите дату",

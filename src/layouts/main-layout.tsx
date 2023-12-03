@@ -59,7 +59,7 @@ export default function MainLayout() {
 				/>
 				<Suspense fallback={<LoadingLazy />}>
 					<div className='grow'>
-						<Outlet context={[isCardLoading, cards?.cards]} />
+						<Outlet context={[isCardLoading, cards?.cards, profile?.summary]} />
 					</div>
 				</Suspense>
 				{!isLoading && !isError && (

@@ -279,6 +279,8 @@
 		]
 	},
 	"transactions": {
+		"income": "Income",
+		"spendings": "Spendings",
 		"form": {
 			"date": {
 				"title": "Select Date",
